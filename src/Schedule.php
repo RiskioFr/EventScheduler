@@ -3,6 +3,7 @@ namespace Riskio\ScheduleModule;
 
 use DateInterval;
 use DateTime;
+use Traversable;
 
 class Schedule implements ScheduleInterface
 {
@@ -58,55 +59,52 @@ class Schedule implements ScheduleInterface
     /**
      * {@inheritdoc}
      */
-    public function nextOccurence($event, DateTime $startDate, DateTime $endDate = null)
+    public function nextOccurence($event, DateTime $start, DateTime $end = null)
     {
-        $endDate = $endDate ?: $this->getDateRange()->getEndDate();
-        $range   = new DateRange($startDate, $endDate);
+        $end      = $end ?: $this->getDateRange()->getEndDate();
+        $iterator = (new DateRange($start, $end))->getIterator();
 
-        foreach ($range->getIterator() as $date) {
-            if ($this->isOccuring($event, $date)) {
-                return $date;
-            }
-        }
-
-        return null;
+        return $this->findNextOccurenceInIterator($event, $iterator);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function previousOccurence($event, DateTime $endDate, DateTime $startDate = null)
+    public function previousOccurence($event, DateTime $end, DateTime $start = null)
     {
-        $startDate = $startDate ?: $this->getDateRange()->getStartDate();
-        $range     = new DateRange($startDate, $endDate);
+        $start    = $start ?: $this->getDateRange()->getStartDate();
+        $iterator = (new DateRange($start, $end))->getReverseIterator();
 
-        foreach ($range->getReverseIterator() as $date) {
+        return $this->findNextOccurenceInIterator($event, $iterator);
+    }
+
+    private function findNextOccurenceInIterator($event, Traversable $dates)
+    {
+        foreach ($dates as $date) {
             if ($this->isOccuring($event, $date)) {
                 return $date;
             }
         }
-
-        return null;
     }
 
     /**
-     * @return DateRange
+     * {@inheritdoc}
      */
     public function getDateRange()
     {
         if (!$this->dateRange) {
-            $interval  = new DateInterval('P1Y');
-            $startDate = (new DateTime())->sub($interval);
-            $endDate   = (new DateTime())->add($interval);
+            $interval = new DateInterval('P1Y');
+            $start    = (new DateTime())->sub($interval);
+            $end      = (new DateTime())->add($interval);
 
-            $this->setDateRange(new DateRange($startDate, $endDate));
+            $this->setDateRange(new DateRange($start, $end));
         }
 
         return $this->dateRange;
     }
 
     /**
-     * @param DateRange $range
+     * {@inheritdoc}
      */
     public function setDateRange(DateRange $range)
     {
