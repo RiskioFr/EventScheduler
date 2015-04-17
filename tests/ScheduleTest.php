@@ -92,7 +92,9 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
 
         $dates = $schedule->dates($event, $range);
 
-        $this->assertCount(2, $dates);
+        foreach ($dates as $key => $date) {
+            $this->assertEquals($occuringDates[$key], $date);
+        }
     }
 
     public function testRetrieveNextEventOccurenceWhenEventWillOccurAgainShouldReturnNextDate()

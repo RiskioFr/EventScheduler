@@ -44,70 +44,49 @@ class Schedule implements ScheduleInterface
      */
     public function dates($event, DateRange $range)
     {
-        $dates = [];
+        $end = $range->getEndDate();
+
+        for (
+            $start = $range->getStartDate();
+            $date  = $this->nextOccurence($event, $start, $end);
+            $start = $date->add(new DateInterval('P1D'))
+        ) {
+            yield $date;
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function nextOccurence($event, DateTime $startDate, DateTime $endDate = null)
+    {
+        $endDate = $endDate ?: $this->getDateRange()->getEndDate();
+        $range   = new DateRange($startDate, $endDate);
+
         foreach ($range->getIterator() as $date) {
             if ($this->isOccuring($event, $date)) {
-                $dates[] = $date;
+                return $date;
             }
         }
 
-        return $dates;
+        return null;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function nextOccurence($event, DateTime $date)
+    public function previousOccurence($event, DateTime $endDate, DateTime $startDate = null)
     {
-        $start = clone $date;
-        $end   = clone $date;
+        $startDate = $startDate ?: $this->getDateRange()->getStartDate();
+        $range     = new DateRange($startDate, $endDate);
 
-        $monthInterval = new DateInterval('P1M');
-        $end->add($monthInterval);
-
-        $limitDate = $this->getDateRange()->getEndDate();
-
-        do {
-            $range = new DateRange($start, $end);
-            $dates = $this->dates($event, $range);
-
-            $start->add($monthInterval);
-            $end->add($monthInterval);
-        } while (empty($dates) && $end < $limitDate);
-
-        if (empty($dates)) {
-            return null;
+        foreach ($range->getReverseIterator() as $date) {
+            if ($this->isOccuring($event, $date)) {
+                return $date;
+            }
         }
 
-        return array_shift($dates);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function previousOccurence($event, DateTime $date)
-    {
-        $start = clone $date;
-        $end   = clone $date;
-
-        $monthInterval = new DateInterval('P1M');
-        $start->sub($monthInterval);
-
-        $limitDate = $this->getDateRange()->getStartDate();
-
-        do {
-            $range = new DateRange($start, $end);
-            $dates = $this->dates($event, $range);
-
-            $start->sub($monthInterval);
-            $end->sub($monthInterval);
-        } while (empty($dates) && $start > $limitDate);
-
-        if (empty($dates)) {
-            return null;
-        }
-
-        return array_pop($dates);
+        return null;
     }
 
     /**
