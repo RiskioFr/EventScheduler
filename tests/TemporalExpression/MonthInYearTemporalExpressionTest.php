@@ -2,15 +2,15 @@
 namespace Riskio\ScheduleModuleTest\TemporalExpression;
 
 use DateTime;
-use Riskio\ScheduleModule\TemporalExpression\DayInMonthTemporalExpression;
+use Riskio\ScheduleModule\TemporalExpression\MonthInYearTemporalExpression;
 
-class DayInMonthTemporalExpressionTest extends \PHPUnit_Framework_TestCase
+class MonthInYearTemporalExpressionTest extends \PHPUnit_Framework_TestCase
 {
     public function testIncludesDateWhenProvidedDateAtSameMonthDayShouldReturnTrue()
     {
-        $date = new DateTime('2015-04-12');
+        $date = new DateTime('2015-04-10');
 
-        $temporalExpression = new DayInMonthTemporalExpression($date->format('d'));
+        $temporalExpression = new MonthInYearTemporalExpression($date->format('m'));
 
         $output = $temporalExpression->includes($date);
 
@@ -19,9 +19,9 @@ class DayInMonthTemporalExpressionTest extends \PHPUnit_Framework_TestCase
 
     public function testIncludesDateWhenProvidedDateAtDifferentMonthDayShouldReturnFalse()
     {
-        $date = new DateTime('2015-04-12');
+        $date = new DateTime('2015-04-10');
 
-        $temporalExpression = new DayInMonthTemporalExpression(14);
+        $temporalExpression = new MonthInYearTemporalExpression(11);
 
         $output = $temporalExpression->includes($date);
 
