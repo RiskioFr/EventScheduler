@@ -50,7 +50,7 @@ class Schedule implements ScheduleInterface
         for (
             $start = $range->getStartDate();
             $date  = $this->nextOccurence($event, $start, $end);
-            $start = $date->add(new DateInterval('P1D'))
+            $start = $date->add($range->getInterval())
         ) {
             yield $date;
         }
