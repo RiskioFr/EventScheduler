@@ -17,33 +17,40 @@ class DayInMonthTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
      * @dataProvider getInvalidDayDataProvider
      */
-    public function testUsingInvalidDayValueShouldThrowException($day)
+    public function constructor_WhenUsingInvalidDayValue_ShouldThrowAnException($day)
     {
         $this->setExpectedException(Exception\InvalidArgumentException::class);
         $temporalExpression = new DayInMonth($day);
     }
 
-    public function testIncludesDateWhenProvidedDateAtSameMonthDayShouldReturnTrue()
+    /**
+     * @test
+     */
+    public function includesDate_WhenProvidedDateAtSameMonthDay_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-12');
 
-        $temporalExpression = new DayInMonth($date->format('d'));
+        $temporalExpression = new DayInMonth($date->format('j'));
 
-        $output = $temporalExpression->includes($date);
+        $includes = $temporalExpression->includes($date);
 
-        $this->assertTrue($output);
+        $this->assertThat($includes, $this->equalTo(true));
     }
 
-    public function testIncludesDateWhenProvidedDateAtDifferentMonthDayShouldReturnFalse()
+    /**
+     * @test
+     */
+    public function includesDate_WhenProvidedDateAtDifferentMonthDay_ShouldReturnFalse()
     {
         $date = new DateTime('2015-04-12');
 
         $temporalExpression = new DayInMonth(14);
 
-        $output = $temporalExpression->includes($date);
+        $includes = $temporalExpression->includes($date);
 
-        $this->assertFalse($output);
+        $this->assertThat($includes, $this->equalTo(false));
     }
 }

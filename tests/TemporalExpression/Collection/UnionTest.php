@@ -18,9 +18,10 @@ class UnionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
      * @dataProvider getDataProvider
      */
-    public function testIncludesDateAccordingToDataProviderValues($first, $second, $expected)
+    public function includesDateAccordingToDataProviderValues($first, $second, $expected)
     {
         $anyDate = new DateTime();
 
@@ -34,8 +35,8 @@ class UnionTest extends \PHPUnit_Framework_TestCase
         $secondExpr->includes($anyDate)->willReturn($second);
         $temporalExpression->addElement($secondExpr->reveal());
 
-        $output = $temporalExpression->includes($anyDate);
+        $includes = $temporalExpression->includes($anyDate);
 
-        $this->assertSame($expected, $output);
+        $this->assertSame($expected, $includes);
     }
 }

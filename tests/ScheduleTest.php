@@ -5,21 +5,27 @@ use DateTime;
 use Riskio\Schedule\DateRange;
 use Riskio\Schedule\Exception;
 use Riskio\Schedule\Schedule;
-use Riskio\Schedule\ScheduleElement;
-use Riskio\Schedule\ScheduleElementInterface;
-use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
+use Riskio\ScheduleTest\Fixtures\ScheduleElement\AlwaysOccurElement;
+use Riskio\ScheduleTest\Fixtures\ScheduleElement\CallbackOccurElement;
+use Riskio\ScheduleTest\Fixtures\ScheduleElement\NeverOccurElement;
 
 class ScheduleTest extends \PHPUnit_Framework_TestCase
 {
-    public function testEventIsOccuringWithoutElementsShouldReturnFalse()
+    /**
+     * @test
+     */
+    public function isOccuring_WithoutElements_ShouldReturnFalse()
     {
         $schedule = new Schedule();
+        $isOccuring = $schedule->isOccuring('foo', new DateTime());
 
-        $output = $schedule->isOccuring('foo', new DateTime());
-        $this->assertFalse($output);
+        $this->assertThat($isOccuring, $this->equalTo(false));
     }
 
-    public function testSetScheduleElementsWithInvalidOnesShouldThrowException()
+    /**
+     * @test
+     */
+    public function setScheduleElements_WithInvalidOnes_ShouldThrowAnException()
     {
         $schedule = new Schedule();
 
@@ -27,31 +33,21 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
         $schedule->setElements(['foo']);
     }
 
-    public function testEventIsOccuringWithOneElementAmongOthersThatIsOccuringShouldReturnTrue()
+    /**
+     * @test
+     */
+    public function isOccuring_WithOneElementAmongOthersThatIsOccuring_ShouldReturnTrue()
     {
-        $event = 'foo';
-        $date  = new DateTime();
+        $anyDate = new DateTime();
 
-        $elements = [];
+        $schedule = new Schedule([
+            new NeverOccurElement(),
+            new AlwaysOccurElement(),
+        ]);
 
-        $notOccuringScheduleElementStub = $this->getScheduleElement();
-        $notOccuringScheduleElementStub
-            ->method('isOccuring')
-            ->with($event, $date)
-            ->will($this->returnValue(false));
-        $elements[] = $notOccuringScheduleElementStub;
+        $isOccuring = $schedule->isOccuring('any event', $anyDate);
 
-        $occuringScheduleElementStub = $this->getScheduleElement();
-        $occuringScheduleElementStub
-            ->method('isOccuring')
-            ->with($event, $date)
-            ->will($this->returnValue(true));
-        $elements[] = $occuringScheduleElementStub;
-
-        $schedule = new Schedule($elements);
-
-        $output = $schedule->isOccuring($event, $date);
-        $this->assertTrue($output);
+        $this->assertThat($isOccuring, $this->equalTo(true));
     }
 
     /**
@@ -61,16 +57,17 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
     {
         $anyDate  = new DateTime();
         $schedule = new Schedule([new NeverOccurElement]);
-        
+
         $isOccuring = $schedule->isOccuring('any event', $anyDate);
 
         $this->assertThat($isOccuring, $this->equalTo(false));
     }
 
-    public function testRetrieveDatesWhenEventIsOccuringInProvidedRangeShouldReturnAnArrayWithOccuringDates()
+    /**
+     * @test
+     */
+    public function retrieveDates_WhenEventIsOccuringInProvidedRange_ShouldReturnAnArrayWithOccuringDates()
     {
-        $event = 'foo';
-
         $start = new DateTime('2015-03-01');
         $end   = new DateTime('2015-03-30');
         $range = new DateRange($start, $end);
@@ -80,62 +77,44 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
             new DateTime('2015-03-15'),
         ];
 
-        $scheduleElementStub = $this->getScheduleElement();
-        $scheduleElementStub
-            ->method('isOccuring')
-            ->will($this->returnCallback(function($event, DateTime $date) use ($occuringDates) {
-                if (in_array($date, $occuringDates)) {
-                    return true;
-                }
+        $callbackOccurElement = new CallbackOccurElement($occuringDates);
 
-                return false;
-            }));
+        $schedule = new Schedule([$callbackOccurElement]);
 
-        $elements = [$scheduleElementStub];
-
-        $schedule = new Schedule($elements);
-
-        $dates = $schedule->dates($event, $range);
+        $dates = $schedule->dates('any event', $range);
 
         foreach ($dates as $key => $date) {
             $this->assertEquals($occuringDates[$key], $date);
         }
     }
 
-    public function testRetrieveNextEventOccurenceWhenEventWillOccurAgainShouldReturnNextDate()
+    /**
+     * @test
+     */
+    public function retrieveNextEventOccurence_WhenEventWillOccurAgain_ShouldReturnNextDate()
     {
-        $event        = 'foo';
-        $startDate    = new DateTime('2015-03-01');
+        $startDate     = new DateTime('2015-03-01');
         $occuringDates = [
             new DateTime('2015-10-11'),
             new DateTime('2015-10-15'),
         ];
         $expectedDate  = new DateTime('2015-10-11');
 
-        $scheduleElementStub = $this->getScheduleElement();
-        $scheduleElementStub
-            ->method('isOccuring')
-            ->will($this->returnCallback(function($event, DateTime $date) use ($occuringDates) {
-                if (in_array($date, $occuringDates)) {
-                    return true;
-                }
+        $callbackOccurElement = new CallbackOccurElement($occuringDates);
 
-                return false;
-            }));
+        $schedule = new Schedule([$callbackOccurElement]);
 
-        $elements = [$scheduleElementStub];
-
-        $schedule = new Schedule($elements);
-
-        $date = $schedule->nextOccurence($event, $startDate);
+        $date = $schedule->nextOccurence('any event', $startDate);
 
         $this->assertInstanceOf(DateTime::class, $date);
         $this->assertEquals($expectedDate, $date);
     }
 
-    public function testRetrievePreviousEventOccurenceWhenEventHasAlreadyOccurredShouldReturnPreviousDate()
+    /**
+     * @test
+     */
+    public function retrievePreviousEventOccurence_WhenEventHasAlreadyOccurred_ShouldReturnPreviousDate()
     {
-        $event         = 'foo';
         $startDate     = new DateTime('2015-03-01');
         $occuringDates = [
             new DateTime('2014-10-12'),
@@ -143,37 +122,13 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
         ];
         $expectedDate  = new DateTime('2014-10-15');
 
-        $scheduleElementStub = $this->getScheduleElement();
-        $scheduleElementStub
-            ->method('isOccuring')
-            ->will($this->returnCallback(function($event, DateTime $date) use ($occuringDates) {
-                if (in_array($date, $occuringDates)) {
-                    return true;
-                }
+        $callbackOccurElement = new CallbackOccurElement($occuringDates);
 
-                return false;
-            }));
+        $schedule = new Schedule([$callbackOccurElement]);
 
-        $elements = [$scheduleElementStub];
-
-        $schedule = new Schedule($elements);
-
-        $date = $schedule->previousOccurence($event, $startDate);
+        $date = $schedule->previousOccurence('any event', $startDate);
 
         $this->assertInstanceOf(DateTime::class, $date);
         $this->assertEquals($expectedDate, $date);
-    }
-
-    private function getScheduleElement()
-    {
-        return $this->getMock(ScheduleElementInterface::class);
-    }
-}
-
-class NeverOccurElement implements ScheduleElementInterface
-{
-    public function isOccuring($event, DateTime $date)
-    {
-        return false;
     }
 }

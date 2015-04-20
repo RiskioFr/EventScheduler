@@ -17,33 +17,40 @@ class MonthInYearTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
      * @dataProvider getInvalidMonthDataProvider
      */
-    public function testUsingInvalidMonthValueShouldThrowException($month)
+    public function constructor_UsingInvalidMonthValue_ShouldThrowAnException($month)
     {
         $this->setExpectedException(Exception\InvalidArgumentException::class);
         $temporalExpression = new MonthInYear($month);
     }
 
-    public function testIncludesDateWhenProvidedDateAtSameMonthDayShouldReturnTrue()
+    /**
+     * @test
+     */
+    public function includesDate_WhenProvidedDateAtSameMonthDay_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-10');
 
         $temporalExpression = new MonthInYear($date->format('m'));
 
-        $output = $temporalExpression->includes($date);
+        $includes = $temporalExpression->includes($date);
 
-        $this->assertTrue($output);
+        $this->assertThat($includes, $this->equalTo(true));
     }
 
-    public function testIncludesDateWhenProvidedDateAtDifferentMonthDayShouldReturnFalse()
+    /**
+     * @test
+     */
+    public function includesDate_WhenProvidedDateAtDifferentMonthDay_ShouldReturnFalse()
     {
         $date = new DateTime('2015-04-10');
 
         $temporalExpression = new MonthInYear(11);
 
-        $output = $temporalExpression->includes($date);
+        $includes = $temporalExpression->includes($date);
 
-        $this->assertFalse($output);
+        $this->assertThat($includes, $this->equalTo(false));
     }
 }

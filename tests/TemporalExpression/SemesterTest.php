@@ -17,9 +17,10 @@ class SemesterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
      * @dataProvider getInvalidSemesterDataProvider
      */
-    public function testUsingInvalidSemesterValueShouldThrowException($semester)
+    public function constructor_UsingInvalidSemesterValue_ShouldThrowAnException($semester)
     {
         $this->setExpectedException(Exception\InvalidArgumentException::class);
         $temporalExpression = new Semester($semester);
@@ -38,9 +39,10 @@ class SemesterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
      * @dataProvider getSuccessfulDataProvider
      */
-    public function testIncludesDateWhenProvidedDateAtSameSemesterShouldReturnTrue(DateTime $date, $semester)
+    public function includesDate_WhenProvidedDateAtSameSemester_ShouldReturnTrue(DateTime $date, $semester)
     {
         $this->includesDate($date, $semester, true);
     }
@@ -58,9 +60,10 @@ class SemesterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
      * @dataProvider getUnsuccessfulDataProvider
      */
-    public function testIncludesDateWhenProvidedDateAtDifferentSemesterShouldReturnFalse(DateTime $date, $semester)
+    public function includesDate_WhenProvidedDateAtDifferentSemester_ShouldReturnFalse(DateTime $date, $semester)
     {
         $this->includesDate($date, $semester, false);
     }
