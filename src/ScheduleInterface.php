@@ -6,6 +6,11 @@ use DateTime;
 interface ScheduleInterface
 {
     /**
+     * @param array $elements
+     */
+    public function setElements(array $elements);
+    
+    /**
      * @param  string $event
      * @param  DateTime $date
      * @return bool

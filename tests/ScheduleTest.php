@@ -3,6 +3,7 @@ namespace Riskio\ScheduleModuleTest;
 
 use DateTime;
 use Riskio\ScheduleModule\DateRange;
+use Riskio\ScheduleModule\Exception;
 use Riskio\ScheduleModule\Schedule;
 use Riskio\ScheduleModule\ScheduleElementInterface;
 
@@ -14,6 +15,14 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
 
         $output = $schedule->isOccuring('foo', new DateTime());
         $this->assertFalse($output);
+    }
+
+    public function testSetScheduleElementsWithInvalidOnesShouldThrowException()
+    {
+        $schedule = new Schedule();
+
+        $this->setExpectedException(Exception\InvalidArgumentException::class);
+        $schedule->setElements(['foo']);
     }
 
     public function testEventIsOccuringWithOneElementAmongOthersThatIsOccuringShouldReturnTrue()

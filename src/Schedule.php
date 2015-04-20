@@ -22,7 +22,25 @@ class Schedule implements ScheduleInterface
      */
     public function __construct(array $elements = [])
     {
-        $this->elements = $elements;
+        $this->setElements($elements);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setElements(array $elements)
+    {
+        $this->elements = [];
+        foreach ($elements as $element) {
+            if (!$element instanceof ScheduleElementInterface) {
+                throw new Exception\InvalidArgumentException(sprintf(
+                    'A schedule element must be an instance of %s',
+                    ScheduleElementInterface::class
+                ));
+            }
+
+            $this->elements[] = $element;
+        }
     }
 
     /**
