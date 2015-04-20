@@ -1,8 +1,8 @@
 <?php
-namespace Riskio\ScheduleModule;
+namespace Riskio\Schedule;
 
 use DateTime;
-use Riskio\ScheduleModule\TemporalExpression\TemporalExpressionInterface;
+use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
 
 class ScheduleElement
 {

@@ -1,9 +1,9 @@
 <?php
-namespace Riskio\ScheduleModuleTest\TemporalExpression;
+namespace Riskio\ScheduleTest\TemporalExpression;
 
 use DateTime;
-use Riskio\ScheduleModule\TemporalExpression\Exception;
-use Riskio\ScheduleModule\TemporalExpression\DayInMonthTemporalExpression;
+use Riskio\Schedule\TemporalExpression\Exception;
+use Riskio\Schedule\TemporalExpression\DayInMonthTemporalExpression;
 
 class DayInMonthTemporalExpressionTest extends \PHPUnit_Framework_TestCase
 {

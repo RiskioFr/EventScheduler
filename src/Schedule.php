@@ -1,5 +1,5 @@
 <?php
-namespace Riskio\ScheduleModule;
+namespace Riskio\Schedule;
 
 use DateInterval;
 use DateTime;

@@ -1,11 +1,11 @@
 <?php
-namespace Riskio\ScheduleModuleTest;
+namespace Riskio\ScheduleTest;
 
 use DateTime;
-use Riskio\ScheduleModule\DateRange;
-use Riskio\ScheduleModule\Exception;
-use Riskio\ScheduleModule\Schedule;
-use Riskio\ScheduleModule\ScheduleElementInterface;
+use Riskio\Schedule\DateRange;
+use Riskio\Schedule\Exception;
+use Riskio\Schedule\Schedule;
+use Riskio\Schedule\ScheduleElementInterface;
 
 class ScheduleTest extends \PHPUnit_Framework_TestCase
 {

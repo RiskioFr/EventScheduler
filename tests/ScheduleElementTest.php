@@ -1,10 +1,10 @@
 <?php
-namespace Riskio\ScheduleModuleTest;
+namespace Riskio\ScheduleTest;
 
 use DateTime;
-use Riskio\ScheduleModule\Exception\InvalidArgumentException;
-use Riskio\ScheduleModule\ScheduleElement;
-use Riskio\ScheduleModule\TemporalExpression\TemporalExpressionInterface;
+use Riskio\Schedule\Exception\InvalidArgumentException;
+use Riskio\Schedule\ScheduleElement;
+use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
 
 class ScheduleElementTest extends \PHPUnit_Framework_TestCase
 {

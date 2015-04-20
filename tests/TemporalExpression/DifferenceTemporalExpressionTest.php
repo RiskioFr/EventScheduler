@@ -1,9 +1,9 @@
 <?php
-namespace Riskio\ScheduleModuleTest\TemporalExpression;
+namespace Riskio\ScheduleTest\TemporalExpression;
 
 use DateTime;
-use Riskio\ScheduleModule\TemporalExpression\TemporalExpressionInterface;
-use Riskio\ScheduleModule\TemporalExpression\DifferenceTemporalExpression;
+use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
+use Riskio\Schedule\TemporalExpression\DifferenceTemporalExpression;
 
 class DifferenceTemporalExpressionTest extends \PHPUnit_Framework_TestCase
 {

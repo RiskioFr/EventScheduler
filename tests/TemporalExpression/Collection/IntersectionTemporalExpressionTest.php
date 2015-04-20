@@ -1,9 +1,9 @@
 <?php
-namespace Riskio\ScheduleModuleTest\TemporalExpression\Collection;
+namespace Riskio\ScheduleTest\TemporalExpression\Collection;
 
 use DateTime;
-use Riskio\ScheduleModule\TemporalExpression\TemporalExpressionInterface;
-use Riskio\ScheduleModule\TemporalExpression\Collection\IntersectionTemporalExpression;
+use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
+use Riskio\Schedule\TemporalExpression\Collection\IntersectionTemporalExpression;
 
 class IntersectionTemporalExpressionTest extends \PHPUnit_Framework_TestCase
 {

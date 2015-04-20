@@ -1,8 +1,8 @@
 <?php
-namespace Riskio\ScheduleModule\TemporalExpression\Collection;
+namespace Riskio\Schedule\TemporalExpression\Collection;
 
 use DateTime;
-use Riskio\ScheduleModule\TemporalExpression\TemporalExpressionInterface;
+use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
 
 abstract class CollectionTemporalExpression implements TemporalExpressionInterface
 {

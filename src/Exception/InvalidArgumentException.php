@@ -1,5 +1,5 @@
 <?php
-namespace Riskio\ScheduleModule\Exception;
+namespace Riskio\Schedule\Exception;
 
 class InvalidArgumentException
     extends \InvalidArgumentException

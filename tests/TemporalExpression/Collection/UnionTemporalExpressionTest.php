@@ -1,9 +1,9 @@
 <?php
-namespace Riskio\ScheduleModuleTest\TemporalExpression\Collection;
+namespace Riskio\ScheduleTest\TemporalExpression\Collection;
 
 use DateTime;
-use Riskio\ScheduleModule\TemporalExpression\TemporalExpressionInterface;
-use Riskio\ScheduleModule\TemporalExpression\Collection\UnionTemporalExpression;
+use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
+use Riskio\Schedule\TemporalExpression\Collection\UnionTemporalExpression;
 
 class UnionTemporalExpressionTest extends \PHPUnit_Framework_TestCase
 {

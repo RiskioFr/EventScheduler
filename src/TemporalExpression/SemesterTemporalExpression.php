@@ -1,5 +1,5 @@
 <?php
-namespace Riskio\ScheduleModule\TemporalExpression;
+namespace Riskio\Schedule\TemporalExpression;
 
 use DateTime;
 

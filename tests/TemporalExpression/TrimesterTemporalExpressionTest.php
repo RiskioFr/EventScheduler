@@ -1,9 +1,9 @@
 <?php
-namespace Riskio\ScheduleModuleTest\TemporalExpression;
+namespace Riskio\ScheduleTest\TemporalExpression;
 
 use DateTime;
-use Riskio\ScheduleModule\TemporalExpression\Exception;
-use Riskio\ScheduleModule\TemporalExpression\TrimesterTemporalExpression;
+use Riskio\Schedule\TemporalExpression\Exception;
+use Riskio\Schedule\TemporalExpression\TrimesterTemporalExpression;
 
 class TrimesterTemporalExpressionTest extends \PHPUnit_Framework_TestCase
 {
