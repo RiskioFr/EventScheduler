@@ -16,7 +16,7 @@ class ScheduleElementTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException(
             InvalidArgumentException::class,
-            sprintf('Event must a string value; received "%s"', $event)
+            sprintf('Event must be a string value; received "%s"', $event)
         );
 
         $scheduleElement = new ScheduleElement($event, $temporalExpressionStub);
