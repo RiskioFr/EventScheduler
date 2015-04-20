@@ -24,7 +24,7 @@ class ScheduleElement
     {
         if (!is_string($event)) {
             throw new Exception\InvalidArgumentException(sprintf(
-                'Event must a string value; received "%s"',
+                'Event must be a string value; received "%s"',
                 (is_object($event) ? get_class($event) : $event)
             ));
         }
