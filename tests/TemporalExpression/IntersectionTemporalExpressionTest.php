@@ -22,22 +22,19 @@ class IntersectionTemporalExpressionTest extends \PHPUnit_Framework_TestCase
      */
     public function testIncludesDateAccordingToDataProviderValues($first, $second, $expected)
     {
+        $anyDate = new DateTime();
+
         $temporalExpression = new IntersectionTemporalExpression();
 
-        $firstTemporalExpressionStub = $this->getMock(TemporalExpressionInterface::class);
-        $firstTemporalExpressionStub
-            ->method('includes')
-            ->will($this->returnValue($first));
-        $temporalExpression->addElement($firstTemporalExpressionStub);
+        $firstExpr = $this->prophesize(TemporalExpressionInterface::class);
+        $firstExpr->includes($anyDate)->willReturn($first);
+        $temporalExpression->addElement($firstExpr->reveal());
 
-        $secondTemporalExpressionStub = $this->getMock(TemporalExpressionInterface::class);
-        $secondTemporalExpressionStub
-            ->method('includes')
-            ->will($this->returnValue($second));
-        $temporalExpression->addElement($secondTemporalExpressionStub);
+        $secondExpr = $this->prophesize(TemporalExpressionInterface::class);
+        $secondExpr->includes($anyDate)->willReturn($second);
+        $temporalExpression->addElement($secondExpr->reveal());
 
-        $dateStub = $this->getMock(DateTime::class);
-        $output = $temporalExpression->includes($dateStub);
+        $output = $temporalExpression->includes($anyDate);
 
         $this->assertSame($expected, $output);
     }

@@ -20,25 +20,22 @@ class DifferenceTemporalExpressionTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getDataProvider
      */
-    public function testIncludesDateAccordingToDataProviderValues($first, $second, $expected)
+    public function testIncludesDateAccordingToDataProviderValues($included, $excluded, $expected)
     {
-        $firstTemporalExpressionStub = $this->getMock(TemporalExpressionInterface::class);
-        $firstTemporalExpressionStub
-            ->method('includes')
-            ->will($this->returnValue($first));
+        $anyDate = new DateTime();
 
-        $secondTemporalExpressionStub = $this->getMock(TemporalExpressionInterface::class);
-        $secondTemporalExpressionStub
-            ->method('includes')
-            ->will($this->returnValue($second));
+        $includedExpr = $this->prophesize(TemporalExpressionInterface::class);
+        $includedExpr->includes($anyDate)->willReturn($included);
+
+        $excludedExpr = $this->prophesize(TemporalExpressionInterface::class);
+        $excludedExpr->includes($anyDate)->willReturn($excluded);
 
         $temporalExpression = new DifferenceTemporalExpression(
-            $firstTemporalExpressionStub,
-            $secondTemporalExpressionStub
+            $includedExpr->reveal(),
+            $excludedExpr->reveal()
         );
 
-        $dateStub = $this->getMock(DateTime::class);
-        $output = $temporalExpression->includes($dateStub);
+        $output = $temporalExpression->includes($anyDate);
 
         $this->assertSame($expected, $output);
     }
