@@ -5,7 +5,9 @@ use DateTime;
 use Riskio\Schedule\DateRange;
 use Riskio\Schedule\Exception;
 use Riskio\Schedule\Schedule;
+use Riskio\Schedule\ScheduleElement;
 use Riskio\Schedule\ScheduleElementInterface;
+use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
 
 class ScheduleTest extends \PHPUnit_Framework_TestCase
 {
@@ -52,23 +54,20 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($output);
     }
 
-    public function testEventIsOccuringWithElementsThatAreNotOccuringShouldReturnFalse()
+    /**
+     * @test
+     */
+    public function isOccuring_WithElementsThatAreNotOccuring_ShouldReturnFalse()
     {
-        $event = 'foo';
-        $date  = new DateTime();
+        $anyEvent = 'any event';
+        $anyDate  = new DateTime();
+        $temporalSpec = new NeverOccurTemporalExpression();
+        $element = new ScheduleElement($anyEvent, $temporalSpec);
+        $schedule = new Schedule([$element]);
+        
+        $isOccuring = $schedule->isOccuring($anyEvent, $anyDate);
 
-        $scheduleElementStub = $this->getScheduleElement();
-        $scheduleElementStub
-            ->method('isOccuring')
-            ->with($event, $date)
-            ->will($this->returnValue(false));
-
-        $elements = [$scheduleElementStub];
-
-        $schedule = new Schedule($elements);
-
-        $output = $schedule->isOccuring($event, $date);
-        $this->assertFalse($output);
+        $this->assertThat($isOccuring, $this->equalTo(false));
     }
 
     public function testRetrieveDatesWhenEventIsOccuringInProvidedRangeShouldReturnAnArrayWithOccuringDates()
@@ -171,5 +170,13 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
     private function getScheduleElement()
     {
         return $this->getMock(ScheduleElementInterface::class);
+    }
+}
+
+class NeverOccurTemporalExpression implements TemporalExpressionInterface
+{
+    public function includes(DateTime $date)
+    {
+        return false;
     }
 }
