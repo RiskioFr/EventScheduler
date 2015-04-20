@@ -3,9 +3,9 @@ namespace Riskio\ScheduleTest\TemporalExpression;
 
 use DateTime;
 use Riskio\Schedule\TemporalExpression\Exception;
-use Riskio\Schedule\TemporalExpression\DayInMonthTemporalExpression;
+use Riskio\Schedule\TemporalExpression\DayInMonth;
 
-class DayInMonthTemporalExpressionTest extends \PHPUnit_Framework_TestCase
+class DayInMonthTest extends \PHPUnit_Framework_TestCase
 {
     public function getInvalidDayDataProvider()
     {
@@ -22,14 +22,14 @@ class DayInMonthTemporalExpressionTest extends \PHPUnit_Framework_TestCase
     public function testUsingInvalidDayValueShouldThrowException($day)
     {
         $this->setExpectedException(Exception\InvalidArgumentException::class);
-        $temporalExpression = new DayInMonthTemporalExpression($day);
+        $temporalExpression = new DayInMonth($day);
     }
 
     public function testIncludesDateWhenProvidedDateAtSameMonthDayShouldReturnTrue()
     {
         $date = new DateTime('2015-04-12');
 
-        $temporalExpression = new DayInMonthTemporalExpression($date->format('d'));
+        $temporalExpression = new DayInMonth($date->format('d'));
 
         $output = $temporalExpression->includes($date);
 
@@ -40,7 +40,7 @@ class DayInMonthTemporalExpressionTest extends \PHPUnit_Framework_TestCase
     {
         $date = new DateTime('2015-04-12');
 
-        $temporalExpression = new DayInMonthTemporalExpression(14);
+        $temporalExpression = new DayInMonth(14);
 
         $output = $temporalExpression->includes($date);
 

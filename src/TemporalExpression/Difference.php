@@ -3,7 +3,7 @@ namespace Riskio\Schedule\TemporalExpression;
 
 use DateTime;
 
-class DifferenceTemporalExpression implements TemporalExpressionInterface
+class Difference implements TemporalExpressionInterface
 {
     /**
      * @var TemporalExpressionInterface

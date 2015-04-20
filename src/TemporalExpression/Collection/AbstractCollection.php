@@ -4,7 +4,7 @@ namespace Riskio\Schedule\TemporalExpression\Collection;
 use DateTime;
 use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
 
-abstract class CollectionTemporalExpression implements TemporalExpressionInterface
+abstract class AbstractCollection implements TemporalExpressionInterface
 {
     /**
      * @var array

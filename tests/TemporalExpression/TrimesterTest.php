@@ -3,9 +3,9 @@ namespace Riskio\ScheduleTest\TemporalExpression;
 
 use DateTime;
 use Riskio\Schedule\TemporalExpression\Exception;
-use Riskio\Schedule\TemporalExpression\TrimesterTemporalExpression;
+use Riskio\Schedule\TemporalExpression\Trimester;
 
-class TrimesterTemporalExpressionTest extends \PHPUnit_Framework_TestCase
+class TrimesterTest extends \PHPUnit_Framework_TestCase
 {
     public function getInvalidTrimesterDataProvider()
     {
@@ -22,7 +22,7 @@ class TrimesterTemporalExpressionTest extends \PHPUnit_Framework_TestCase
     public function testUsingInvalidTrimesterValueShouldThrowException($trimester)
     {
         $this->setExpectedException(Exception\InvalidArgumentException::class);
-        $temporalExpression = new TrimesterTemporalExpression($trimester);
+        $temporalExpression = new Trimester($trimester);
     }
 
     public function getSuccessfulDataProvider()
@@ -71,7 +71,7 @@ class TrimesterTemporalExpressionTest extends \PHPUnit_Framework_TestCase
 
     private function includesDate(DateTime $date, $trimester, $expected)
     {
-        $temporalExpression = new TrimesterTemporalExpression($trimester);
+        $temporalExpression = new Trimester($trimester);
 
         $output = $temporalExpression->includes($date);
 

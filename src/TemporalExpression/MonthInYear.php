@@ -3,7 +3,7 @@ namespace Riskio\Schedule\TemporalExpression;
 
 use DateTime;
 
-class MonthInYearTemporalExpression implements TemporalExpressionInterface
+class MonthInYear implements TemporalExpressionInterface
 {
     /**
      * @var int

@@ -3,7 +3,7 @@ namespace Riskio\Schedule\TemporalExpression;
 
 use DateTime;
 
-class SemesterTemporalExpression implements TemporalExpressionInterface
+class Semester implements TemporalExpressionInterface
 {
     const FIRST  = 1;
     const SECOND = 2;

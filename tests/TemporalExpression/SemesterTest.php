@@ -3,9 +3,9 @@ namespace Riskio\ScheduleTest\TemporalExpression;
 
 use DateTime;
 use Riskio\Schedule\TemporalExpression\Exception;
-use Riskio\Schedule\TemporalExpression\SemesterTemporalExpression;
+use Riskio\Schedule\TemporalExpression\Semester;
 
-class SemesterTemporalExpressionTest extends \PHPUnit_Framework_TestCase
+class SemesterTest extends \PHPUnit_Framework_TestCase
 {
     public function getInvalidSemesterDataProvider()
     {
@@ -22,7 +22,7 @@ class SemesterTemporalExpressionTest extends \PHPUnit_Framework_TestCase
     public function testUsingInvalidSemesterValueShouldThrowException($semester)
     {
         $this->setExpectedException(Exception\InvalidArgumentException::class);
-        $temporalExpression = new SemesterTemporalExpression($semester);
+        $temporalExpression = new Semester($semester);
     }
 
     public function getSuccessfulDataProvider()
@@ -67,7 +67,7 @@ class SemesterTemporalExpressionTest extends \PHPUnit_Framework_TestCase
 
     private function includesDate(DateTime $date, $semester, $expected)
     {
-        $temporalExpression = new SemesterTemporalExpression($semester);
+        $temporalExpression = new Semester($semester);
 
         $output = $temporalExpression->includes($date);
 

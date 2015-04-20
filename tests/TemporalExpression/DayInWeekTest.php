@@ -3,33 +3,33 @@ namespace Riskio\ScheduleTest\TemporalExpression;
 
 use DateTime;
 use Riskio\Schedule\TemporalExpression\Exception;
-use Riskio\Schedule\TemporalExpression\MonthInYearTemporalExpression;
+use Riskio\Schedule\TemporalExpression\DayInWeek;
 
-class MonthInYearTemporalExpressionTest extends \PHPUnit_Framework_TestCase
+class DayInWeekTest extends \PHPUnit_Framework_TestCase
 {
-    public function getInvalidMonthDataProvider()
+    public function getInvalidDayDataProvider()
     {
         return [
             ['invalid'],
-            [0],
-            [13],
+            [-1],
+            [7],
         ];
     }
 
     /**
-     * @dataProvider getInvalidMonthDataProvider
+     * @dataProvider getInvalidDayDataProvider
      */
-    public function testUsingInvalidMonthValueShouldThrowException($month)
+    public function testUsingInvalidDayValueShouldThrowException($day)
     {
         $this->setExpectedException(Exception\InvalidArgumentException::class);
-        $temporalExpression = new MonthInYearTemporalExpression($month);
+        $temporalExpression = new DayInWeek($day);
     }
 
     public function testIncludesDateWhenProvidedDateAtSameMonthDayShouldReturnTrue()
     {
-        $date = new DateTime('2015-04-10');
+        $date = new DateTime('2015-04-12');
 
-        $temporalExpression = new MonthInYearTemporalExpression($date->format('m'));
+        $temporalExpression = new DayInWeek($date->format('w'));
 
         $output = $temporalExpression->includes($date);
 
@@ -38,9 +38,9 @@ class MonthInYearTemporalExpressionTest extends \PHPUnit_Framework_TestCase
 
     public function testIncludesDateWhenProvidedDateAtDifferentMonthDayShouldReturnFalse()
     {
-        $date = new DateTime('2015-04-10');
+        $date = new DateTime('2015-04-12');
 
-        $temporalExpression = new MonthInYearTemporalExpression(11);
+        $temporalExpression = new DayInWeek(5);
 
         $output = $temporalExpression->includes($date);
 

@@ -2,9 +2,8 @@
 namespace Riskio\Schedule\TemporalExpression\Collection;
 
 use DateTime;
-use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
 
-class UnionTemporalExpression extends CollectionTemporalExpression
+class Intersection extends AbstractCollection
 {
     /**
      * @param  DateTime $date
@@ -13,11 +12,11 @@ class UnionTemporalExpression extends CollectionTemporalExpression
     public function includes(DateTime $date)
     {
         foreach ($this->elements as $element) {
-            if ($element->includes($date)) {
-                return true;
+            if (!$element->includes($date)) {
+                return false;
             }
         }
 
-        return false;
+        return true;
     }
 }

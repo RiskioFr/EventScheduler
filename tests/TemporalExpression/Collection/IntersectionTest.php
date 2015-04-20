@@ -3,16 +3,16 @@ namespace Riskio\ScheduleTest\TemporalExpression\Collection;
 
 use DateTime;
 use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
-use Riskio\Schedule\TemporalExpression\Collection\UnionTemporalExpression;
+use Riskio\Schedule\TemporalExpression\Collection\Intersection;
 
-class UnionTemporalExpressionTest extends \PHPUnit_Framework_TestCase
+class IntersectionTest extends \PHPUnit_Framework_TestCase
 {
     public function getDataProvider()
     {
         return [
             [true, true, true],
-            [true, false, true],
-            [false, true, true],
+            [true, false, false],
+            [false, true, false],
             [false, false, false],
         ];
     }
@@ -24,7 +24,7 @@ class UnionTemporalExpressionTest extends \PHPUnit_Framework_TestCase
     {
         $anyDate = new DateTime();
 
-        $temporalExpression = new UnionTemporalExpression();
+        $temporalExpression = new Intersection();
 
         $firstExpr = $this->prophesize(TemporalExpressionInterface::class);
         $firstExpr->includes($anyDate)->willReturn($first);

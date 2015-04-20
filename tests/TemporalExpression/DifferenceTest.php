@@ -3,9 +3,9 @@ namespace Riskio\ScheduleTest\TemporalExpression;
 
 use DateTime;
 use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
-use Riskio\Schedule\TemporalExpression\DifferenceTemporalExpression;
+use Riskio\Schedule\TemporalExpression\Difference;
 
-class DifferenceTemporalExpressionTest extends \PHPUnit_Framework_TestCase
+class DifferenceTest extends \PHPUnit_Framework_TestCase
 {
     public function getDataProvider()
     {
@@ -30,7 +30,7 @@ class DifferenceTemporalExpressionTest extends \PHPUnit_Framework_TestCase
         $excludedExpr = $this->prophesize(TemporalExpressionInterface::class);
         $excludedExpr->includes($anyDate)->willReturn($excluded);
 
-        $temporalExpression = new DifferenceTemporalExpression(
+        $temporalExpression = new Difference(
             $includedExpr->reveal(),
             $excludedExpr->reveal()
         );

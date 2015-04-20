@@ -3,7 +3,7 @@ namespace Riskio\Schedule\TemporalExpression;
 
 use DateTime;
 
-class TrimesterTemporalExpression implements TemporalExpressionInterface
+class Trimester implements TemporalExpressionInterface
 {
     const FIRST  = 1;
     const SECOND = 2;
