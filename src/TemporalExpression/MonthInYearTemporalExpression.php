@@ -15,6 +15,12 @@ class MonthInYearTemporalExpression implements TemporalExpressionInterface
      */
     public function __construct($monthIndex)
     {
+        if (!is_numeric($monthIndex) || $monthIndex < 1 || $monthIndex > 12) {
+            throw new Exception\InvalidArgumentException(
+                'Month must a numeric value be between 1 and 12'
+            );
+        }
+
         $this->monthIndex = $monthIndex;
     }
 
@@ -24,6 +30,6 @@ class MonthInYearTemporalExpression implements TemporalExpressionInterface
      */
     public function includes(DateTime $date)
     {
-        return $date->format('m') == $this->monthIndex;
+        return $date->format('n') == $this->monthIndex;
     }
 }
