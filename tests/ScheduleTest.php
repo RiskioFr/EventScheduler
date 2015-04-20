@@ -59,13 +59,10 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
      */
     public function isOccuring_WithElementsThatAreNotOccuring_ShouldReturnFalse()
     {
-        $anyEvent = 'any event';
         $anyDate  = new DateTime();
-        $temporalSpec = new NeverOccurTemporalExpression();
-        $element = new ScheduleElement($anyEvent, $temporalSpec);
-        $schedule = new Schedule([$element]);
+        $schedule = new Schedule([new NeverOccurElement]);
         
-        $isOccuring = $schedule->isOccuring($anyEvent, $anyDate);
+        $isOccuring = $schedule->isOccuring('any event', $anyDate);
 
         $this->assertThat($isOccuring, $this->equalTo(false));
     }
@@ -173,9 +170,9 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class NeverOccurTemporalExpression implements TemporalExpressionInterface
+class NeverOccurElement implements ScheduleElementInterface
 {
-    public function includes(DateTime $date)
+    public function isOccuring($event, DateTime $date)
     {
         return false;
     }
