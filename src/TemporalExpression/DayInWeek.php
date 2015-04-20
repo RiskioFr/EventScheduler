@@ -15,9 +15,12 @@ class DayInWeek implements TemporalExpressionInterface
      */
     public function __construct($dayIndex)
     {
-        if (!is_numeric($dayIndex) || $dayIndex < 0 || $dayIndex > 6) {
+        $filtered = filter_var($dayIndex, FILTER_VALIDATE_INT, [
+            'options' => ['min_range' => 1, 'max_range' => 7],
+        ]);
+        if (!$filtered) {
             throw new Exception\InvalidArgumentException(
-                'Day must be a numeric value between 0 and 6'
+                'Day must be an integer value between 1 and 7'
             );
         }
 
@@ -30,6 +33,6 @@ class DayInWeek implements TemporalExpressionInterface
      */
     public function includes(DateTime $date)
     {
-        return $date->format('w') == $this->dayIndex;
+        return $date->format('N') == $this->dayIndex;
     }
 }

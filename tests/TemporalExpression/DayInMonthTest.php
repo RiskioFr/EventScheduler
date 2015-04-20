@@ -29,7 +29,7 @@ class DayInMonthTest extends \PHPUnit_Framework_TestCase
     {
         $date = new DateTime('2015-04-12');
 
-        $temporalExpression = new DayInMonth($date->format('d'));
+        $temporalExpression = new DayInMonth($date->format('j'));
 
         $output = $temporalExpression->includes($date);
 

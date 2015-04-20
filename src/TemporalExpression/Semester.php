@@ -18,9 +18,12 @@ class Semester implements TemporalExpressionInterface
      */
     public function __construct($semester)
     {
-        if (!is_numeric($semester) || $semester < 1 || $semester > 2) {
+        $filtered = filter_var($semester, FILTER_VALIDATE_INT, [
+            'options' => ['min_range' => 1, 'max_range' => 2],
+        ]);
+        if (!$filtered) {
             throw new Exception\InvalidArgumentException(
-                'Semester must be a numeric value among 1 or 2 according to'
+                'Semester must be an integer value among 1 or 2 according to'
                 . ' first and second semesters of the year'
             );
         }
