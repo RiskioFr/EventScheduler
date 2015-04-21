@@ -13,11 +13,11 @@ Requirements
 Documentation
 -------------
 
-The documentation will help you to understand how to use and extends Schedule.
+The documentation will help you to understand how to use and extend Schedule.
 
 ### Introduction
 
-The schedule represented by ```Riskio\Schedule\Schedule``` class allow to know if any event occurs at a given date.
+The schedule represented by ```Riskio\Schedule\Schedule``` class allows you to know if any event occurs at a given date.
 
 ### Usage
 
@@ -49,10 +49,10 @@ check if an event occur or not.
 ```php
 $temporalExpression = new TemporalExpression();
 
-$isOccuring = $temporalExpression->isOccuring('event', new Datetime('NOW');
+$isOccuring = $temporalExpression->isOccuring('event', new Datetime('NOW'));
 ```
 
-By default, there are some temporal expressions that you can use to define event reccurence.
+By default, there are some temporal expressions that you can use to define event recurrence.
 
 |Name|Behaviour|Parameter|Possible values|
 |----|---------|:-------:|:-------------:|
@@ -65,7 +65,7 @@ By default, there are some temporal expressions that you can use to define event
 #### Composite Temporal Expressions
 
 In order to create complex temporal expressions, you can use composite temporal expressions
-that allow to make combinaison of previous ones.
+that allow to build combinaisons of previous ones.
 
 ##### Intersection
 
@@ -103,4 +103,4 @@ $isOccuring = $difference->isOccuring('event', $date);
 
 #### Custom Temporal Expressions
 
-You can create temporal expressions that match your special needs implementing `Riskio\Schedule\TemporalExpression\TemporalExpressionInterface`.
+You can create temporal expressions that match your special needs by implementing `Riskio\Schedule\TemporalExpression\TemporalExpressionInterface`.
