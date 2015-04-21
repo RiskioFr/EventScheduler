@@ -22,8 +22,9 @@ class YearTest extends \PHPUnit_Framework_TestCase
     public function includesDate_WhenProvidedDateAtSameMonthDay_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-10');
+        $year = (int) $date->format('Y');
 
-        $temporalExpression = new Year($date->format('Y'));
+        $temporalExpression = new Year($year);
 
         $includes = $temporalExpression->includes($date);
 

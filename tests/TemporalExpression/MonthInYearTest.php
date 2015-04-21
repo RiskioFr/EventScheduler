@@ -31,9 +31,10 @@ class MonthInYearTest extends \PHPUnit_Framework_TestCase
      */
     public function includesDate_WhenProvidedDateAtSameMonthDay_ShouldReturnTrue()
     {
-        $date = new DateTime('2015-04-10');
+        $date  = new DateTime('2015-04-10');
+        $month = (int) $date->format('m');
 
-        $temporalExpression = new MonthInYear($date->format('m'));
+        $temporalExpression = new MonthInYear($month);
 
         $includes = $temporalExpression->includes($date);
 

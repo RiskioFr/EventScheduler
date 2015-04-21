@@ -11,8 +11,8 @@ class DayInWeekTest extends \PHPUnit_Framework_TestCase
     {
         return [
             ['invalid'],
-            [-1],
-            [7],
+            [0],
+            [8],
         ];
     }
 
@@ -33,7 +33,7 @@ class DayInWeekTest extends \PHPUnit_Framework_TestCase
     {
         $date = new DateTime('2015-04-12');
 
-        $temporalExpression = new DayInWeek($date->format('w'));
+        $temporalExpression = new DayInWeek($date->format('N'));
 
         $includes = $temporalExpression->includes($date);
 

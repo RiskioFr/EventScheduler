@@ -15,9 +15,12 @@ class DayInMonth implements TemporalExpressionInterface
      */
     public function __construct($dayIndex)
     {
-        if (!is_numeric($dayIndex) || $dayIndex < 1 || $dayIndex > 31) {
+        $filtered = filter_var($dayIndex, FILTER_VALIDATE_INT, [
+            'options' => ['min_range' => 1, 'max_range' => 31],
+        ]);
+        if (!$filtered) {
             throw new Exception\InvalidArgumentException(
-                'Day must be a numeric value between 1 and 31'
+                'Day must be an integer value between 1 and 31'
             );
         }
 

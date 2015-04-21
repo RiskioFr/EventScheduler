@@ -15,9 +15,12 @@ class MonthInYear implements TemporalExpressionInterface
      */
     public function __construct($monthIndex)
     {
-        if (!is_numeric($monthIndex) || $monthIndex < 1 || $monthIndex > 12) {
+        $filtered = filter_var($monthIndex, FILTER_VALIDATE_INT, [
+            'options' => ['min_range' => 1, 'max_range' => 12],
+        ]);
+        if (!$filtered) {
             throw new Exception\InvalidArgumentException(
-                'Month must a numeric value be between 1 and 12'
+                'Month must be an integer value be between 1 and 12'
             );
         }
 

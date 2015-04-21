@@ -20,9 +20,12 @@ class Trimester implements TemporalExpressionInterface
      */
     public function __construct($trimester)
     {
-        if (!is_numeric($trimester) || $trimester < 1 || $trimester > 4) {
+        $filtered = filter_var($trimester, FILTER_VALIDATE_INT, [
+            'options' => ['min_range' => 1, 'max_range' => 4],
+        ]);
+        if (!$filtered) {
             throw new Exception\InvalidArgumentException(
-                'Trimester must be a numeric value among 1, 2, 3 or 4 according to'
+                'Trimester must be an integer value among 1, 2, 3 or 4 according to'
                 . ' first, second, third and fourth trimesters of the year'
             );
         }
