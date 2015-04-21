@@ -70,7 +70,7 @@ class ScheduleElementTest extends \PHPUnit_Framework_TestCase
 
         $scheduleElement = new ScheduleElement('any event', $temporalExpressionStub);
 
-        $isOccuring = $scheduleElement->isOccurring('any other event', new DateTime());
+        $isOccurring = $scheduleElement->isOccurring('any other event', new DateTime());
 
         $this->assertThat($isOccurring, $this->equalTo(false));
     }

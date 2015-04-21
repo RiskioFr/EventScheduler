@@ -38,7 +38,7 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function isOccurring_WithAtLeastOneElementOccuring_ShouldReturnTrue()
+    public function isOccurring_WithAtLeastOneElementOccurring_ShouldReturnTrue()
     {
         $anyDate = new DateTime();
 
@@ -55,12 +55,12 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function isOccuring_WithElementsThatAreNotOccuring_ShouldReturnFalse()
+    public function isOccurring_WithElementsThatAreNotOccurring_ShouldReturnFalse()
     {
         $anyDate  = new DateTime();
         $schedule = new Schedule([new NeverOccurringElement]);
 
-        $isOccuring = $schedule->isOccurring('any event', $anyDate);
+        $isOccurring = $schedule->isOccurring('any event', $anyDate);
 
         $this->assertThat($isOccurring, $this->equalTo(false));
     }
