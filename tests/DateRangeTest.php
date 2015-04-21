@@ -22,7 +22,7 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function iterateOverRange_ShouldMatchExpectedDates()
+    public function dateRange_CanIterateForward()
     {
         $startDate = new DateTime('2015-03-01');
         $endDate   = new DateTime('2015-03-05');
@@ -37,7 +37,7 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function iterateUpsideOverRange_ShouldMatchExpectedDates()
+    public function dateRange_CanIterateBackward()
     {
         $startDate = new DateTime('2015-03-01');
         $endDate   = new DateTime('2015-03-05');

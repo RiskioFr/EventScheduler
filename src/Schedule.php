@@ -46,11 +46,11 @@ class Schedule implements ScheduleInterface
     /**
      * {@inheritdoc}
      */
-    public function isOccuring($event, DateTime $date)
+    public function isOccurring($event, DateTime $date)
     {
         foreach ($this->elements as $element) {
             /* @var $element ScheduleElementInterface */
-            if ($element->isOccuring($event, $date)) {
+            if ($element->isOccurring($event, $date)) {
                 return true;
             }
         }
@@ -67,7 +67,7 @@ class Schedule implements ScheduleInterface
 
         for (
             $start = $range->getStartDate();
-            $date  = $this->nextOccurence($event, $start, $end);
+            $date  = $this->nextOccurrence($event, $start, $end);
             $start = $date->add($range->getInterval())
         ) {
             yield $date;
@@ -77,29 +77,29 @@ class Schedule implements ScheduleInterface
     /**
      * {@inheritdoc}
      */
-    public function nextOccurence($event, DateTime $start, DateTime $end = null)
+    public function nextOccurrence($event, DateTime $start, DateTime $end = null)
     {
         $end      = $end ?: $this->getDateRange()->getEndDate();
         $iterator = (new DateRange($start, $end))->getIterator();
 
-        return $this->findNextOccurenceInIterator($event, $iterator);
+        return $this->findNextOccurrenceInIterator($event, $iterator);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function previousOccurence($event, DateTime $end, DateTime $start = null)
+    public function previousOccurrence($event, DateTime $end, DateTime $start = null)
     {
         $start    = $start ?: $this->getDateRange()->getStartDate();
         $iterator = (new DateRange($start, $end))->getReverseIterator();
 
-        return $this->findNextOccurenceInIterator($event, $iterator);
+        return $this->findNextOccurrenceInIterator($event, $iterator);
     }
 
-    private function findNextOccurenceInIterator($event, Traversable $dates)
+    private function findNextOccurrenceInIterator($event, Traversable $dates)
     {
         foreach ($dates as $date) {
-            if ($this->isOccuring($event, $date)) {
+            if ($this->isOccurring($event, $date)) {
                 return $date;
             }
         }

@@ -5,8 +5,8 @@ use DateTime;
 use Riskio\Schedule\Exception\InvalidArgumentException;
 use Riskio\Schedule\ScheduleElement;
 use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
-use Riskio\ScheduleTest\Fixtures\TemporalExpression\AlwaysOccurTemporalExpression;
-use Riskio\ScheduleTest\Fixtures\TemporalExpression\NeverOccurTemporalExpression;
+use Riskio\ScheduleTest\Fixtures\TemporalExpression\AlwaysOccurringTemporalExpression;
+use Riskio\ScheduleTest\Fixtures\TemporalExpression\NeverOccurringTemporalExpression;
 
 class ScheduleElementTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,49 +30,49 @@ class ScheduleElementTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function isOccuring_WhenEventMatchesAndDateIncludedInTemporalExpression_ShouldReturnTrue()
+    public function isOccurring_WhenEventMatchesAndDateIncludedInTemporalExpression_ShouldReturnTrue()
     {
         $anyEvent = 'any event';
         $anyDate  = new DateTime();
 
-        $temporalExpression = new AlwaysOccurTemporalExpression();
+        $temporalExpression = new AlwaysOccurringTemporalExpression();
 
         $scheduleElement = new ScheduleElement($anyEvent, $temporalExpression);
 
-        $isOccuring = $scheduleElement->isOccuring($anyEvent, $anyDate);
+        $isOccurring = $scheduleElement->isOccurring($anyEvent, $anyDate);
 
-        $this->assertThat($isOccuring, $this->equalTo(true));
+        $this->assertThat($isOccurring, $this->equalTo(true));
     }
 
     /**
      * @test
      */
-    public function isOccuring_WhenEventMatchAndDateNotIncludedInTemporalExpression_ShouldReturnFalse()
+    public function isOccurring_WhenEventMatchAndDateNotIncludedInTemporalExpression_ShouldReturnFalse()
     {
         $anyEvent = 'any event';
         $anyDate  = new DateTime();
 
-        $temporalExpression = new NeverOccurTemporalExpression();
+        $temporalExpression = new NeverOccurringTemporalExpression();
 
         $scheduleElement = new ScheduleElement($anyEvent, $temporalExpression);
 
-        $isOccuring = $scheduleElement->isOccuring($anyEvent, $anyDate);
+        $isOccurring = $scheduleElement->isOccurring($anyEvent, $anyDate);
 
-        $this->assertThat($isOccuring, $this->equalTo(false));
+        $this->assertThat($isOccurring, $this->equalTo(false));
     }
 
     /**
      * @test
      */
-    public function isOccuring_WhenEventNotMatch_ShouldReturnFalse()
+    public function isOccurring_WhenEventNotMatch_ShouldReturnFalse()
     {
         $temporalExpressionStub = $this->getTemporalExpression();
 
         $scheduleElement = new ScheduleElement('any event', $temporalExpressionStub);
 
-        $isOccuring = $scheduleElement->isOccuring('any other event', new DateTime());
+        $isOccuring = $scheduleElement->isOccurring('any other event', new DateTime());
 
-        $this->assertThat($isOccuring, $this->equalTo(false));
+        $this->assertThat($isOccurring, $this->equalTo(false));
     }
 
     private function getTemporalExpression()

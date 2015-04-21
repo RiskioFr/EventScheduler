@@ -4,9 +4,9 @@ namespace Riskio\ScheduleTest\Fixtures\ScheduleElement;
 use DateTime;
 use Riskio\Schedule\ScheduleElementInterface;
 
-class NeverOccurElement implements ScheduleElementInterface
+class NeverOccurringElement implements ScheduleElementInterface
 {
-    public function isOccuring($event, DateTime $date)
+    public function isOccurring($event, DateTime $date)
     {
         return false;
     }

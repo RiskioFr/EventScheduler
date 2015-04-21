@@ -10,5 +10,5 @@ interface ScheduleElementInterface
      * @param  DateTime $date
      * @return bool
      */
-    public function isOccuring($event, DateTime $date);
+    public function isOccurring($event, DateTime $date);
 }
