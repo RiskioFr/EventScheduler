@@ -7,32 +7,41 @@ use Riskio\Schedule\TemporalExpression\Year;
 
 class YearTest extends \PHPUnit_Framework_TestCase
 {
-    public function testUsingInvalidTrimesterValueShouldThrowException()
+    /**
+     * @test
+     */
+    public function constructor_UsingInvalidTrimesterValue_ShouldThrowException()
     {
         $this->setExpectedException(Exception\InvalidArgumentException::class);
         $temporalExpression = new Year('invalid');
     }
 
-    public function testIncludesDateWhenProvidedDateAtSameMonthDayShouldReturnTrue()
+    /**
+     * @test
+     */
+    public function includesDate_WhenProvidedDateAtSameMonthDay_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-10');
         $year = (int) $date->format('Y');
 
         $temporalExpression = new Year($year);
 
-        $output = $temporalExpression->includes($date);
+        $includes = $temporalExpression->includes($date);
 
-        $this->assertTrue($output);
+        $this->assertThat($includes, $this->equalTo(true));
     }
 
-    public function testIncludesDateWhenProvidedDateAtDifferentMonthDayShouldReturnFalse()
+    /**
+     * @test
+     */
+    public function includesDate_WhenProvidedDateAtDifferentMonthDay_ShouldReturnFalse()
     {
         $date = new DateTime('2015-04-10');
 
         $temporalExpression = new Year(2016);
 
-        $output = $temporalExpression->includes($date);
+        $includes = $temporalExpression->includes($date);
 
-        $this->assertFalse($output);
+        $this->assertThat($includes, $this->equalTo(false));
     }
 }

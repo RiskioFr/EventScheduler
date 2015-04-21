@@ -17,9 +17,10 @@ class TrimesterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
      * @dataProvider getInvalidTrimesterDataProvider
      */
-    public function testUsingInvalidTrimesterValueShouldThrowException($trimester)
+    public function constructor_UsingInvalidTrimesterValue_ShouldThrowAnException($trimester)
     {
         $this->setExpectedException(Exception\InvalidArgumentException::class);
         $temporalExpression = new Trimester($trimester);
@@ -40,9 +41,10 @@ class TrimesterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
      * @dataProvider getSuccessfulDataProvider
      */
-    public function testIncludesDateWhenProvidedDateAtSameTrimesterShouldReturnTrue(DateTime $date, $trimester)
+    public function includesDate_WhenProvidedDateAtSameTrimester_ShouldReturnTrue(DateTime $date, $trimester)
     {
         $this->includesDate($date, $trimester, true);
     }
@@ -62,9 +64,10 @@ class TrimesterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
      * @dataProvider getUnsuccessfulDataProvider
      */
-    public function testIncludesDateWhenProvidedDateAtDifferentTrimesterShouldReturnFalse(DateTime $date, $trimester)
+    public function includesDate_WhenProvidedDateAtDifferentTrimester_ShouldReturnFalse(DateTime $date, $trimester)
     {
         $this->includesDate($date, $trimester, false);
     }

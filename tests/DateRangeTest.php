@@ -19,24 +19,30 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testIterateOverRangeShouldMatchExpectedDates()
+    /**
+     * @test
+     */
+    public function dateRange_CanIterateForward()
     {
         $startDate = new DateTime('2015-03-01');
         $endDate   = new DateTime('2015-03-05');
 
-        $range = new DateRange($startDate, $endDate);
+        $range     = new DateRange($startDate, $endDate);
 
         foreach ($range->getIterator() as $key => $date) {
             $this->assertEquals($this->expectedDates[$key], $date);
         }
     }
 
-    public function testIterateUpsideOverRangeShouldMatchExpectedDates()
+    /**
+     * @test
+     */
+    public function dateRange_CanIterateBackward()
     {
         $startDate = new DateTime('2015-03-01');
         $endDate   = new DateTime('2015-03-05');
 
-        $range = new DateRange($startDate, $endDate);
+        $range     = new DateRange($startDate, $endDate);
 
         $expectedDates = array_reverse($this->expectedDates);
         foreach ($range->getReverseIterator() as $key => $date) {

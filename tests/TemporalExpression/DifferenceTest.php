@@ -18,9 +18,10 @@ class DifferenceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
      * @dataProvider getDataProvider
      */
-    public function testIncludesDateAccordingToDataProviderValues($included, $excluded, $expected)
+    public function includesDateAccordingToDataProviderValues($included, $excluded, $expected)
     {
         $anyDate = new DateTime();
 
@@ -35,8 +36,8 @@ class DifferenceTest extends \PHPUnit_Framework_TestCase
             $excludedExpr->reveal()
         );
 
-        $output = $temporalExpression->includes($anyDate);
+        $includes = $temporalExpression->includes($anyDate);
 
-        $this->assertSame($expected, $output);
+        $this->assertSame($expected, $includes);
     }
 }

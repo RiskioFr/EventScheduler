@@ -2,9 +2,10 @@
 namespace Riskio\Schedule;
 
 use DateTime;
+use Riskio\Schedule\ScheduleElementInterface;
 use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
 
-class ScheduleElement
+class ScheduleElement implements ScheduleElementInterface
 {
     /**
      * @var string
@@ -36,7 +37,7 @@ class ScheduleElement
     /**
      * {@inheritdoc}
      */
-    public function isOccuring($event, DateTime $date)
+    public function isOccurring($event, DateTime $date)
     {
         if ($this->event != $event) {
             return false;

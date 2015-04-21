@@ -5,65 +5,74 @@ use DateTime;
 use Riskio\Schedule\Exception\InvalidArgumentException;
 use Riskio\Schedule\ScheduleElement;
 use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
+use Riskio\ScheduleTest\Fixtures\TemporalExpression\AlwaysOccurringTemporalExpression;
+use Riskio\ScheduleTest\Fixtures\TemporalExpression\NeverOccurringTemporalExpression;
 
 class ScheduleElementTest extends \PHPUnit_Framework_TestCase
 {
-    public function testConstructScheduleElementWhenEventIsNotStringShouldThrowException()
+    /**
+     * @test
+     */
+    public function constructor_WhenEventIsNotString_ShouldThrowException()
     {
-        $event = 123;
+        $invalidEvent = 123;
 
         $temporalExpressionStub = $this->getTemporalExpression();
 
         $this->setExpectedException(
             InvalidArgumentException::class,
-            sprintf('Event must be a string value; received "%s"', $event)
+            sprintf('Event must be a string value; received "%s"', $invalidEvent)
         );
 
-        $scheduleElement = new ScheduleElement($event, $temporalExpressionStub);
+        $scheduleElement = new ScheduleElement($invalidEvent, $temporalExpressionStub);
     }
 
-    public function testIsOccuringWhenEventMatchesAndDateIncludedInTemporalExpressionReturnTrue()
+    /**
+     * @test
+     */
+    public function isOccurring_WhenEventMatchesAndDateIncludedInTemporalExpression_ShouldReturnTrue()
     {
-        $event = 'foo';
-        $date = new DateTime();
+        $anyEvent = 'any event';
+        $anyDate  = new DateTime();
 
-        $temporalExpressionStub = $this->getTemporalExpression();
-        $temporalExpressionStub
-            ->method('includes')
-            ->with($date)
-            ->will($this->returnValue(true));
+        $temporalExpression = new AlwaysOccurringTemporalExpression();
 
-        $scheduleElement = new ScheduleElement($event, $temporalExpressionStub);
+        $scheduleElement = new ScheduleElement($anyEvent, $temporalExpression);
 
-        $output = $scheduleElement->isOccuring($event, $date);
-        $this->assertTrue($output);
+        $isOccurring = $scheduleElement->isOccurring($anyEvent, $anyDate);
+
+        $this->assertThat($isOccurring, $this->equalTo(true));
     }
 
-    public function testIsOccuringWhenEventMatchAndDateNotIncludedInTemporalExpressionReturnFalse()
+    /**
+     * @test
+     */
+    public function isOccurring_WhenEventMatchAndDateNotIncludedInTemporalExpression_ShouldReturnFalse()
     {
-        $event = 'foo';
-        $date = new DateTime();
+        $anyEvent = 'any event';
+        $anyDate  = new DateTime();
 
-        $temporalExpressionStub = $this->getTemporalExpression();
-        $temporalExpressionStub
-            ->method('includes')
-            ->with($date)
-            ->will($this->returnValue(false));
+        $temporalExpression = new NeverOccurringTemporalExpression();
 
-        $scheduleElement = new ScheduleElement($event, $temporalExpressionStub);
+        $scheduleElement = new ScheduleElement($anyEvent, $temporalExpression);
 
-        $output = $scheduleElement->isOccuring($event, $date);
-        $this->assertFalse($output);
+        $isOccurring = $scheduleElement->isOccurring($anyEvent, $anyDate);
+
+        $this->assertThat($isOccurring, $this->equalTo(false));
     }
 
-    public function testIsOccuringWhenEventNotMatchReturnFalse()
+    /**
+     * @test
+     */
+    public function isOccurring_WhenEventNotMatch_ShouldReturnFalse()
     {
         $temporalExpressionStub = $this->getTemporalExpression();
 
-        $scheduleElement = new ScheduleElement('foo', $temporalExpressionStub);
+        $scheduleElement = new ScheduleElement('any event', $temporalExpressionStub);
 
-        $output = $scheduleElement->isOccuring('bar', new DateTime());
-        $this->assertFalse($output);
+        $isOccurring = $scheduleElement->isOccurring('any other event', new DateTime());
+
+        $this->assertThat($isOccurring, $this->equalTo(false));
     }
 
     private function getTemporalExpression()

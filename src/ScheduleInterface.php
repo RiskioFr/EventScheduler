@@ -15,7 +15,7 @@ interface ScheduleInterface
      * @param  DateTime $date
      * @return bool
      */
-    public function isOccuring($event, DateTime $date);
+    public function isOccurring($event, DateTime $date);
 
     /**
      * @param  string $event
@@ -30,7 +30,7 @@ interface ScheduleInterface
      * @param  DateTime|null $end
      * @return ScheduleElementInterface
      */
-    public function nextOccurence($event, DateTime $start, DateTime $end = null);
+    public function nextOccurrence($event, DateTime $start, DateTime $end = null);
 
     /**
      * @param  string $event
@@ -38,7 +38,7 @@ interface ScheduleInterface
      * @param  DateTime|null $start
      * @return ScheduleElementInterface
      */
-    public function previousOccurence($event, DateTime $end, DateTime $start = null);
+    public function previousOccurrence($event, DateTime $end, DateTime $start = null);
 
     /**
      * @return DateRange
