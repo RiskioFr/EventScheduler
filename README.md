@@ -8,4 +8,4 @@ The Riskio Schedule provide a way to manage recurring events
 Requirements
 ------------
 
-* PHP 5.4 or higher
+* PHP 5.5 or higher
