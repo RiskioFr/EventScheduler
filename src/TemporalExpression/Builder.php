@@ -56,11 +56,11 @@ class Builder
     /**
      * @var SplStack
      */
-    protected $stack;
+    protected $expressionStack;
 
     public function __construct()
     {
-        $this->stack = new SplStack();
+        $this->expressionStack = new SplStack();
     }
 
     /**
@@ -88,7 +88,7 @@ class Builder
      */
     public function startUnion()
     {
-        $this->stack->push(new Union());
+        $this->expressionStack->push(new Union());
 
         return $this;
     }
@@ -99,7 +99,7 @@ class Builder
      */
     public function endUnion()
     {
-        $expression = $this->stack->pop();
+        $expression = $this->expressionStack->pop();
         if (!$expression instanceof Union) {
             throw new Exception\BadMethodCallException('Another composite must be ended before');
         }
@@ -114,7 +114,7 @@ class Builder
      */
     public function startIntersect()
     {
-        $this->stack->push(new Intersection());
+        $this->expressionStack->push(new Intersection());
 
         return $this;
     }
@@ -125,7 +125,7 @@ class Builder
      */
     public function endIntersect()
     {
-        $expression = $this->stack->pop();
+        $expression = $this->expressionStack->pop();
         if (!$expression instanceof Intersection) {
             throw new Exception\BadMethodCallException('Another composite must be ended before');
         }
@@ -150,7 +150,7 @@ class Builder
      */
     public function getExpression()
     {
-        if ($this->stack->count() > 0) {
+        if ($this->expressionStack->count() > 0) {
             throw new Exception\BadMethodCallException('The expression cannot be created');
         }
 
@@ -159,12 +159,12 @@ class Builder
 
     private function aggregateExpression(TemporalExpressionInterface $expression)
     {
-        if ($this->stack->count() == 0) {
+        if ($this->expressionStack->count() == 0) {
             $this->expression = $expression;
         } else {
-            $this->stack->rewind();
+            $this->expressionStack->rewind();
 
-            $composite = $this->stack->current();
+            $composite = $this->expressionStack->current();
             $composite->addElement($expression);
         }
     }
