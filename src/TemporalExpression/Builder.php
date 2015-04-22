@@ -10,6 +10,7 @@ use Riskio\Schedule\TemporalExpression\Semester;
 use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
 use Riskio\Schedule\TemporalExpression\Trimester;
 use Riskio\Schedule\TemporalExpression\Year;
+use SplStack;
 
 /**
  * @method DayInWeek dayInWeek() dayInWeek(int $dayIndex)
@@ -53,91 +54,13 @@ class Builder
     protected $expression;
 
     /**
-     * @var array
+     * @var SplStack
      */
     protected $stack;
 
-    /**
-     * @return self
-     */
-    public function startUnion()
+    public function __construct()
     {
-        $this->stack[] = new Union();
-
-        return $this;
-    }
-
-    /**
-     * @return self
-     */
-    public function endUnion()
-    {
-        return $this->endComposite();
-    }
-
-    /**
-     * @return self
-     */
-    public function startIntersect()
-    {
-        $this->stack[] = new Intersection();
-
-        return $this;
-    }
-
-    /**
-     * @return self
-     */
-    public function endIntersect()
-    {
-        return $this->endComposite();
-    }
-
-    /**
-     * @return self
-     */
-    private function endComposite()
-    {
-        $expression = array_pop($this->stack);
-
-        if (empty($this->stack)) {
-            $this->expression = $expression;
-        } else {
-            $composite = end($this->stack);
-            $composite->addElement($expression);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return TemporalExpressionInterface
-     */
-    public function getExpression()
-    {
-        if (!empty($this->stack)) {
-            throw new Exception\BadMethodCallException('The expression cannot be created.');
-        }
-
-        return $this->expression;
-    }
-
-    public function __call($name, $arguments)
-    {
-        $expression = $this->getFactory()->createTemporalExpression($name, $arguments);
-
-        if (empty($this->stack)) {
-            $this->expression = $expression;
-            return $this;
-        }
-
-        $composite = end($this->stack);
-        $composite->addElement($expression);
-
-        $key = key($this->stack);
-        $this->stack[$key] = $composite;
-
-        return $this;
+        $this->stack = new SplStack();
     }
 
     /**
@@ -158,5 +81,91 @@ class Builder
     public function setFactory(Factory $factory)
     {
         $this->factory = $factory;
+    }
+
+    /**
+     * @return self
+     */
+    public function startUnion()
+    {
+        $this->stack->push(new Union());
+
+        return $this;
+    }
+
+    /**
+     * @return self
+     * @throws Exception\BadMethodCallException
+     */
+    public function endUnion()
+    {
+        $expression = $this->stack->pop();
+        if (!$expression instanceof Union) {
+            throw new Exception\BadMethodCallException('Another composite must be ended before');
+        }
+
+        $this->aggregateExpression($expression);
+
+        return $this;
+    }
+
+    /**
+     * @return self
+     */
+    public function startIntersect()
+    {
+        $this->stack->push(new Intersection());
+
+        return $this;
+    }
+
+    /**
+     * @return self
+     * @throws Exception\BadMethodCallException
+     */
+    public function endIntersect()
+    {
+        $expression = $this->stack->pop();
+        if (!$expression instanceof Intersection) {
+            throw new Exception\BadMethodCallException('Another composite must be ended before');
+        }
+
+        $this->aggregateExpression($expression);
+
+        return $this;
+    }
+
+    public function __call($name, $arguments)
+    {
+        $expression = $this->getFactory()->createTemporalExpression($name, $arguments);
+
+        $this->aggregateExpression($expression);
+
+        return $this;
+    }
+
+    /**
+     * @return TemporalExpressionInterface
+     * @throws Exception\BadMethodCallException
+     */
+    public function getExpression()
+    {
+        if ($this->stack->count() > 0) {
+            throw new Exception\BadMethodCallException('The expression cannot be created');
+        }
+
+        return $this->expression;
+    }
+
+    private function aggregateExpression(TemporalExpressionInterface $expression)
+    {
+        if ($this->stack->count() == 0) {
+            $this->expression = $expression;
+        } else {
+            $this->stack->rewind();
+
+            $composite = $this->stack->current();
+            $composite->addElement($expression);
+        }
     }
 }
