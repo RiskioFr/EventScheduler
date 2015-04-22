@@ -52,15 +52,78 @@ $temporalExpression = new TemporalExpression();
 $isOccuring = $temporalExpression->isOccuring('event', new Datetime('NOW'));
 ```
 
+#### Default temporal expressions
+
 By default, there are some temporal expressions that you can use to define event recurrence.
 
-|Name|Behaviour|Parameter|Possible values|
-|----|---------|:-------:|:-------------:|
-|[DayInWeek](src/TemporalExpression/DayInWeek.php)||day|1-7|
-|[DayInMonth](src/TemporalExpression/DayInMonth.php)||day|1-31|
-|[MonthInYear](src/TemporalExpression/MonthInYear.php)||month|1-12|
-|[Semester](src/TemporalExpression/Semester.php)||semester|1-2|
-|[Trimester](src/TemporalExpression/Trimester.php)||trimester|1-4|
+##### DayInWeek
+
+- class: Riskio\Schedule\TemporalExpression\DayInWeek
+- parameters: day (1-7)
+
+###### Examples
+
+```php
+use Riskio\Schedule\TemporalExpression\DayInWeek;
+
+$expression = new DayInWeek(DayInWeek::MONDAY);
+
+$expression = DayInWeek::monday();
+```
+
+##### DayInMonth
+
+- class: Riskio\Schedule\TemporalExpression\DayInMonth
+- parameters: day (1-31)
+
+###### Example
+
+```php
+use Riskio\Schedule\TemporalExpression\DayInMonth;
+
+$expression = new DayInMonth(15);
+```
+
+##### MonthInYear
+
+- class: Riskio\Schedule\TemporalExpression\MonthInYear
+- parameters: month (1-12)
+
+###### Examples
+
+```php
+use Riskio\Schedule\TemporalExpression\MonthInYear;
+
+$expression = new MonthInYear(MonthInYear::JANUARY);
+
+$expression = MonthInYear::january();
+```
+
+##### Semester
+
+- class: Riskio\Schedule\TemporalExpression\Semester
+- parameters: semester (1-2)
+
+###### Example
+
+```php
+use Riskio\Schedule\TemporalExpression\Semester;
+
+$expression = new Semester(1);
+```
+
+##### Trimester
+
+- class: Riskio\Schedule\TemporalExpression\Trimester
+- parameters: trimester (1-4)
+
+###### Example
+
+```php
+use Riskio\Schedule\TemporalExpression\Trimester;
+
+$expression = new Trimester(1);
+```
 
 #### Composite Temporal Expressions
 
@@ -104,3 +167,7 @@ $isOccuring = $difference->isOccuring('event', $date);
 #### Custom Temporal Expressions
 
 You can create temporal expressions that match your special needs by implementing `Riskio\Schedule\TemporalExpression\TemporalExpressionInterface`.
+
+### Cookbook
+
+TODO
