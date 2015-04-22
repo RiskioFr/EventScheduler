@@ -36,7 +36,7 @@ class Factory
 
     /**
      * @param  string $name
-     * @return self
+     * @return bool
      */
     public function hasTemporalExpression($name)
     {
