@@ -10,19 +10,28 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     {
         $builder = new Builder();
 
-        $temporalExpression = $builder->union(
-            // tous les lundi du mois de mars
-            $builder->intersect($builder->dayInWeek(Builder::MONDAY), $builder->monthInYear(Builder::MARCH)),
+        $temporalExpression = $builder
+            ->startUnion()
+                // tous les lundi du mois de mars
+                ->startIntersect()
+                    ->dayInWeek(Builder::MONDAY)
+                    ->monthInYear(Builder::MARCH)
+                ->endIntersect()
 
-            // tous les jours du mois de mai
-            $builder->monthInYear(Builder::MAY),
+                // tous les jours du mois de mai
+                ->monthInYear(Builder::MAY)
 
-            // tous les jours de l'année 2016
-            $builder->year(2016),
+                // tous les jours de l'année 2016
+                ->year(2016)
 
-            // tous les jours du 1er semestre 2017
-            $builder->intersect($builder->semester(1), $builder->year(2017))
-        );
+                // tous les jours du 1er semestre 2017
+                ->startIntersect()
+                    ->semester(1)
+                    ->year(2017)
+                ->endIntersect()
+
+            ->endUnion()
+            ->getExpression();
 
         $this->assertInstanceOf(TemporalExpressionInterface::class, $temporalExpression);
 

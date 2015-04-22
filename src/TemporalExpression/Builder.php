@@ -43,90 +43,120 @@ class Builder
     const SATURDAY = 6;
 
     /**
-     * @var array
+     * @var Factory
      */
-    protected $temporalExpressions = [
-        'dayInMonth'  => DayInMonth::class,
-        'dayInWeek'   => DayInWeek::class,
-        'monthInYear' => MonthInYear::class,
-        'semester'    => Semester::class,
-        'trimester'   => Trimester::class,
-        'year'        => Year::class,
-    ];
+    protected $factory;
 
     /**
-     * @param  string $name
-     * @param  TemporalExpressionInterface $expression
+     * @var TemporalExpressionInterface
+     */
+    protected $expression;
+
+    /**
+     * @var array
+     */
+    protected $stack;
+
+    /**
      * @return self
      */
-    public function addTemporalExpression($name, TemporalExpressionInterface $expression)
+    public function startUnion()
     {
-        if ($this->hasTemporalExpression($name)) {
-            throw new Exception\UnexpectedValueException(sprintf(
-                'The temporal expression "%s" already exists',
-                $name
-            ));
-        }
+        $this->stack[] = new Union();
 
-        $this->temporalExpressions[$name] = $expression;
         return $this;
     }
 
     /**
-     * @param  string $name
      * @return self
      */
-    public function hasTemporalExpression($name)
+    public function endUnion()
     {
-        return array_key_exists($name, $this->temporalExpressions);
+        return $this->endComposite();
     }
 
     /**
-     * @return Union
+     * @return self
      */
-    public function union()
+    public function startIntersect()
     {
-        $union = new Union();
+        $this->stack[] = new Intersection();
 
-        $expressions = func_get_args();
-        foreach ($expressions as $expression) {
-            $union->addElement($expression);
-        }
-
-        return $union;
+        return $this;
     }
 
     /**
-     * @return Intersection
+     * @return self
      */
-    public function intersect()
+    public function endIntersect()
     {
-        $intersection = new Intersection();
+        return $this->endComposite();
+    }
 
-        $expressions = func_get_args();
-        foreach ($expressions as $expression) {
-            $intersection->addElement($expression);
+    /**
+     * @return self
+     */
+    private function endComposite()
+    {
+        $expression = array_pop($this->stack);
+
+        if (empty($this->stack)) {
+            $this->expression = $expression;
+        } else {
+            $composite = end($this->stack);
+            $composite->addElement($expression);
         }
 
-        return $intersection;
+        return $this;
+    }
+
+    /**
+     * @return TemporalExpressionInterface
+     */
+    public function getExpression()
+    {
+        if (!empty($this->stack)) {
+            throw new Exception\BadMethodCallException('The expression cannot be created.');
+        }
+
+        return $this->expression;
     }
 
     public function __call($name, $arguments)
     {
-        return $this->createTemporalExpression($name, $arguments);
-    }
+        $expression = $this->getFactory()->createTemporalExpression($name, $arguments);
 
-    private function createTemporalExpression($name, array $params = [])
-    {
-        if (!$this->hasTemporalExpression($name)) {
-            throw new Exception\UnexpectedValueException(sprintf(
-                'Temporal expression "%s" does not exists',
-                $name
-            ));
+        if (empty($this->stack)) {
+            $this->expression = $expression;
+            return $this;
         }
 
-        $class = new \ReflectionClass($this->temporalExpressions[$name]);
+        $composite = end($this->stack);
+        $composite->addElement($expression);
 
-        return $class->newInstanceArgs($params);
+        $key = key($this->stack);
+        $this->stack[$key] = $composite;
+
+        return $this;
+    }
+
+    /**
+     * @return Factory
+     */
+    public function getFactory()
+    {
+        if (!$this->factory) {
+            $this->factory = new Factory();
+        }
+
+        return $this->factory;
+    }
+
+    /**
+     * @param Factory $factory
+     */
+    public function setFactory(Factory $factory)
+    {
+        $this->factory = $factory;
     }
 }
