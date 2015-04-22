@@ -5,6 +5,14 @@ use DateTime;
 
 class DayInWeek implements TemporalExpressionInterface
 {
+    const MONDAY = 1;
+    const TUESDAY = 2;
+    const WEDNESDAY = 3;
+    const THURSDAY = 4;
+    const FRIDAY = 5;
+    const SATURDAY = 6;
+    const SUNDAY = 7;
+
     /**
      * @var int
      */
@@ -34,5 +42,61 @@ class DayInWeek implements TemporalExpressionInterface
     public function includes(DateTime $date)
     {
         return $date->format('N') == $this->dayIndex;
+    }
+
+    /**
+     * @return self
+     */
+    public static function monday()
+    {
+        return new self(self::MONDAY);
+    }
+
+    /**
+     * @return self
+     */
+    public static function tuesday()
+    {
+        return new self(self::TUESDAY);
+    }
+
+    /**
+     * @return self
+     */
+    public static function wednesday()
+    {
+        return new self(self::WEDNESDAY);
+    }
+
+    /**
+     * @return self
+     */
+    public static function thursday()
+    {
+        return new self(self::THURSDAY);
+    }
+
+    /**
+     * @return self
+     */
+    public static function friday()
+    {
+        return new self(self::FRIDAY);
+    }
+
+    /**
+     * @return self
+     */
+    public static function saturday()
+    {
+        return new self(self::SATURDAY);
+    }
+
+    /**
+     * @return self
+     */
+    public static function sunday()
+    {
+        return new self(self::SUNDAY);
     }
 }
