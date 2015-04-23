@@ -49,7 +49,7 @@ check if an event occur or not.
 ```php
 $temporalExpression = new TemporalExpression();
 
-$isOccuring = $temporalExpression->isOccuring('event', new Datetime('NOW'));
+$isOccuring = $temporalExpression->isOccuring('event', $date);
 ```
 
 #### Default temporal expressions
@@ -132,36 +132,63 @@ that allow to build combinaisons of previous ones.
 
 ##### Intersection
 
+An event is occuring at a given date if it lies within all temporal expressions.
+
+###### Example
+
 ```php
+use DateTime;
 use Riskio\Schedule\TemporalExpression\Collection\Intersection;
+use Riskio\Schedule\TemporalExpression\DayInMonth;
+use Riskio\Schedule\TemporalExpression\MonthInYear;
 
 $intersection = new Intersection();
-$intersection->addElement($firstTemporalExpression);
-$intersection->addElement($secondTemporalExpression);
+$intersection->addElement(new DayInMonth(15));
+$intersection->addElement(MonthInYear::january());
 
-$isOccuring = $intersection->isOccuring('event', $date);
+$isOccuring = $intersection->isOccuring('event', new DateTime('2015-01-15')); // returns true
+$isOccuring = $intersection->isOccuring('event', new DateTime('2015-01-16')); // returns false
+$isOccuring = $intersection->isOccuring('event', new DateTime('2015-02-15')); // returns false
 ```
 
 ##### Union
 
+An event is occuring at a given date if it lies within at least one temporal expression.
+
+###### Example
+
 ```php
-use Riskio\Schedule\TemporalExpression\Collection\Intersection;
+use DateTime;
+use Riskio\Schedule\TemporalExpression\Collection\Union;
+use Riskio\Schedule\TemporalExpression\DayInMonth;
+use Riskio\Schedule\TemporalExpression\MonthInYear;
 
 $union = new Union();
-$union->addElement($firstTemporalExpression);
-$union->addElement($secondTemporalExpression);
+$intersection->addElement(new DayInMonth(15));
+$intersection->addElement(MonthInYear::january());
 
-$isOccuring = $union->isOccuring('event', $date);
+$isOccuring = $intersection->isOccuring('event', new DateTime('2015-01-15')); // returns true
+$isOccuring = $intersection->isOccuring('event', new DateTime('2015-01-16')); // returns false
+$isOccuring = $intersection->isOccuring('event', new DateTime('2015-02-15')); // returns true
 ```
 
 ##### Difference
 
+An event is occuring at a given date if it lies within first temporal expression and not within the second one.
+
+###### Example
+
 ```php
+use DateTime;
 use Riskio\Schedule\TemporalExpression\Difference;
+use Riskio\Schedule\TemporalExpression\DayInMonth;
+use Riskio\Schedule\TemporalExpression\MonthInYear;
 
-$difference = new Difference($includedTemporalExpression, $excludedTemporalExpression);
+$difference = new Difference(MonthInYear::january(), new DayInMonth(15));
 
-$isOccuring = $difference->isOccuring('event', $date);
+$isOccuring = $intersection->isOccuring('event', new DateTime('2015-01-15')); // returns false
+$isOccuring = $intersection->isOccuring('event', new DateTime('2015-01-16')); // returns true
+$isOccuring = $intersection->isOccuring('event', new DateTime('2015-02-15')); // returns false
 ```
 
 #### Custom Temporal Expressions
@@ -169,5 +196,7 @@ $isOccuring = $difference->isOccuring('event', $date);
 You can create temporal expressions that match your special needs by implementing `Riskio\Schedule\TemporalExpression\TemporalExpressionInterface`.
 
 ### Cookbook
+
+After detailing the different temporal expressions available, consider a concrete case with complex temporal expression that could be used in real life.
 
 TODO
