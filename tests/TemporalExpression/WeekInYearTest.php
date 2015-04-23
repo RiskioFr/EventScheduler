@@ -2,7 +2,6 @@
 namespace Riskio\ScheduleTest\TemporalExpression;
 
 use DateTime;
-use Riskio\Schedule\TemporalExpression\Exception;
 use Riskio\Schedule\TemporalExpression\WeekInYear;
 
 class WeekInYearTest extends \PHPUnit_Framework_TestCase
@@ -19,20 +18,19 @@ class WeekInYearTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider getInvalidDayDataProvider
+     * @expectedException \Riskio\Schedule\TemporalExpression\Exception\InvalidArgumentException
      */
     public function constructor_UsingInvalidWeekValue_ShouldThrowAnException($day)
     {
-        $this->setExpectedException(Exception\InvalidArgumentException::class);
-        $temporalExpression = new WeekInYear($day);
+        new WeekInYear($day);
     }
 
     /**
      * @test
      */
-    public function includesDate_WhenProvidedDateAtSameWeek_ShouldReturnTrue()
+    public function includes_WhenProvidedDateAtSameWeek_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-12');
-
         $temporalExpression = new WeekInYear($date->format('W'));
 
         $includes = $temporalExpression->includes($date);
@@ -43,10 +41,9 @@ class WeekInYearTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function includesDate_WhenProvidedDateAtDifferentWeek_ShouldReturnFalse()
+    public function includes_WhenProvidedDateAtDifferentWeek_ShouldReturnFalse()
     {
         $date = new DateTime('2015-01-01');
-
         $temporalExpression = new WeekInYear(15);
 
         $includes = $temporalExpression->includes($date);
