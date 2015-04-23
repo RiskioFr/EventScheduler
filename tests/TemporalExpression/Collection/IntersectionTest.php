@@ -21,7 +21,7 @@ class IntersectionTest extends \PHPUnit_Framework_TestCase
      * @test
      * @dataProvider getDataProvider
      */
-    public function includesDateAccordingToDataProviderValues($first, $second, $expected)
+    public function includes_UsingDatesFromDataProvider_ShouldMatchExpectedValue($first, $second, $expected)
     {
         $anyDate = new DateTime();
 

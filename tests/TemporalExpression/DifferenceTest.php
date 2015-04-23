@@ -21,7 +21,7 @@ class DifferenceTest extends \PHPUnit_Framework_TestCase
      * @test
      * @dataProvider getDataProvider
      */
-    public function includesDateAccordingToDataProviderValues($included, $excluded, $expected)
+    public function includes_UsingDatesFromDataProvider_ShouldMatchExpectedValue($included, $excluded, $expected)
     {
         $anyDate = new DateTime();
 

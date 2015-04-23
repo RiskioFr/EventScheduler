@@ -2,7 +2,6 @@
 namespace Riskio\ScheduleTest\TemporalExpression;
 
 use DateTime;
-use Riskio\Schedule\TemporalExpression\Exception;
 use Riskio\Schedule\TemporalExpression\DayInWeek;
 
 class DayInWeekTest extends \PHPUnit_Framework_TestCase
@@ -19,20 +18,19 @@ class DayInWeekTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider getInvalidDayDataProvider
+     * @expectedException \Riskio\Schedule\TemporalExpression\Exception\InvalidArgumentException
      */
     public function constructor_UsingInvalidWeekDayValue_ShouldThrowAnException($day)
     {
-        $this->setExpectedException(Exception\InvalidArgumentException::class);
-        $temporalExpression = new DayInWeek($day);
+        new DayInWeek($day);
     }
 
     /**
      * @test
      */
-    public function includesDate_WhenProvidedDateAtSameWeekDay_ShouldReturnTrue()
+    public function includes_WhenProvidedDateAtSameWeekDay_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-12');
-
         $temporalExpression = new DayInWeek($date->format('N'));
 
         $includes = $temporalExpression->includes($date);
@@ -43,10 +41,9 @@ class DayInWeekTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function includesDate_WhenProvidedDateAtDifferentWeekDay_ShouldReturnFalse()
+    public function includes_WhenProvidedDateAtDifferentWeekDay_ShouldReturnFalse()
     {
         $date = new DateTime('2015-04-12');
-
         $temporalExpression = new DayInWeek(5);
 
         $includes = $temporalExpression->includes($date);
