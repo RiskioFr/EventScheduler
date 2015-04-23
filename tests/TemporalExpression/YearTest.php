@@ -19,7 +19,7 @@ class YearTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function includesDate_WhenProvidedDateAtSameMonthDay_ShouldReturnTrue()
+    public function includesDate_WhenProvidedDateAtSameYear_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-10');
         $year = (int) $date->format('Y');
@@ -34,7 +34,7 @@ class YearTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function includesDate_WhenProvidedDateAtDifferentMonthDay_ShouldReturnFalse()
+    public function includesDate_WhenProvidedDateAtDifferentYear_ShouldReturnFalse()
     {
         $date = new DateTime('2015-04-10');
 

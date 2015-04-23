@@ -29,7 +29,7 @@ class MonthInYearTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function includesDate_WhenProvidedDateAtSameMonthDay_ShouldReturnTrue()
+    public function includesDate_WhenProvidedDateAtSameMonth_ShouldReturnTrue()
     {
         $date  = new DateTime('2015-04-10');
         $month = (int) $date->format('m');
@@ -44,7 +44,7 @@ class MonthInYearTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function includesDate_WhenProvidedDateAtDifferentMonthDay_ShouldReturnFalse()
+    public function includesDate_WhenProvidedDateAtDifferentMonth_ShouldReturnFalse()
     {
         $date = new DateTime('2015-04-10');
 

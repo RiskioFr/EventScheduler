@@ -20,7 +20,7 @@ class DayInWeekTest extends \PHPUnit_Framework_TestCase
      * @test
      * @dataProvider getInvalidDayDataProvider
      */
-    public function constructor_UsingInvalidDayValue_ShouldThrowAnException($day)
+    public function constructor_UsingInvalidWeekDayValue_ShouldThrowAnException($day)
     {
         $this->setExpectedException(Exception\InvalidArgumentException::class);
         $temporalExpression = new DayInWeek($day);
@@ -29,7 +29,7 @@ class DayInWeekTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function includesDate_WhenProvidedDateAtSameMonthDay_ShouldReturnTrue()
+    public function includesDate_WhenProvidedDateAtSameWeekDay_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-12');
 
@@ -43,7 +43,7 @@ class DayInWeekTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function includesDate_WhenProvidedDateAtDifferentMonthDay_ShouldReturnFalse()
+    public function includesDate_WhenProvidedDateAtDifferentWeekDay_ShouldReturnFalse()
     {
         $date = new DateTime('2015-04-12');
 
