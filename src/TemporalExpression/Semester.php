@@ -21,7 +21,7 @@ class Semester implements TemporalExpressionInterface
         $filtered = filter_var($semester, FILTER_VALIDATE_INT, [
             'options' => ['min_range' => 1, 'max_range' => 2],
         ]);
-        if (!$filtered) {
+        if (false === $filtered) {
             throw new Exception\InvalidArgumentException(
                 'Semester must be an integer value among 1 or 2 according to'
                 . ' first and second semesters of the year'

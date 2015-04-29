@@ -18,7 +18,7 @@ class WeekInYear implements TemporalExpressionInterface
         $filtered = filter_var($weekNumber, FILTER_VALIDATE_INT, [
             'options' => ['min_range' => 1, 'max_range' => 53],
         ]);
-        if (!$filtered) {
+        if (false === $filtered) {
             throw new Exception\InvalidArgumentException(
                 'Week must be an integer value between 1 and 53'
             );

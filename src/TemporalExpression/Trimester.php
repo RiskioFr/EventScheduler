@@ -23,7 +23,7 @@ class Trimester implements TemporalExpressionInterface
         $filtered = filter_var($trimester, FILTER_VALIDATE_INT, [
             'options' => ['min_range' => 1, 'max_range' => 4],
         ]);
-        if (!$filtered) {
+        if (false === $filtered) {
             throw new Exception\InvalidArgumentException(
                 'Trimester must be an integer value among 1, 2, 3 or 4 according to'
                 . ' first, second, third and fourth trimesters of the year'
