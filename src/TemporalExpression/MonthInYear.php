@@ -31,7 +31,7 @@ class MonthInYear implements TemporalExpressionInterface
         $filtered = filter_var($monthIndex, FILTER_VALIDATE_INT, [
             'options' => ['min_range' => 1, 'max_range' => 12],
         ]);
-        if (!$filtered) {
+        if (false === $filtered) {
             throw new Exception\InvalidArgumentException(
                 'Month must be an integer value be between 1 and 12'
             );

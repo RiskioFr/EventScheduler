@@ -26,7 +26,7 @@ class DayInWeek implements TemporalExpressionInterface
         $filtered = filter_var($dayIndex, FILTER_VALIDATE_INT, [
             'options' => ['min_range' => 1, 'max_range' => 7],
         ]);
-        if (!$filtered) {
+        if (false === $filtered) {
             throw new Exception\InvalidArgumentException(
                 'Day must be an integer value between 1 and 7'
             );
