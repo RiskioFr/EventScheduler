@@ -73,9 +73,9 @@ class TrimesterTest extends \PHPUnit_Framework_TestCase
 
     private function includesDate(DateTime $date, $trimester, $expected)
     {
-        $temporalExpression = new Trimester($trimester);
+        $expr = new Trimester($trimester);
 
-        $output = $temporalExpression->includes($date);
+        $output = $expr->includes($date);
 
         $this->assertSame($expected, $output);
     }

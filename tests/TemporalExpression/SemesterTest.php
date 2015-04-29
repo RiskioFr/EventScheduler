@@ -69,9 +69,9 @@ class SemesterTest extends \PHPUnit_Framework_TestCase
 
     private function includesDate(DateTime $date, $semester, $expected)
     {
-        $temporalExpression = new Semester($semester);
+        $expr = new Semester($semester);
 
-        $output = $temporalExpression->includes($date);
+        $output = $expr->includes($date);
 
         $this->assertSame($expected, $output);
     }

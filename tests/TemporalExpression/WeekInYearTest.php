@@ -31,9 +31,9 @@ class WeekInYearTest extends \PHPUnit_Framework_TestCase
     public function includes_GivenDateWithMatchingWeekNumber_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-12');
-        $temporalExpression = new WeekInYear($date->format('W'));
+        $expr = new WeekInYear($date->format('W'));
 
-        $isIncluded = $temporalExpression->includes($date);
+        $isIncluded = $expr->includes($date);
 
         $this->assertThat($isIncluded, $this->equalTo(true));
     }
@@ -44,9 +44,9 @@ class WeekInYearTest extends \PHPUnit_Framework_TestCase
     public function includes_GivenDateAtDifferentWeek_ShouldReturnFalse()
     {
         $date = new DateTime('2015-01-01');
-        $temporalExpression = new WeekInYear(15);
+        $expr = new WeekInYear(15);
 
-        $isIncluded = $temporalExpression->includes($date);
+        $isIncluded = $expr->includes($date);
 
         $this->assertThat($isIncluded, $this->equalTo(false));
     }

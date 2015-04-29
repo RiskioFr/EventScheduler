@@ -12,9 +12,9 @@ class UntilTest extends \PHPUnit_Framework_TestCase
     public function includes_GivenOlderDate_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-12');
-        $temporalExpression = new Until($date);
+        $expr = new Until($date);
 
-        $isIncluded = $temporalExpression->includes(new DateTime('2015-04-11'));
+        $isIncluded = $expr->includes(new DateTime('2015-04-11'));
 
         $this->assertThat($isIncluded, $this->equalTo(true));
     }
@@ -25,9 +25,9 @@ class UntilTest extends \PHPUnit_Framework_TestCase
     public function includes_GivenMoreRecentDate_ShouldReturnFalse()
     {
         $date = new DateTime('2015-04-12');
-        $temporalExpression = new Until($date);
+        $expr = new Until($date);
 
-        $isIncluded = $temporalExpression->includes(new DateTime('2015-04-13'));
+        $isIncluded = $expr->includes(new DateTime('2015-04-13'));
 
         $this->assertThat($isIncluded, $this->equalTo(false));
     }

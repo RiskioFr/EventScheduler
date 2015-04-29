@@ -31,12 +31,12 @@ class DifferenceTest extends \PHPUnit_Framework_TestCase
         $excludedExpr = $this->prophesize(TemporalExpressionInterface::class);
         $excludedExpr->includes($anyDate)->willReturn($excluded);
 
-        $temporalExpression = new Difference(
+        $expr = new Difference(
             $includedExpr->reveal(),
             $excludedExpr->reveal()
         );
 
-        $isIncluded = $temporalExpression->includes($anyDate);
+        $isIncluded = $expr->includes($anyDate);
 
         $this->assertSame($expected, $isIncluded);
     }

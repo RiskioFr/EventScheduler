@@ -31,9 +31,9 @@ class DayInWeekTest extends \PHPUnit_Framework_TestCase
     public function includes_WhenProvidedDateAtSameWeekDay_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-12');
-        $temporalExpression = new DayInWeek($date->format('N'));
+        $expr = new DayInWeek($date->format('N'));
 
-        $isIncluded = $temporalExpression->includes($date);
+        $isIncluded = $expr->includes($date);
 
         $this->assertThat($isIncluded, $this->equalTo(true));
     }
@@ -44,9 +44,9 @@ class DayInWeekTest extends \PHPUnit_Framework_TestCase
     public function includes_WhenProvidedDateAtDifferentWeekDay_ShouldReturnFalse()
     {
         $date = new DateTime('2015-04-12');
-        $temporalExpression = new DayInWeek(5);
+        $expr = new DayInWeek(5);
 
-        $isIncluded = $temporalExpression->includes($date);
+        $isIncluded = $expr->includes($date);
 
         $this->assertThat($isIncluded, $this->equalTo(false));
     }

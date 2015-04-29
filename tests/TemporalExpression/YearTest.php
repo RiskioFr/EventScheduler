@@ -22,9 +22,9 @@ class YearTest extends \PHPUnit_Framework_TestCase
     {
         $date = new DateTime('2015-04-10');
         $year = (int) $date->format('Y');
-        $temporalExpression = new Year($year);
+        $expr = new Year($year);
 
-        $isIncluded = $temporalExpression->includes($date);
+        $isIncluded = $expr->includes($date);
 
         $this->assertThat($isIncluded, $this->equalTo(true));
     }
@@ -35,9 +35,9 @@ class YearTest extends \PHPUnit_Framework_TestCase
     public function includes_WhenProvidedDateAtDifferentYear_ShouldReturnFalse()
     {
         $date = new DateTime('2015-04-10');
-        $temporalExpression = new Year(2016);
+        $expr = new Year(2016);
 
-        $isIncluded = $temporalExpression->includes($date);
+        $isIncluded = $expr->includes($date);
 
         $this->assertThat($isIncluded, $this->equalTo(false));
     }

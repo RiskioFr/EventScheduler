@@ -31,9 +31,9 @@ class DayInMonthTest extends \PHPUnit_Framework_TestCase
     public function includes_WhenProvidedDateAtSameMonthDay_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-12');
-        $temporalExpression = new DayInMonth($date->format('j'));
+        $expr = new DayInMonth($date->format('j'));
 
-        $isIncluded = $temporalExpression->includes($date);
+        $isIncluded = $expr->includes($date);
 
         $this->assertThat($isIncluded, $this->equalTo(true));
     }
@@ -44,9 +44,9 @@ class DayInMonthTest extends \PHPUnit_Framework_TestCase
     public function includes_WhenProvidedDateAtDifferentMonthDay_ShouldReturnFalse()
     {
         $date = new DateTime('2015-04-12');
-        $temporalExpression = new DayInMonth(14);
+        $expr = new DayInMonth(14);
 
-        $isIncluded = $temporalExpression->includes($date);
+        $isIncluded = $expr->includes($date);
 
         $this->assertThat($isIncluded, $this->equalTo(false));
     }

@@ -17,14 +17,14 @@ class ScheduleElementTest extends \PHPUnit_Framework_TestCase
     {
         $invalidEvent = 123;
 
-        $temporalExpressionStub = $this->getTemporalExpression();
+        $exprStub = $this->getTemporalExpression();
 
         $this->setExpectedException(
             InvalidArgumentException::class,
             sprintf('Event must be a string value; received "%s"', $invalidEvent)
         );
 
-        $scheduleElement = new ScheduleElement($invalidEvent, $temporalExpressionStub);
+        $scheduleElement = new ScheduleElement($invalidEvent, $exprStub);
     }
 
     /**
@@ -35,9 +35,9 @@ class ScheduleElementTest extends \PHPUnit_Framework_TestCase
         $anyEvent = 'any event';
         $anyDate  = new DateTime();
 
-        $temporalExpression = new AlwaysOccurringTemporalExpression();
+        $expr = new AlwaysOccurringTemporalExpression();
 
-        $scheduleElement = new ScheduleElement($anyEvent, $temporalExpression);
+        $scheduleElement = new ScheduleElement($anyEvent, $expr);
 
         $isOccurring = $scheduleElement->isOccurring($anyEvent, $anyDate);
 
@@ -52,9 +52,9 @@ class ScheduleElementTest extends \PHPUnit_Framework_TestCase
         $anyEvent = 'any event';
         $anyDate  = new DateTime();
 
-        $temporalExpression = new NeverOccurringTemporalExpression();
+        $expr = new NeverOccurringTemporalExpression();
 
-        $scheduleElement = new ScheduleElement($anyEvent, $temporalExpression);
+        $scheduleElement = new ScheduleElement($anyEvent, $expr);
 
         $isOccurring = $scheduleElement->isOccurring($anyEvent, $anyDate);
 
@@ -66,9 +66,9 @@ class ScheduleElementTest extends \PHPUnit_Framework_TestCase
      */
     public function isOccurring_WhenEventNotMatch_ShouldReturnFalse()
     {
-        $temporalExpressionStub = $this->getTemporalExpression();
+        $exprStub = $this->getTemporalExpression();
 
-        $scheduleElement = new ScheduleElement('any event', $temporalExpressionStub);
+        $scheduleElement = new ScheduleElement('any event', $exprStub);
 
         $isOccurring = $scheduleElement->isOccurring('any other event', new DateTime());
 

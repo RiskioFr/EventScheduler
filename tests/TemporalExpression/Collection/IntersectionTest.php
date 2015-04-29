@@ -25,17 +25,17 @@ class IntersectionTest extends \PHPUnit_Framework_TestCase
     {
         $anyDate = new DateTime();
 
-        $temporalExpression = new Intersection();
+        $expr = new Intersection();
 
         $firstExpr = $this->prophesize(TemporalExpressionInterface::class);
         $firstExpr->includes($anyDate)->willReturn($first);
-        $temporalExpression->addElement($firstExpr->reveal());
+        $expr->addElement($firstExpr->reveal());
 
         $secondExpr = $this->prophesize(TemporalExpressionInterface::class);
         $secondExpr->includes($anyDate)->willReturn($second);
-        $temporalExpression->addElement($secondExpr->reveal());
+        $expr->addElement($secondExpr->reveal());
 
-        $isIncluded = $temporalExpression->includes($anyDate);
+        $isIncluded = $expr->includes($anyDate);
 
         $this->assertSame($expected, $isIncluded);
     }
