@@ -14,9 +14,9 @@ class UntilTest extends \PHPUnit_Framework_TestCase
         $date = new DateTime('2015-04-12');
         $temporalExpression = new Until($date);
 
-        $includes = $temporalExpression->includes(new DateTime('2015-04-11'));
+        $isIncluded = $temporalExpression->includes(new DateTime('2015-04-11'));
 
-        $this->assertThat($includes, $this->equalTo(true));
+        $this->assertThat($isIncluded, $this->equalTo(true));
     }
 
     /**
@@ -27,8 +27,8 @@ class UntilTest extends \PHPUnit_Framework_TestCase
         $date = new DateTime('2015-04-12');
         $temporalExpression = new Until($date);
 
-        $includes = $temporalExpression->includes(new DateTime('2015-04-13'));
+        $isIncluded = $temporalExpression->includes(new DateTime('2015-04-13'));
 
-        $this->assertThat($includes, $this->equalTo(false));
+        $this->assertThat($isIncluded, $this->equalTo(false));
     }
 }

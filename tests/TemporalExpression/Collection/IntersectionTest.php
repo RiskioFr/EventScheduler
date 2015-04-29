@@ -35,8 +35,8 @@ class IntersectionTest extends \PHPUnit_Framework_TestCase
         $secondExpr->includes($anyDate)->willReturn($second);
         $temporalExpression->addElement($secondExpr->reveal());
 
-        $includes = $temporalExpression->includes($anyDate);
+        $isIncluded = $temporalExpression->includes($anyDate);
 
-        $this->assertSame($expected, $includes);
+        $this->assertSame($expected, $isIncluded);
     }
 }

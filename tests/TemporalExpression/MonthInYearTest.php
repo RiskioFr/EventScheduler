@@ -34,9 +34,9 @@ class MonthInYearTest extends \PHPUnit_Framework_TestCase
         $month = (int) $date->format('m');
         $temporalExpression = new MonthInYear($month);
 
-        $includes = $temporalExpression->includes($date);
+        $isIncluded = $temporalExpression->includes($date);
 
-        $this->assertThat($includes, $this->equalTo(true));
+        $this->assertThat($isIncluded, $this->equalTo(true));
     }
 
     /**
@@ -47,8 +47,8 @@ class MonthInYearTest extends \PHPUnit_Framework_TestCase
         $date = new DateTime('2015-04-10');
         $temporalExpression = new MonthInYear(11);
 
-        $includes = $temporalExpression->includes($date);
+        $isIncluded = $temporalExpression->includes($date);
 
-        $this->assertThat($includes, $this->equalTo(false));
+        $this->assertThat($isIncluded, $this->equalTo(false));
     }
 }

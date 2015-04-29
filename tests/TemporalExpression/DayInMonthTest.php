@@ -33,9 +33,9 @@ class DayInMonthTest extends \PHPUnit_Framework_TestCase
         $date = new DateTime('2015-04-12');
         $temporalExpression = new DayInMonth($date->format('j'));
 
-        $includes = $temporalExpression->includes($date);
+        $isIncluded = $temporalExpression->includes($date);
 
-        $this->assertThat($includes, $this->equalTo(true));
+        $this->assertThat($isIncluded, $this->equalTo(true));
     }
 
     /**
@@ -46,8 +46,8 @@ class DayInMonthTest extends \PHPUnit_Framework_TestCase
         $date = new DateTime('2015-04-12');
         $temporalExpression = new DayInMonth(14);
 
-        $includes = $temporalExpression->includes($date);
+        $isIncluded = $temporalExpression->includes($date);
 
-        $this->assertThat($includes, $this->equalTo(false));
+        $this->assertThat($isIncluded, $this->equalTo(false));
     }
 }

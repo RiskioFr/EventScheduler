@@ -36,8 +36,8 @@ class DifferenceTest extends \PHPUnit_Framework_TestCase
             $excludedExpr->reveal()
         );
 
-        $includes = $temporalExpression->includes($anyDate);
+        $isIncluded = $temporalExpression->includes($anyDate);
 
-        $this->assertSame($expected, $includes);
+        $this->assertSame($expected, $isIncluded);
     }
 }
