@@ -8,14 +8,14 @@ class WeekInYear implements TemporalExpressionInterface
     /**
      * @var int
      */
-    protected $weekIndex;
+    protected $weekNumber;
 
     /**
-     * @param int $weekIndex
+     * @param int $weekNumber
      */
-    public function __construct($weekIndex)
+    public function __construct($weekNumber)
     {
-        $filtered = filter_var($weekIndex, FILTER_VALIDATE_INT, [
+        $filtered = filter_var($weekNumber, FILTER_VALIDATE_INT, [
             'options' => ['min_range' => 1, 'max_range' => 53],
         ]);
         if (!$filtered) {
@@ -24,7 +24,7 @@ class WeekInYear implements TemporalExpressionInterface
             );
         }
 
-        $this->weekIndex = $weekIndex;
+        $this->weekNumber = $weekNumber;
     }
 
     /**
@@ -33,6 +33,6 @@ class WeekInYear implements TemporalExpressionInterface
      */
     public function includes(DateTime $date)
     {
-        return $date->format('W') == $this->weekIndex;
+        return $date->format('W') == $this->weekNumber;
     }
 }
