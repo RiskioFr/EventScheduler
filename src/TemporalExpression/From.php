@@ -24,6 +24,6 @@ class From implements TemporalExpressionInterface
      */
     public function includes(DateTime $date)
     {
-        return $date > $this->date;
+        return $date >= $this->date;
     }
 }
