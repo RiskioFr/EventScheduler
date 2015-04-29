@@ -9,7 +9,7 @@ class FromTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function includes_GivenOlderDate_ShouldReturnTrue()
+    public function includes_GivenMoreRecentDate_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-12');
         $temporalExpression = new From($date);
@@ -22,7 +22,7 @@ class FromTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function includes_GivenMoreRecentDate_ShouldReturnFalse()
+    public function includes_GivenOlderDate_ShouldReturnFalse()
     {
         $date = new DateTime('2015-04-12');
         $temporalExpression = new From($date);
