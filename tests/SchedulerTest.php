@@ -1,17 +1,17 @@
 <?php
-namespace Riskio\ScheduleTest;
+namespace Riskio\EventSchedulerTest;
 
 use DateTime;
-use Riskio\Schedule\DateRange;
-use Riskio\Schedule\Exception\AlreadyScheduledEventException;
-use Riskio\Schedule\Exception\NotScheduledEventException;
-use Riskio\Schedule\Schedule;
-use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
-use Riskio\ScheduleTest\Fixtures\Event;
-use Riskio\ScheduleTest\Fixtures\TemporalExpression\AlwaysOccurringTemporalExpression;
-use Riskio\ScheduleTest\Fixtures\TemporalExpression\NeverOccurringTemporalExpression;
+use Riskio\EventScheduler\DateRange;
+use Riskio\EventScheduler\Exception\AlreadyScheduledEventException;
+use Riskio\EventScheduler\Exception\NotScheduledEventException;
+use Riskio\EventScheduler\Scheduler;
+use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
+use Riskio\EventSchedulerTest\Fixtures\Event;
+use Riskio\EventSchedulerTest\Fixtures\TemporalExpression\AlwaysOccurringTemporalExpression;
+use Riskio\EventSchedulerTest\Fixtures\TemporalExpression\NeverOccurringTemporalExpression;
 
-class ScheduleTest extends \PHPUnit_Framework_TestCase
+class SchedulerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -20,7 +20,7 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
     {
         $anyEvent = new Event();
         $anyTemporalExpression = $this->getTemporalExpression();
-        $schedule = new Schedule();
+        $schedule = new Scheduler();
         $schedule->schedule($anyEvent, $anyTemporalExpression);
 
         $this->setExpectedException(AlreadyScheduledEventException::class);
@@ -33,7 +33,7 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
     public function unschedule_WhenEventIsNotScheduled_ShouldThrowException()
     {
         $anyEvent = new Event();
-        $schedule = new Schedule();
+        $schedule = new Scheduler();
 
         $this->setExpectedException(NotScheduledEventException::class);
         $schedule->unschedule($anyEvent);
@@ -46,7 +46,7 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
     {
         $anyEvent = new Event();
         $anyTemporalExpression = $this->getTemporalExpression();
-        $schedule = new Schedule();
+        $schedule = new Scheduler();
         $schedule->schedule($anyEvent, $anyTemporalExpression);
 
         $schedule->unschedule($anyEvent);
@@ -60,7 +60,7 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
     public function isOccurring_WhenThereAreNoScheduledEvents_ShouldReturnFalse()
     {
         $anyEvent = new Event();
-        $schedule = new Schedule();
+        $schedule = new Scheduler();
 
         $isOccurring = $schedule->isOccurring($anyEvent, new DateTime());
 
@@ -73,7 +73,7 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
     public function isOccurring_WhenEventIsOccurring_ShouldReturnTrue()
     {
         $anyEvent = new Event();
-        $schedule = new Schedule();
+        $schedule = new Scheduler();
         $schedule->schedule($anyEvent, new AlwaysOccurringTemporalExpression());
 
         $isOccurring = $schedule->isOccurring($anyEvent, new DateTime());
@@ -87,7 +87,7 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
     public function isOccurring_WhenEventIsNotOccurring_ShouldReturnFalse()
     {
         $anyEvent = new Event();
-        $schedule = new Schedule();
+        $schedule = new Scheduler();
         $schedule->schedule($anyEvent, new NeverOccurringTemporalExpression());
 
         $isOccurring = $schedule->isOccurring($anyEvent, new DateTime());
@@ -111,7 +111,7 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
             new DateTime('2015-03-15'),
         ];
 
-        $schedule = new Schedule();
+        $schedule = new Scheduler();
         $temporalExpressionStub = $this->getTemporalExpressionThatIncludesDates($occurringDates);
 
         $schedule->schedule($anyEvent, $temporalExpressionStub);
@@ -137,7 +137,7 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
         ];
         $expectedDate   = new DateTime('2015-10-11');
 
-        $schedule = new Schedule();
+        $schedule = new Scheduler();
         $temporalExpressionStub = $this->getTemporalExpressionThatIncludesDates($occurringDates);
 
         $schedule->schedule($anyEvent, $temporalExpressionStub);
@@ -162,7 +162,7 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
         ];
         $expectedDate  = new DateTime('2014-10-15');
 
-        $schedule = new Schedule();
+        $schedule = new Scheduler();
         $temporalExpressionStub = $this->getTemporalExpressionThatIncludesDates($occurringDates);
 
         $schedule->schedule($anyEvent, $temporalExpressionStub);

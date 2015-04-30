@@ -1,5 +1,5 @@
 <?php
-namespace Riskio\Schedule\TemporalExpression\Collection;
+namespace Riskio\EventScheduler\TemporalExpression\Collection;
 
 use DateTime;
 

@@ -1,8 +1,8 @@
 <?php
-namespace Riskio\ScheduleTest;
+namespace Riskio\EventSchedulerTest;
 
 use DateTime;
-use Riskio\Schedule\DateRange;
+use Riskio\EventScheduler\DateRange;
 
 class DateRangeTest extends \PHPUnit_Framework_TestCase
 {

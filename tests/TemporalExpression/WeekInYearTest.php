@@ -1,8 +1,8 @@
 <?php
-namespace Riskio\ScheduleTest\TemporalExpression;
+namespace Riskio\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
-use Riskio\Schedule\TemporalExpression\WeekInYear;
+use Riskio\EventScheduler\TemporalExpression\WeekInYear;
 
 class WeekInYearTest extends \PHPUnit_Framework_TestCase
 {
@@ -18,7 +18,7 @@ class WeekInYearTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider getInvalidDayDataProvider
-     * @expectedException \Riskio\Schedule\TemporalExpression\Exception\InvalidArgumentException
+     * @expectedException \Riskio\EventScheduler\TemporalExpression\Exception\InvalidArgumentException
      */
     public function constructor_UsingInvalidWeekValue_ShouldThrowAnException($day)
     {

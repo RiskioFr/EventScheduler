@@ -1,8 +1,8 @@
 <?php
-namespace Riskio\ScheduleTest\Fixtures;
+namespace Riskio\EventSchedulerTest\Fixtures;
 
-use Riskio\Schedule\Comparable;
-use Riskio\Schedule\SchedulableEvent;
+use Riskio\EventScheduler\Comparable;
+use Riskio\EventScheduler\SchedulableEvent;
 
 class Event implements SchedulableEvent
 {

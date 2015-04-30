@@ -1,5 +1,5 @@
 <?php
-namespace Riskio\Schedule;
+namespace Riskio\EventScheduler;
 
 interface SchedulableEvent extends Comparable
 {

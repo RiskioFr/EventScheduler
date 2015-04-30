@@ -1,10 +1,10 @@
 <?php
-namespace Riskio\Schedule;
+namespace Riskio\EventScheduler;
 
 use DateTime;
-use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
+use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 
-interface ScheduleInterface extends Occurrable
+interface SchedulerInterface extends Occurrable
 {
     /**
      * @param SchedulableEvent $event

@@ -1,12 +1,12 @@
 <?php
-namespace Riskio\Schedule;
+namespace Riskio\EventScheduler;
 
 use DateInterval;
 use DateTime;
-use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
+use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 use Traversable;
 
-class Schedule implements ScheduleInterface
+class Scheduler implements SchedulerInterface
 {
     /**
      * @var array
