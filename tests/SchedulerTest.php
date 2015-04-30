@@ -57,14 +57,13 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function isOccurring_WhenThereAreNoScheduledEvents_ShouldReturnFalse()
+    public function isOccurring_WhenEventIsNotScheduled_ShouldThrowException()
     {
         $anyEvent = new Event();
         $schedule = new Scheduler();
 
-        $isOccurring = $schedule->isOccurring($anyEvent, new DateTime());
-
-        $this->assertThat($isOccurring, $this->equalTo(false));
+        $this->setExpectedException(NotScheduledEventException::class);
+        $schedule->isOccurring($anyEvent, new DateTime());
     }
 
     /**

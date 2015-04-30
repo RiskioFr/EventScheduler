@@ -37,10 +37,6 @@ class Scheduler implements SchedulerInterface
      */
     public function unschedule(SchedulableEvent $event)
     {
-        if (!$this->isScheduled($event)) {
-            throw new Exception\NotScheduledEventException('Provided event is not scheduled');
-        }
-
         $scheduledEvent = $this->getScheduledEvent($event);
         $key = array_search($scheduledEvent, $this->scheduledEvents);
 
@@ -52,7 +48,13 @@ class Scheduler implements SchedulerInterface
      */
     public function isScheduled(SchedulableEvent $event)
     {
-        return null !== $this->getScheduledEventTemporalExpression($event);
+        try {
+            $this->getScheduledEvent($event);
+        } catch (Exception\NotScheduledEventException $e) {
+            return false;
+        }
+
+        return true;
     }
 
     private function getScheduledEvent(SchedulableEvent $event)
@@ -62,14 +64,8 @@ class Scheduler implements SchedulerInterface
                 return $item;
             }
         }
-    }
 
-    private function getScheduledEventTemporalExpression(SchedulableEvent $event)
-    {
-        $scheduleEvent = $this->getScheduledEvent($event);
-        if (!empty($scheduleEvent)) {
-            return $scheduleEvent[1];
-        }
+        throw new Exception\NotScheduledEventException('Provided event is not scheduled');
     }
 
     /**
@@ -77,9 +73,11 @@ class Scheduler implements SchedulerInterface
      */
     public function isOccurring(SchedulableEvent $event, DateTime $date)
     {
-        $temporalExpression = $this->getScheduledEventTemporalExpression($event);
+        $scheduleEvent = $this->getScheduledEvent($event);
 
-        return $temporalExpression && $temporalExpression->includes($date);
+        list(, $temporalExpression) = $scheduleEvent;
+
+        return $temporalExpression->includes($date);
     }
 
     /**
