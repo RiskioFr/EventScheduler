@@ -46,7 +46,7 @@ class Schedule implements ScheduleInterface
     /**
      * {@inheritdoc}
      */
-    public function isOccurring($event, DateTime $date)
+    public function isOccurring(SchedulableEvent $event, DateTime $date)
     {
         foreach ($this->elements as $element) {
             /* @var $element ScheduleElementInterface */

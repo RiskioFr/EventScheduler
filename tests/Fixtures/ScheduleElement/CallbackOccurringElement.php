@@ -2,6 +2,7 @@
 namespace Riskio\ScheduleTest\Fixtures\ScheduleElement;
 
 use DateTime;
+use Riskio\Schedule\SchedulableEvent;
 use Riskio\Schedule\ScheduleElementInterface;
 
 class CallbackOccurringElement implements ScheduleElementInterface
@@ -19,7 +20,7 @@ class CallbackOccurringElement implements ScheduleElementInterface
         $this->occurringDates = $occurringDates;
     }
 
-    public function isOccurring($event, DateTime $date)
+    public function isOccurring(SchedulableEvent $event, DateTime $date)
     {
         if (in_array($date, $this->occurringDates)) {
             return true;

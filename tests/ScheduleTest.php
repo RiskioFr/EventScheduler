@@ -4,6 +4,7 @@ namespace Riskio\ScheduleTest;
 use DateTime;
 use Riskio\Schedule\DateRange;
 use Riskio\Schedule\Exception\InvalidArgumentException;
+use Riskio\Schedule\SchedulableEvent;
 use Riskio\Schedule\Schedule;
 use Riskio\ScheduleTest\Fixtures\ScheduleElement\AlwaysOccurringElement;
 use Riskio\ScheduleTest\Fixtures\ScheduleElement\CallbackOccurringElement;
@@ -17,8 +18,10 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
      */
     public function isOccurring_WithoutElements_ShouldReturnFalse()
     {
-        $schedule = new Schedule();
-        $isOccurring = $schedule->isOccurring('any event', new DateTime());
+        $anyEvent    = $this->getEvent();
+
+        $schedule    = new Schedule();
+        $isOccurring = $schedule->isOccurring($anyEvent, new DateTime());
 
         $this->assertThat($isOccurring, $this->equalTo(false));
     }
@@ -40,14 +43,15 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
      */
     public function isOccurring_WithAtLeastOneElementOccurring_ShouldReturnTrue()
     {
-        $anyDate = new DateTime();
+        $anyEvent = $this->getEvent();
+        $anyDate  = new DateTime();
 
         $schedule = new Schedule([
             new NeverOccurringElement(),
             new AlwaysOccurringElement(),
         ]);
 
-        $isOccurring = $schedule->isOccurring('any event', $anyDate);
+        $isOccurring = $schedule->isOccurring($anyEvent, $anyDate);
 
         $this->assertThat($isOccurring, $this->equalTo(true));
     }
@@ -57,10 +61,11 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
      */
     public function isOccurring_WithElementsThatAreNotOccurring_ShouldReturnFalse()
     {
+        $anyEvent = $this->getEvent();
         $anyDate  = new DateTime();
         $schedule = new Schedule([new NeverOccurringElement]);
 
-        $isOccurring = $schedule->isOccurring('any event', $anyDate);
+        $isOccurring = $schedule->isOccurring($anyEvent, $anyDate);
 
         $this->assertThat($isOccurring, $this->equalTo(false));
     }
@@ -70,9 +75,11 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
      */
     public function retrieveDates_WhenEventIsOccurringInProvidedRange_ShouldReturnAnArrayWithOccurringDates()
     {
-        $start = new DateTime('2015-03-01');
-        $end   = new DateTime('2015-03-30');
-        $range = new DateRange($start, $end);
+        $anyEvent = $this->getEvent();
+
+        $start    = new DateTime('2015-03-01');
+        $end      = new DateTime('2015-03-30');
+        $range    = new DateRange($start, $end);
 
         $occurringDates = [
             new DateTime('2015-03-12'),
@@ -83,7 +90,7 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
 
         $schedule = new Schedule([$callbackOccurringElement]);
 
-        $dates = $schedule->dates('any event', $range);
+        $dates = $schedule->dates($anyEvent, $range);
 
         foreach ($dates as $key => $date) {
             $this->assertEquals($occurringDates[$key], $date);
@@ -95,18 +102,20 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
      */
     public function retrieveNextEventOccurrence_WhenEventWillOccurAgain_ShouldReturnNextDate()
     {
-        $startDate     = new DateTime('2015-03-01');
+        $anyEvent       = $this->getEvent();
+
+        $startDate      = new DateTime('2015-03-01');
         $occurringDates = [
             new DateTime('2015-10-11'),
             new DateTime('2015-10-15'),
         ];
-        $expectedDate  = new DateTime('2015-10-11');
+        $expectedDate   = new DateTime('2015-10-11');
 
         $callbackOccurringElement = new CallbackOccurringElement($occurringDates);
 
         $schedule = new Schedule([$callbackOccurringElement]);
 
-        $date = $schedule->nextOccurrence('any event', $startDate);
+        $date = $schedule->nextOccurrence($anyEvent, $startDate);
 
         $this->assertInstanceOf(DateTime::class, $date);
         $this->assertEquals($expectedDate, $date);
@@ -117,7 +126,9 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
      */
     public function retrievePreviousEventOccurrence_WhenEventHasAlreadyOccurred_ShouldReturnPreviousDate()
     {
-        $startDate     = new DateTime('2015-03-01');
+        $anyEvent       = $this->getEvent();
+
+        $startDate      = new DateTime('2015-03-01');
         $occurringDates = [
             new DateTime('2014-10-12'),
             new DateTime('2014-10-15'),
@@ -128,9 +139,14 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
 
         $schedule = new Schedule([$callbackOccurringElement]);
 
-        $date = $schedule->previousOccurrence('any event', $startDate);
+        $date = $schedule->previousOccurrence($anyEvent, $startDate);
 
         $this->assertInstanceOf(DateTime::class, $date);
         $this->assertEquals($expectedDate, $date);
+    }
+
+    private function getEvent()
+    {
+        return $this->getMock(SchedulableEvent::class);
     }
 }

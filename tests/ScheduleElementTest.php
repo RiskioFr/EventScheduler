@@ -2,7 +2,7 @@
 namespace Riskio\ScheduleTest;
 
 use DateTime;
-use Riskio\Schedule\Comparable;
+use Riskio\Schedule\SchedulableEvent;
 use Riskio\Schedule\ScheduleElement;
 use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
 use Riskio\ScheduleTest\Fixtures\TemporalExpression\AlwaysOccurringTemporalExpression;
@@ -103,6 +103,6 @@ class ScheduleElementTest extends \PHPUnit_Framework_TestCase
 
     private function getEvent()
     {
-        return $this->getMock(Comparable::class);
+        return $this->getMock(SchedulableEvent::class);
     }
 }

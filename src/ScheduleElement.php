@@ -2,13 +2,12 @@
 namespace Riskio\Schedule;
 
 use DateTime;
-use Riskio\Schedule\ScheduleElementInterface;
 use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
 
-class ScheduleElement implements ScheduleElementInterface
+class ScheduleElement implements Occurrable
 {
     /**
-     * @var Comparable
+     * @var SchedulableEvent
      */
     protected $event;
 
@@ -18,10 +17,10 @@ class ScheduleElement implements ScheduleElementInterface
     protected $temporalExpression;
 
     /**
-     * @param Comparable $event
+     * @param SchedulableEvent $event
      * @param TemporalExpressionInterface $temporalExpression
      */
-    public function __construct(Comparable $event, TemporalExpressionInterface $temporalExpression)
+    public function __construct(SchedulableEvent $event, TemporalExpressionInterface $temporalExpression)
     {
         $this->event = $event;
         $this->temporalExpression = $temporalExpression;
@@ -30,7 +29,7 @@ class ScheduleElement implements ScheduleElementInterface
     /**
      * {@inheritdoc}
      */
-    public function isOccurring(Comparable $event, DateTime $date)
+    public function isOccurring(SchedulableEvent $event, DateTime $date)
     {
         if (!$this->event->compare($event)) {
             return false;
