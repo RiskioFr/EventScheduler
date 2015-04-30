@@ -36,7 +36,7 @@ class ScheduleElementTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function isOccurring_WhenEventNotMatch_ShouldReturnFalse()
+    public function isOccurring_WhenEventDoesNotMatch_ShouldReturnFalse()
     {
         $temporalExpressionStub = $this->getTemporalExpression();
 
