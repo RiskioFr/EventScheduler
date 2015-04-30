@@ -6,9 +6,9 @@ use DateTime;
 interface ScheduleElementInterface
 {
     /**
-     * @param  string $event
+     * @param  Comparable $event
      * @param  DateTime $date
      * @return bool
      */
-    public function isOccurring($event, DateTime $date);
+    public function isOccurring(Comparable $event, DateTime $date);
 }

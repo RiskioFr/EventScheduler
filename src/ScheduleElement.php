@@ -30,7 +30,7 @@ class ScheduleElement implements ScheduleElementInterface
     /**
      * {@inheritdoc}
      */
-    public function isOccurring($event, DateTime $date)
+    public function isOccurring(Comparable $event, DateTime $date)
     {
         if (!$this->event->compare($event)) {
             return false;
