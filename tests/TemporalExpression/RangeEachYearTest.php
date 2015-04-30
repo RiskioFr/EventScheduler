@@ -14,6 +14,7 @@ class RangeEachYearTest extends \PHPUnit_Framework_TestCase
             [1, 3, 10, 20, '2015-02-05', true],
             [1, 3, 10, 20, '2015-03-05', true],
             [1, 3, 10, 20, '2015-03-25', false],
+            [12, 4, 20, 10, '2015-03-15', true],
         ];
     }
 

@@ -54,7 +54,11 @@ class RangeEachYear implements TemporalExpressionInterface
     {
         $month = $date->format('n');
 
-        return ($month > $this->startMonth && $month < $this->endMonth);
+        if ($this->startMonth <= $this->endMonth) {
+            return ($month > $this->startMonth && $month < $this->endMonth);
+        } else {
+            return ($month > $this->startMonth || $month < $this->endMonth);
+        }
     }
 
     private function startMonthIncludes(DateTime $date)
