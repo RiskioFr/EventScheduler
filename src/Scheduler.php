@@ -83,6 +83,20 @@ class Scheduler implements SchedulerInterface
     /**
      * {@inheritdoc}
      */
+    public function eventsForDate(DateTime $date)
+    {
+        foreach ($this->scheduledEvents as $scheduledEvent) {
+            list($event,) = $scheduledEvent;
+
+            if ($this->isOccurring($event, $date)) {
+                yield $event;
+            }
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function dates(SchedulableEvent $event, DateRange $range)
     {
         $end = $range->getEndDate();

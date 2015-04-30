@@ -24,9 +24,15 @@ interface SchedulerInterface extends Occurrable
     public function isScheduled(SchedulableEvent $event);
 
     /**
+     * @param  DateTime $date
+     * @return Traversable
+     */
+    public function eventsForDate(DateTime $date);
+
+    /**
      * @param  SchedulableEvent $event
      * @param  DateRange $range
-     * @return array
+     * @return Traversable
      */
     public function dates(SchedulableEvent $event, DateRange $range);
 

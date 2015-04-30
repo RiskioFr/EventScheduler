@@ -97,6 +97,33 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function eventsForDate_WhenSomeEventsScheduledAtSameDate_ShouldReturnAnArrayWithScheduledEvents()
+    {
+        $anyDate = new DateTime();
+
+        $schedule = new Scheduler();
+        $temporalExpressionStub = $this->getTemporalExpression();
+        $temporalExpressionStub
+            ->method('includes')
+            ->will($this->returnValue(true));
+
+        $events = [];
+        for ($i = 0; $i < 3; $i++) {
+            $anyEvent = new Event();
+            $schedule->schedule($anyEvent, $temporalExpressionStub);
+
+            $events[] = $anyEvent;
+        }
+
+        $scheduledEvents = $schedule->eventsForDate($anyDate);
+
+        foreach ($scheduledEvents as $key => $scheduledEvent) {
+            $this->assertSame($events[$key], $scheduledEvent);
+        }
+    }
+    /**
+     * @test
+     */
     public function retrieveDates_WhenEventIsOccurringInProvidedRange_ShouldReturnAnArrayWithOccurringDates()
     {
         $anyEvent = new Event();
