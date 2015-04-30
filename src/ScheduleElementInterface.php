@@ -1,14 +1,7 @@
 <?php
 namespace Riskio\Schedule;
 
-use DateTime;
-
-interface ScheduleElementInterface
+interface ScheduleElementInterface extends Occurrable
 {
-    /**
-     * @param  string $event
-     * @param  DateTime $date
-     * @return bool
-     */
-    public function isOccurring($event, DateTime $date);
+
 }
