@@ -10,12 +10,19 @@ interface SchedulerInterface extends Occurrable
      * @param SchedulableEvent $event
      * @param TemporalExpressionInterface $temporalExpression
      */
-    public function schedule(SchedulableEvent $event, TemporalExpressionInterface $temporalExpression);
+    public function schedule(
+        SchedulableEvent $event,
+        TemporalExpressionInterface $temporalExpression
+    );
 
     /**
      * @param SchedulableEvent $event
+     * @param TemporalExpressionInterface|null $temporalExpression
      */
-    public function unschedule(SchedulableEvent $event);
+    public function unschedule(
+        SchedulableEvent $event,
+        TemporalExpressionInterface $temporalExpression = null
+    );
 
     /**
      * @param  SchedulableEvent $event

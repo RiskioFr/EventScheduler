@@ -9,7 +9,7 @@ use Traversable;
 class Scheduler implements SchedulerInterface
 {
     /**
-     * @var array
+     * @var SchedulerEvent[]
      */
     protected $scheduledEvents = [];
 
@@ -26,21 +26,25 @@ class Scheduler implements SchedulerInterface
         TemporalExpressionInterface $temporalExpression
     ) {
         if ($this->isScheduled($event)) {
-            throw new Exception\AlreadyScheduledEventException('Provided event already scheduled');
+            throw Exception\AlreadyScheduledEventException::create();
         }
 
-        $this->scheduledEvents[] = [$event, $temporalExpression];
+        $this->scheduledEvents[] = new SchedulerEvent($event, $temporalExpression);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function unschedule(SchedulableEvent $event)
-    {
-        $scheduledEvent = $this->getScheduledEvent($event);
-        $key = array_search($scheduledEvent, $this->scheduledEvents);
+    public function unschedule(
+        SchedulableEvent $event,
+        TemporalExpressionInterface $temporalExpression = null
+    ) {
+        $scheduledEvents = $this->getScheduledEvents($event, $temporalExpression);
 
-        unset($this->scheduledEvents[$key]);
+        foreach ($scheduledEvents as $scheduledEvent) {
+            $key = array_search($scheduledEvent, $this->scheduledEvents);
+            unset($this->scheduledEvents[$key]);
+        }
     }
 
     /**
@@ -49,7 +53,7 @@ class Scheduler implements SchedulerInterface
     public function isScheduled(SchedulableEvent $event)
     {
         try {
-            $this->getScheduledEvent($event);
+            $this->getScheduledEvents($event);
         } catch (Exception\NotScheduledEventException $e) {
             return false;
         }
@@ -57,15 +61,29 @@ class Scheduler implements SchedulerInterface
         return true;
     }
 
-    private function getScheduledEvent(SchedulableEvent $event)
+    private function getScheduledEvents(SchedulableEvent $event, TemporalExpressionInterface $temporalExpression = null)
     {
-        foreach ($this->scheduledEvents as $item) {
-            if ($event->compare($item[0])) {
-                return $item;
+        $scheduledEvents = [];
+        foreach ($this->scheduledEvents as $scheduledEvent) {
+            if (!$event->compare($scheduledEvent->getEvent())) {
+                continue;
             }
+
+            if (
+                null !== $temporalExpression
+                && $temporalExpression !== $scheduledEvent->getTemporalExpression()
+            ) {
+                continue;
+            }
+
+            $scheduledEvents[] = $scheduledEvent;
         }
 
-        throw new Exception\NotScheduledEventException('Provided event is not scheduled');
+        if (!empty($scheduledEvents)) {
+            return $scheduledEvents;
+        }
+
+        throw Exception\NotScheduledEventException::create();
     }
 
     /**
@@ -73,11 +91,15 @@ class Scheduler implements SchedulerInterface
      */
     public function isOccurring(SchedulableEvent $event, DateTime $date)
     {
-        $scheduleEvent = $this->getScheduledEvent($event);
+        $scheduleEvents = $this->getScheduledEvents($event);
+        foreach ($scheduleEvents as $scheduleEvent) {
+            $isOccurring = $scheduleEvent->isOccurring($event, $date);
+            if ($isOccurring) {
+                return true;
+            }
+        }
 
-        list(, $temporalExpression) = $scheduleEvent;
-
-        return $temporalExpression->includes($date);
+        return false;
     }
 
     /**
@@ -86,8 +108,7 @@ class Scheduler implements SchedulerInterface
     public function eventsForDate(DateTime $date)
     {
         foreach ($this->scheduledEvents as $scheduledEvent) {
-            list($event,) = $scheduledEvent;
-
+            $event = $scheduledEvent->getEvent();
             if ($this->isOccurring($event, $date)) {
                 yield $event;
             }
