@@ -2,33 +2,24 @@
 namespace Riskio\EventScheduler;
 
 use DateTimeInterface;
-use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 
 interface SchedulerInterface extends Occurrable
 {
     /**
-     * @param SchedulableEvent $event
-     * @param TemporalExpressionInterface $temporalExpression
+     * @param SchedulableEvent $schedulableEvent
      */
-    public function schedule(
-        SchedulableEvent $event,
-        TemporalExpressionInterface $temporalExpression
-    );
+    public function schedule(SchedulableEvent $schedulableEvent);
 
     /**
-     * @param SchedulableEvent $event
-     * @param TemporalExpressionInterface|null $temporalExpression
+     * @param SchedulableEvent $schedulableEvent
      */
-    public function unschedule(
-        SchedulableEvent $event,
-        TemporalExpressionInterface $temporalExpression = null
-    );
+    public function unschedule(SchedulableEvent $schedulableEvent);
 
     /**
-     * @param  SchedulableEvent $event
+     * @param  SchedulableEvent $schedulableEvent
      * @return bool
      */
-    public function isScheduled(SchedulableEvent $event);
+    public function isScheduled(SchedulableEvent $schedulableEvent);
 
     /**
      * @param  DateTimeInterface $date
@@ -37,27 +28,27 @@ interface SchedulerInterface extends Occurrable
     public function eventsForDate(DateTimeInterface $date);
 
     /**
-     * @param  SchedulableEvent $event
+     * @param  Event $event
      * @param  DateRange $range
      * @return Traversable
      */
-    public function dates(SchedulableEvent $event, DateRange $range);
+    public function dates(Event $event, DateRange $range);
 
     /**
-     * @param  SchedulableEvent $event
+     * @param  Event $event
      * @param  DateTimeInterface $start
      * @param  DateTimeInterface|null $end
      * @return ScheduleElementInterface
      */
-    public function nextOccurrence(SchedulableEvent $event, DateTimeInterface $start, DateTimeInterface $end = null);
+    public function nextOccurrence(Event $event, DateTimeInterface $start, DateTimeInterface $end = null);
 
     /**
-     * @param  SchedulableEvent $event
+     * @param  Event $event
      * @param  DateTimeInterface $end
      * @param  DateTimeInterface|null $start
      * @return ScheduleElementInterface
      */
-    public function previousOccurrence(SchedulableEvent $event, DateTimeInterface $end, DateTimeInterface $start = null);
+    public function previousOccurrence(Event $event, DateTimeInterface $end, DateTimeInterface $start = null);
 
     /**
      * @return DateRange

@@ -6,9 +6,9 @@ use DateTimeInterface;
 interface Occurrable
 {
     /**
-     * @param  SchedulableEvent $event
+     * @param  Event $event
      * @param  DateTimeInterface $date
      * @return bool
      */
-    public function isOccurring(SchedulableEvent $event, DateTimeInterface $date);
+    public function isOccurring(Event $event, DateTimeInterface $date);
 }

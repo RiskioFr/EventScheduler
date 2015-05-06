@@ -7,6 +7,7 @@ use DateTimeInterface;
 use Riskio\EventScheduler\DateRange;
 use Riskio\EventScheduler\Exception\AlreadyScheduledEventException;
 use Riskio\EventScheduler\Exception\NotScheduledEventException;
+use Riskio\EventScheduler\SchedulableEvent;
 use Riskio\EventScheduler\Scheduler;
 use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 use Riskio\EventSchedulerTest\Fixtures\Event;
@@ -22,11 +23,12 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
     {
         $anyEvent = new Event();
         $anyTemporalExpression = $this->getTemporalExpression();
+        $anySchedulableEvent   = new SchedulableEvent($anyEvent, $anyTemporalExpression);
         $schedule = new Scheduler();
-        $schedule->schedule($anyEvent, $anyTemporalExpression);
+        $schedule->schedule($anySchedulableEvent);
 
         $this->setExpectedException(AlreadyScheduledEventException::class);
-        $schedule->schedule($anyEvent, $anyTemporalExpression);
+        $schedule->schedule($anySchedulableEvent);
     }
 
     /**
@@ -35,10 +37,12 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
     public function unschedule_WhenEventIsNotScheduled_ShouldThrowException()
     {
         $anyEvent = new Event();
+        $anyTemporalExpression = $this->getTemporalExpression();
+        $anySchedulableEvent   = new SchedulableEvent($anyEvent, $anyTemporalExpression);
         $schedule = new Scheduler();
 
         $this->setExpectedException(NotScheduledEventException::class);
-        $schedule->unschedule($anyEvent);
+        $schedule->unschedule($anySchedulableEvent);
     }
 
     /**
@@ -48,24 +52,26 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
     {
         $anyEvent = new Event();
         $anyTemporalExpression = $this->getTemporalExpression();
+        $anySchedulableEvent   = new SchedulableEvent($anyEvent, $anyTemporalExpression);
         $schedule = new Scheduler();
-        $schedule->schedule($anyEvent, $anyTemporalExpression);
+        $schedule->schedule($anySchedulableEvent);
 
-        $schedule->unschedule($anyEvent);
+        $schedule->unschedule($anySchedulableEvent);
 
-        $this->assertThat($schedule->isScheduled($anyEvent), $this->equalTo(false));
+        $this->assertThat($schedule->isScheduled($anySchedulableEvent), $this->equalTo(false));
     }
 
     /**
      * @test
      */
-    public function isOccurring_WhenEventIsNotScheduled_ShouldThrowException()
+    public function isOccurring_WhenEventIsNotScheduled_ShouldReturnFalse()
     {
         $anyEvent = new Event();
         $schedule = new Scheduler();
 
-        $this->setExpectedException(NotScheduledEventException::class);
-        $schedule->isOccurring($anyEvent, new DateTime());
+        $isOccurring = $schedule->isOccurring($anyEvent, new DateTime());
+
+        $this->assertThat($isOccurring, $this->equalTo(false));
     }
 
     /**
@@ -74,8 +80,10 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
     public function isOccurring_WhenEventIsOccurring_ShouldReturnTrue()
     {
         $anyEvent = new Event();
+        $anyTemporalExpression = new AlwaysOccurringTemporalExpression();
+        $anySchedulableEvent   = new SchedulableEvent($anyEvent, $anyTemporalExpression);
         $schedule = new Scheduler();
-        $schedule->schedule($anyEvent, new AlwaysOccurringTemporalExpression());
+        $schedule->schedule($anySchedulableEvent);
 
         $isOccurring = $schedule->isOccurring($anyEvent, new DateTime());
 
@@ -88,8 +96,10 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
     public function isOccurring_WhenEventIsNotOccurring_ShouldReturnFalse()
     {
         $anyEvent = new Event();
+        $anyTemporalExpression = new NeverOccurringTemporalExpression();
+        $anySchedulableEvent   = new SchedulableEvent($anyEvent, $anyTemporalExpression);
         $schedule = new Scheduler();
-        $schedule->schedule($anyEvent, new NeverOccurringTemporalExpression());
+        $schedule->schedule($anySchedulableEvent);
 
         $isOccurring = $schedule->isOccurring($anyEvent, new DateTime());
 
@@ -112,7 +122,10 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         $events = [];
         for ($i = 0; $i < 3; $i++) {
             $anyEvent = new Event();
-            $schedule->schedule($anyEvent, $temporalExpressionStub);
+            $anyTemporalExpression = $this->getTemporalExpression();
+            $anySchedulableEvent   = new SchedulableEvent($anyEvent, $anyTemporalExpression);
+
+            $schedule->schedule($anySchedulableEvent);
 
             $events[] = $anyEvent;
         }
@@ -141,8 +154,9 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
 
         $schedule = new Scheduler();
         $temporalExpressionStub = $this->getTemporalExpressionThatIncludesDates($occurringDates);
+        $anySchedulableEvent    = new SchedulableEvent($anyEvent, $temporalExpressionStub);
 
-        $schedule->schedule($anyEvent, $temporalExpressionStub);
+        $schedule->schedule($anySchedulableEvent);
 
         $dates = $schedule->dates($anyEvent, $range);
 
@@ -168,8 +182,9 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
 
         $schedule = new Scheduler();
         $temporalExpressionStub = $this->getTemporalExpressionThatIncludesDates($occurringDates);
+        $anySchedulableEvent    = new SchedulableEvent($anyEvent, $temporalExpressionStub);
 
-        $schedule->schedule($anyEvent, $temporalExpressionStub);
+        $schedule->schedule($anySchedulableEvent);
 
         $date = $schedule->nextOccurrence($anyEvent, $startDate);
 
@@ -193,8 +208,9 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
 
         $schedule = new Scheduler();
         $temporalExpressionStub = $this->getTemporalExpressionThatIncludesDates($occurringDates);
+        $anySchedulableEvent    = new SchedulableEvent($anyEvent, $temporalExpressionStub);
 
-        $schedule->schedule($anyEvent, $temporalExpressionStub);
+        $schedule->schedule($anySchedulableEvent);
 
         $date = $schedule->previousOccurrence($anyEvent, $startDate);
 

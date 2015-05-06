@@ -2,13 +2,13 @@
 namespace Riskio\EventSchedulerTest;
 
 use DateTime;
+use Riskio\EventScheduler\Event;
 use Riskio\EventScheduler\SchedulableEvent;
-use Riskio\EventScheduler\SchedulerEvent;
 use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 use Riskio\EventSchedulerTest\Fixtures\TemporalExpression\AlwaysOccurringTemporalExpression;
 use Riskio\EventSchedulerTest\Fixtures\TemporalExpression\NeverOccurringTemporalExpression;
 
-class SchedulerEventTest extends \PHPUnit_Framework_TestCase
+class SchedulableEventTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -28,7 +28,7 @@ class SchedulerEventTest extends \PHPUnit_Framework_TestCase
             ->method('includes')
             ->with($anyDate);
 
-        $scheduleElement = new SchedulerEvent($anyEvent, $temporalExpressionMock);
+        $scheduleElement = new SchedulableEvent($anyEvent, $temporalExpressionMock);
 
         $scheduleElement->isOccurring($anyEvent, $anyDate);
     }
@@ -47,7 +47,7 @@ class SchedulerEventTest extends \PHPUnit_Framework_TestCase
 
         $anyOtherEvent = $this->getEvent();
 
-        $scheduleElement = new SchedulerEvent($anyEvent, $temporalExpressionStub);
+        $scheduleElement = new SchedulableEvent($anyEvent, $temporalExpressionStub);
 
         $isOccurring = $scheduleElement->isOccurring($anyOtherEvent, new DateTime());
 
@@ -68,7 +68,7 @@ class SchedulerEventTest extends \PHPUnit_Framework_TestCase
 
         $temporalExpression = new AlwaysOccurringTemporalExpression();
 
-        $scheduleElement = new SchedulerEvent($anyEvent, $temporalExpression);
+        $scheduleElement = new SchedulableEvent($anyEvent, $temporalExpression);
 
         $isOccurring = $scheduleElement->isOccurring($anyEvent, $anyDate);
 
@@ -89,7 +89,7 @@ class SchedulerEventTest extends \PHPUnit_Framework_TestCase
 
         $temporalExpression = new NeverOccurringTemporalExpression();
 
-        $scheduleElement = new SchedulerEvent($anyEvent, $temporalExpression);
+        $scheduleElement = new SchedulableEvent($anyEvent, $temporalExpression);
 
         $isOccurring = $scheduleElement->isOccurring($anyEvent, $anyDate);
 
@@ -103,6 +103,6 @@ class SchedulerEventTest extends \PHPUnit_Framework_TestCase
 
     private function getEvent()
     {
-        return $this->getMock(SchedulableEvent::class);
+        return $this->getMock(Event::class);
     }
 }
