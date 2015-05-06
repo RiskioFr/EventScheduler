@@ -1,7 +1,7 @@
 <?php
 namespace Riskio\EventScheduler;
 
-use DateTime;
+use DateTimeInterface;
 use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 
 interface SchedulerInterface extends Occurrable
@@ -31,10 +31,10 @@ interface SchedulerInterface extends Occurrable
     public function isScheduled(SchedulableEvent $event);
 
     /**
-     * @param  DateTime $date
+     * @param  DateTimeInterface $date
      * @return Traversable
      */
-    public function eventsForDate(DateTime $date);
+    public function eventsForDate(DateTimeInterface $date);
 
     /**
      * @param  SchedulableEvent $event
@@ -45,19 +45,19 @@ interface SchedulerInterface extends Occurrable
 
     /**
      * @param  SchedulableEvent $event
-     * @param  DateTime $start
-     * @param  DateTime|null $end
+     * @param  DateTimeInterface $start
+     * @param  DateTimeInterface|null $end
      * @return ScheduleElementInterface
      */
-    public function nextOccurrence(SchedulableEvent $event, DateTime $start, DateTime $end = null);
+    public function nextOccurrence(SchedulableEvent $event, DateTimeInterface $start, DateTimeInterface $end = null);
 
     /**
      * @param  SchedulableEvent $event
-     * @param  DateTime $end
-     * @param  DateTime|null $start
+     * @param  DateTimeInterface $end
+     * @param  DateTimeInterface|null $start
      * @return ScheduleElementInterface
      */
-    public function previousOccurrence(SchedulableEvent $event, DateTime $end, DateTime $start = null);
+    public function previousOccurrence(SchedulableEvent $event, DateTimeInterface $end, DateTimeInterface $start = null);
 
     /**
      * @return DateRange

@@ -1,7 +1,7 @@
 <?php
 namespace Riskio\EventScheduler\TemporalExpression;
 
-use DateTime;
+use DateTimeInterface;
 
 class DayInWeek implements TemporalExpressionInterface
 {
@@ -36,10 +36,10 @@ class DayInWeek implements TemporalExpressionInterface
     }
 
     /**
-     * @param  DateTime $date
+     * @param  DateTimeInterface $date
      * @return bool
      */
-    public function includes(DateTime $date)
+    public function includes(DateTimeInterface $date)
     {
         return $date->format('N') == $this->dayIndex;
     }

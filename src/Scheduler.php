@@ -2,7 +2,8 @@
 namespace Riskio\EventScheduler;
 
 use DateInterval;
-use DateTime;
+use DateTimeImmutable;
+use DateTimeInterface;
 use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 use Traversable;
 
@@ -89,7 +90,7 @@ class Scheduler implements SchedulerInterface
     /**
      * {@inheritdoc}
      */
-    public function isOccurring(SchedulableEvent $event, DateTime $date)
+    public function isOccurring(SchedulableEvent $event, DateTimeInterface $date)
     {
         $scheduleEvents = $this->getScheduledEvents($event);
         foreach ($scheduleEvents as $scheduleEvent) {
@@ -105,7 +106,7 @@ class Scheduler implements SchedulerInterface
     /**
      * {@inheritdoc}
      */
-    public function eventsForDate(DateTime $date)
+    public function eventsForDate(DateTimeInterface $date)
     {
         foreach ($this->scheduledEvents as $scheduledEvent) {
             $event = $scheduledEvent->getEvent();
@@ -134,7 +135,7 @@ class Scheduler implements SchedulerInterface
     /**
      * {@inheritdoc}
      */
-    public function nextOccurrence(SchedulableEvent $event, DateTime $start, DateTime $end = null)
+    public function nextOccurrence(SchedulableEvent $event, DateTimeInterface $start, DateTimeInterface $end = null)
     {
         $end      = $end ?: $this->getDateRange()->getEndDate();
         $iterator = (new DateRange($start, $end))->getIterator();
@@ -145,7 +146,7 @@ class Scheduler implements SchedulerInterface
     /**
      * {@inheritdoc}
      */
-    public function previousOccurrence(SchedulableEvent $event, DateTime $end, DateTime $start = null)
+    public function previousOccurrence(SchedulableEvent $event, DateTimeInterface $end, DateTimeInterface $start = null)
     {
         $start    = $start ?: $this->getDateRange()->getStartDate();
         $iterator = (new DateRange($start, $end))->getReverseIterator();
@@ -169,8 +170,8 @@ class Scheduler implements SchedulerInterface
     {
         if (!$this->dateRange) {
             $interval = new DateInterval('P1Y');
-            $start    = (new DateTime())->sub($interval);
-            $end      = (new DateTime())->add($interval);
+            $start    = (new DateTimeImmutable())->sub($interval);
+            $end      = (new DateTimeImmutable())->add($interval);
 
             $this->setDateRange(new DateRange($start, $end));
         }

@@ -1,7 +1,7 @@
 <?php
 namespace Riskio\EventScheduler;
 
-use DateTime;
+use DateTimeInterface;
 use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 
 class SchedulerEvent implements SchedulerEventInterface
@@ -45,7 +45,7 @@ class SchedulerEvent implements SchedulerEventInterface
     /**
      * {@inheritdoc}
      */
-    public function isOccurring(SchedulableEvent $event, DateTime $date)
+    public function isOccurring(SchedulableEvent $event, DateTimeInterface $date)
     {
         if (!$this->event->compare($event)) {
             return false;

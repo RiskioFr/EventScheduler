@@ -1,7 +1,7 @@
 <?php
 namespace Riskio\EventSchedulerTest;
 
-use DateTime;
+use DateTimeImmutable;
 use Riskio\EventScheduler\DateRange;
 
 class DateRangeTest extends \PHPUnit_Framework_TestCase
@@ -11,11 +11,11 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->expectedDates = [
-            new DateTime('2015-03-01'),
-            new DateTime('2015-03-02'),
-            new DateTime('2015-03-03'),
-            new DateTime('2015-03-04'),
-            new DateTime('2015-03-05'),
+            new DateTimeImmutable('2015-03-01'),
+            new DateTimeImmutable('2015-03-02'),
+            new DateTimeImmutable('2015-03-03'),
+            new DateTimeImmutable('2015-03-04'),
+            new DateTimeImmutable('2015-03-05'),
         ];
     }
 
@@ -24,8 +24,8 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function dateRange_CanIterateForward()
     {
-        $startDate = new DateTime('2015-03-01');
-        $endDate   = new DateTime('2015-03-05');
+        $startDate = new DateTimeImmutable('2015-03-01');
+        $endDate   = new DateTimeImmutable('2015-03-05');
 
         $range     = new DateRange($startDate, $endDate);
 
@@ -39,8 +39,8 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function dateRange_CanIterateBackward()
     {
-        $startDate = new DateTime('2015-03-01');
-        $endDate   = new DateTime('2015-03-05');
+        $startDate = new DateTimeImmutable('2015-03-01');
+        $endDate   = new DateTimeImmutable('2015-03-05');
 
         $range     = new DateRange($startDate, $endDate);
 

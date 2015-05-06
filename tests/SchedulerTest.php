@@ -2,6 +2,8 @@
 namespace Riskio\EventSchedulerTest;
 
 use DateTime;
+use DateTimeImmutable;
+use DateTimeInterface;
 use Riskio\EventScheduler\DateRange;
 use Riskio\EventScheduler\Exception\AlreadyScheduledEventException;
 use Riskio\EventScheduler\Exception\NotScheduledEventException;
@@ -128,13 +130,13 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
     {
         $anyEvent = new Event();
 
-        $start    = new DateTime('2015-03-01');
-        $end      = new DateTime('2015-03-30');
+        $start    = new DateTimeImmutable('2015-03-01');
+        $end      = new DateTimeImmutable('2015-03-30');
         $range    = new DateRange($start, $end);
 
         $occurringDates = [
-            new DateTime('2015-03-12'),
-            new DateTime('2015-03-15'),
+            new DateTimeImmutable('2015-03-12'),
+            new DateTimeImmutable('2015-03-15'),
         ];
 
         $schedule = new Scheduler();
@@ -145,6 +147,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         $dates = $schedule->dates($anyEvent, $range);
 
         foreach ($dates as $key => $date) {
+            $this->assertInstanceOf(DateTimeImmutable::class, $date);
             $this->assertEquals($occurringDates[$key], $date);
         }
     }
@@ -156,12 +159,12 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
     {
         $anyEvent = new Event();
 
-        $startDate      = new DateTime('2015-03-01');
+        $startDate      = new DateTimeImmutable('2015-03-01');
         $occurringDates = [
             new DateTime('2015-10-11'),
             new DateTime('2015-10-15'),
         ];
-        $expectedDate   = new DateTime('2015-10-11');
+        $expectedDate   = new DateTimeImmutable('2015-10-11');
 
         $schedule = new Scheduler();
         $temporalExpressionStub = $this->getTemporalExpressionThatIncludesDates($occurringDates);
@@ -170,7 +173,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
 
         $date = $schedule->nextOccurrence($anyEvent, $startDate);
 
-        $this->assertInstanceOf(DateTime::class, $date);
+        $this->assertInstanceOf(DateTimeImmutable::class, $date);
         $this->assertEquals($expectedDate, $date);
     }
 
@@ -181,12 +184,12 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
     {
         $anyEvent = new Event();
 
-        $startDate      = new DateTime('2015-03-01');
+        $startDate      = new DateTimeImmutable('2015-03-01');
         $occurringDates = [
             new DateTime('2014-10-12'),
             new DateTime('2014-10-15'),
         ];
-        $expectedDate  = new DateTime('2014-10-15');
+        $expectedDate   = new DateTimeImmutable('2014-10-15');
 
         $schedule = new Scheduler();
         $temporalExpressionStub = $this->getTemporalExpressionThatIncludesDates($occurringDates);
@@ -195,7 +198,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
 
         $date = $schedule->previousOccurrence($anyEvent, $startDate);
 
-        $this->assertInstanceOf(DateTime::class, $date);
+        $this->assertInstanceOf(DateTimeImmutable::class, $date);
         $this->assertEquals($expectedDate, $date);
     }
 
@@ -209,7 +212,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         $temporalExpressionStub = $this->getTemporalExpression();
         $temporalExpressionStub
             ->method('includes')
-            ->will($this->returnCallback(function(DateTime $date) use ($includedDates) {
+            ->will($this->returnCallback(function(DateTimeInterface $date) use ($includedDates) {
                 if (in_array($date, $includedDates)) {
                     return true;
                 }

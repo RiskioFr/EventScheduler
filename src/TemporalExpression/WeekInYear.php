@@ -1,7 +1,7 @@
 <?php
 namespace Riskio\EventScheduler\TemporalExpression;
 
-use DateTime;
+use DateTimeInterface;
 
 class WeekInYear implements TemporalExpressionInterface
 {
@@ -28,10 +28,10 @@ class WeekInYear implements TemporalExpressionInterface
     }
 
     /**
-     * @param  DateTime $date
+     * @param  DateTimeInterface $date
      * @return bool
      */
-    public function includes(DateTime $date)
+    public function includes(DateTimeInterface $date)
     {
         return $date->format('W') == $this->weekNumber;
     }

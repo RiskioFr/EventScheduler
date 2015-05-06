@@ -1,7 +1,7 @@
 <?php
 namespace Riskio\EventScheduler\TemporalExpression;
 
-use DateTime;
+use DateTimeInterface;
 
 class MonthInYear implements TemporalExpressionInterface
 {
@@ -41,10 +41,10 @@ class MonthInYear implements TemporalExpressionInterface
     }
 
     /**
-     * @param  DateTime $date
+     * @param  DateTimeInterface $date
      * @return bool
      */
-    public function includes(DateTime $date)
+    public function includes(DateTimeInterface $date)
     {
         return $date->format('n') == $this->monthIndex;
     }
