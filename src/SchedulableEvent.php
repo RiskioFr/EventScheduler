@@ -47,10 +47,6 @@ class SchedulableEvent implements Occurrable
      */
     public function isOccurring(Event $event, DateTimeInterface $date)
     {
-        if (!$this->event->equals($event)) {
-            return false;
-        }
-
-        return $this->temporalExpression->includes($date);
+        return $this->event->equals($event) && $this->temporalExpression->includes($date);
     }
 }
