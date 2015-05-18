@@ -79,13 +79,13 @@ class DateRange
      */
     public function getIterator()
     {
-        $date = $this->startDate;
-
-        do {
+        for (
+            $date = $this->startDate;
+            $date <= $this->endDate;
+            $date = $date->add($this->interval)
+        ) {
             yield $date;
-
-            $date = $date->add($this->interval);
-        } while ($date <= $this->endDate);
+        }
     }
 
     /**
@@ -93,12 +93,12 @@ class DateRange
      */
     public function getReverseIterator()
     {
-        $date = $this->endDate;
-
-        do {
+        for (
+            $date = $this->endDate;
+            $date >= $this->startDate;
+            $date = $date->sub($this->interval)
+        ) {
             yield $date;
-
-            $date = $date->sub($this->interval);
-        } while ($date >= $this->startDate);
+        }
     }
 }
