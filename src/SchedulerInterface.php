@@ -2,13 +2,16 @@
 namespace Riskio\EventScheduler;
 
 use DateTimeInterface;
+use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 
 interface SchedulerInterface extends Occurrable
 {
     /**
-     * @param SchedulableEvent $schedulableEvent
+     * @param  Event $event
+     * @param  TemporalExpressionInterface $temporalExpression
+     * @return SchedulableEvent
      */
-    public function schedule(SchedulableEvent $schedulableEvent);
+    public function schedule(Event $event, TemporalExpressionInterface $temporalExpression);
 
     /**
      * @param SchedulableEvent $schedulableEvent
@@ -16,10 +19,10 @@ interface SchedulerInterface extends Occurrable
     public function unschedule(SchedulableEvent $schedulableEvent);
 
     /**
-     * @param  SchedulableEvent $schedulableEvent
+     * @param  Event $event
      * @return bool
      */
-    public function isScheduled(SchedulableEvent $schedulableEvent);
+    public function isScheduled(Event $event);
 
     /**
      * @param  DateTimeInterface $date

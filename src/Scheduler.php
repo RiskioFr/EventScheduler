@@ -4,6 +4,7 @@ namespace Riskio\EventScheduler;
 use DateInterval;
 use DateTimeImmutable;
 use DateTimeInterface;
+use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 use SplObjectStorage;
 use Traversable;
 
@@ -27,13 +28,12 @@ class Scheduler implements SchedulerInterface
     /**
      * {@inheritdoc}
      */
-    public function schedule(SchedulableEvent $schedulableEvent)
+    public function schedule(Event $event, TemporalExpressionInterface $temporalExpression)
     {
-        if ($this->scheduledEvents->contains($schedulableEvent)) {
-            throw Exception\AlreadyScheduledEventException::create();
-        }
-
+        $schedulableEvent = new SchedulableEvent($event, $temporalExpression);
         $this->scheduledEvents->attach($schedulableEvent);
+
+        return $schedulableEvent;
     }
 
     /**
@@ -51,9 +51,9 @@ class Scheduler implements SchedulerInterface
     /**
      * {@inheritdoc}
      */
-    public function isScheduled(SchedulableEvent $schedulableEvent)
+    public function isScheduled(Event $event)
     {
-        $scheduledEvents = $this->getScheduledEvents($schedulableEvent->getEvent());
+        $scheduledEvents = $this->getScheduledEvents($event);
 
         return !empty($scheduledEvents);
     }
