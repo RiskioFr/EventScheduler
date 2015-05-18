@@ -33,7 +33,7 @@ class MonthInYear implements TemporalExpressionInterface
         ]);
         if (false === $filtered) {
             throw new Exception\InvalidArgumentException(
-                'Month must be an integer value be between 1 and 12'
+                'Month must be an integer value between 1 and 12'
             );
         }
 
