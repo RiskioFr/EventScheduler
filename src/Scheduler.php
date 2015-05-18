@@ -62,7 +62,7 @@ class Scheduler implements SchedulerInterface
     {
         $scheduledEvents = [];
         foreach ($this->scheduledEvents as $scheduledEvent) {
-            if (!$event->compare($scheduledEvent->getEvent())) {
+            if (!$event->equals($scheduledEvent->getEvent())) {
                 continue;
             }
 

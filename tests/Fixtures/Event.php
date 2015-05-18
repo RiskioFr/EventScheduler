@@ -6,7 +6,7 @@ use Riskio\EventScheduler\Event as BaseEvent;
 
 class Event implements BaseEvent
 {
-    public function compare(Comparable $compare)
+    public function equals(Comparable $compare)
     {
         return $this === $compare;
     }

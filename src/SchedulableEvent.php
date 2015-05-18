@@ -47,7 +47,7 @@ class SchedulableEvent implements Occurrable
      */
     public function isOccurring(Event $event, DateTimeInterface $date)
     {
-        if (!$this->event->compare($event)) {
+        if (!$this->event->equals($event)) {
             return false;
         }
 

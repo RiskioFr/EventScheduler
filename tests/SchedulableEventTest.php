@@ -17,7 +17,7 @@ class SchedulableEventTest extends \PHPUnit_Framework_TestCase
     {
         $anyEvent = $this->getEvent();
         $anyEvent
-            ->method('compare')
+            ->method('equals')
             ->will($this->returnValue(true));
 
         $anyDate  = new DateTime();
@@ -42,7 +42,7 @@ class SchedulableEventTest extends \PHPUnit_Framework_TestCase
 
         $anyEvent = $this->getEvent();
         $anyEvent
-            ->method('compare')
+            ->method('equals')
             ->will($this->returnValue(false));
 
         $anyOtherEvent = $this->getEvent();
@@ -61,7 +61,7 @@ class SchedulableEventTest extends \PHPUnit_Framework_TestCase
     {
         $anyEvent = $this->getEvent();
         $anyEvent
-            ->method('compare')
+            ->method('equals')
             ->will($this->returnValue(true));
 
         $anyDate  = new DateTime();
@@ -82,7 +82,7 @@ class SchedulableEventTest extends \PHPUnit_Framework_TestCase
     {
         $anyEvent = $this->getEvent();
         $anyEvent
-            ->method('compare')
+            ->method('equals')
             ->will($this->returnValue(true));
 
         $anyDate  = new DateTime();
