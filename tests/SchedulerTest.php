@@ -133,7 +133,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         ];
 
         $schedule = new Scheduler();
-        $temporalExpressionStub = $this->getTemporalExpressionThatIncludesDates($occurringDates);
+        $temporalExpressionStub = $this->getTemporalExpressionIncludingDates($occurringDates);
 
         $schedule->schedule($anyEvent, $temporalExpressionStub);
 
@@ -160,7 +160,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         $expectedDate   = new DateTimeImmutable('2015-10-11');
 
         $schedule = new Scheduler();
-        $temporalExpressionStub = $this->getTemporalExpressionThatIncludesDates($occurringDates);
+        $temporalExpressionStub = $this->getTemporalExpressionIncludingDates($occurringDates);
 
         $schedule->schedule($anyEvent, $temporalExpressionStub);
 
@@ -185,7 +185,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         $expectedDate   = new DateTimeImmutable('2014-10-15');
 
         $schedule = new Scheduler();
-        $temporalExpressionStub = $this->getTemporalExpressionThatIncludesDates($occurringDates);
+        $temporalExpressionStub = $this->getTemporalExpressionIncludingDates($occurringDates);
 
         $schedule->schedule($anyEvent, $temporalExpressionStub);
 
@@ -200,7 +200,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         return $this->getMock(TemporalExpressionInterface::class);
     }
 
-    private function getTemporalExpressionThatIncludesDates($includedDates)
+    private function getTemporalExpressionIncludingDates($includedDates)
     {
         $temporalExpressionStub = $this->getTemporalExpression();
         $temporalExpressionStub
