@@ -206,11 +206,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         $temporalExpressionStub
             ->method('includes')
             ->will($this->returnCallback(function(DateTimeInterface $date) use ($includedDates) {
-                if (in_array($date, $includedDates)) {
-                    return true;
-                }
-
-                return false;
+                return in_array($date, $includedDates);
             }));
 
         return $temporalExpressionStub;
