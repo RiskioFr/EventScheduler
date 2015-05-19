@@ -2,7 +2,6 @@
 namespace Riskio\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
-use Riskio\EventScheduler\TemporalExpression\Exception;
 use Riskio\EventScheduler\TemporalExpression\DayInWeek;
 
 class DayInWeekTest extends \PHPUnit_Framework_TestCase
@@ -19,7 +18,7 @@ class DayInWeekTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider getInvalidDayDataProvider
-     * @expectedException \Riskio\Schedule\TemporalExpression\Exception\InvalidArgumentException
+     * @expectedException \Riskio\EventScheduler\TemporalExpression\Exception\InvalidArgumentException
      */
     public function constructor_UsingInvalidWeekDayValue_ShouldThrowAnException($day)
     {

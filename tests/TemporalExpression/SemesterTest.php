@@ -2,7 +2,6 @@
 namespace Riskio\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
-use Riskio\EventScheduler\TemporalExpression\Exception;
 use Riskio\EventScheduler\TemporalExpression\Semester;
 
 class SemesterTest extends \PHPUnit_Framework_TestCase
@@ -19,7 +18,7 @@ class SemesterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider getInvalidSemesterDataProvider
-     * @expectedException \Riskio\Schedule\TemporalExpression\Exception\InvalidArgumentException
+     * @expectedException \Riskio\EventScheduler\TemporalExpression\Exception\InvalidArgumentException
      */
     public function constructor_UsingInvalidSemesterValue_ShouldThrowAnException($semester)
     {

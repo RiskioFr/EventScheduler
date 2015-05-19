@@ -22,15 +22,15 @@ class SchedulableEventTest extends \PHPUnit_Framework_TestCase
 
         $anyDate  = new DateTime();
 
-        $temporalExpressionMock = $this->getMock(TemporalExpressionInterface::class);
-        $temporalExpressionMock
+        $exprMock = $this->getMock(TemporalExpressionInterface::class);
+        $exprMock
             ->expects($this->once())
             ->method('includes')
             ->with($anyDate);
 
-        $scheduleElement = new SchedulableEvent($anyEvent, $temporalExpressionMock);
+        $schedulableEvent = new SchedulableEvent($anyEvent, $exprMock);
 
-        $scheduleElement->isOccurring($anyEvent, $anyDate);
+        $schedulableEvent->isOccurring($anyEvent, $anyDate);
     }
 
     /**
@@ -38,7 +38,7 @@ class SchedulableEventTest extends \PHPUnit_Framework_TestCase
      */
     public function isOccurring_WhenEventDoesNotMatch_ShouldReturnFalse()
     {
-        $temporalExpressionStub = $this->getTemporalExpression();
+        $exprStub = $this->getTemporalExpression();
 
         $anyEvent = $this->getEvent();
         $anyEvent
@@ -47,9 +47,9 @@ class SchedulableEventTest extends \PHPUnit_Framework_TestCase
 
         $anyOtherEvent = $this->getEvent();
 
-        $scheduleElement = new SchedulableEvent($anyEvent, $temporalExpressionStub);
+        $schedulableEvent = new SchedulableEvent($anyEvent, $exprStub);
 
-        $isOccurring = $scheduleElement->isOccurring($anyOtherEvent, new DateTime());
+        $isOccurring = $schedulableEvent->isOccurring($anyOtherEvent, new DateTime());
 
         $this->assertThat($isOccurring, $this->equalTo(false));
     }
@@ -66,11 +66,11 @@ class SchedulableEventTest extends \PHPUnit_Framework_TestCase
 
         $anyDate  = new DateTime();
 
-        $temporalExpression = new AlwaysOccurringTemporalExpression();
+        $expr = new AlwaysOccurringTemporalExpression();
 
-        $scheduleElement = new SchedulableEvent($anyEvent, $temporalExpression);
+        $schedulableEvent = new SchedulableEvent($anyEvent, $expr);
 
-        $isOccurring = $scheduleElement->isOccurring($anyEvent, $anyDate);
+        $isOccurring = $schedulableEvent->isOccurring($anyEvent, $anyDate);
 
         $this->assertThat($isOccurring, $this->equalTo(true));
     }
@@ -87,11 +87,11 @@ class SchedulableEventTest extends \PHPUnit_Framework_TestCase
 
         $anyDate  = new DateTime();
 
-        $temporalExpression = new NeverOccurringTemporalExpression();
+        $expr = new NeverOccurringTemporalExpression();
 
-        $scheduleElement = new SchedulableEvent($anyEvent, $temporalExpression);
+        $schedulableEvent = new SchedulableEvent($anyEvent, $expr);
 
-        $isOccurring = $scheduleElement->isOccurring($anyEvent, $anyDate);
+        $isOccurring = $schedulableEvent->isOccurring($anyEvent, $anyDate);
 
         $this->assertThat($isOccurring, $this->equalTo(false));
     }

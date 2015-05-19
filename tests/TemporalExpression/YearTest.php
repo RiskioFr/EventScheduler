@@ -2,14 +2,13 @@
 namespace Riskio\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
-use Riskio\EventScheduler\TemporalExpression\Exception;
 use Riskio\EventScheduler\TemporalExpression\Year;
 
 class YearTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
-     * @expectedException \Riskio\Schedule\TemporalExpression\Exception\InvalidArgumentException
+     * @expectedException \Riskio\EventScheduler\TemporalExpression\Exception\InvalidArgumentException
      */
     public function constructor_UsingInvalidTrimesterValue_ShouldThrowException()
     {
