@@ -1,14 +1,14 @@
 <?php
-namespace Riskio\ScheduleTest;
+namespace Riskio\EventSchedulerTest;
 
 use DateTime;
-use Riskio\Schedule\SchedulableEvent;
-use Riskio\Schedule\ScheduleElement;
-use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
-use Riskio\ScheduleTest\Fixtures\TemporalExpression\AlwaysOccurringTemporalExpression;
-use Riskio\ScheduleTest\Fixtures\TemporalExpression\NeverOccurringTemporalExpression;
+use Riskio\EventScheduler\Event;
+use Riskio\EventScheduler\SchedulableEvent;
+use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
+use Riskio\EventSchedulerTest\Fixtures\TemporalExpression\AlwaysOccurringTemporalExpression;
+use Riskio\EventSchedulerTest\Fixtures\TemporalExpression\NeverOccurringTemporalExpression;
 
-class ScheduleElementTest extends \PHPUnit_Framework_TestCase
+class SchedulableEventTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -17,7 +17,7 @@ class ScheduleElementTest extends \PHPUnit_Framework_TestCase
     {
         $anyEvent = $this->getEvent();
         $anyEvent
-            ->method('compare')
+            ->method('equals')
             ->will($this->returnValue(true));
 
         $anyDate  = new DateTime();
@@ -28,7 +28,7 @@ class ScheduleElementTest extends \PHPUnit_Framework_TestCase
             ->method('includes')
             ->with($anyDate);
 
-        $scheduleElement = new ScheduleElement($anyEvent, $temporalExpressionMock);
+        $scheduleElement = new SchedulableEvent($anyEvent, $temporalExpressionMock);
 
         $scheduleElement->isOccurring($anyEvent, $anyDate);
     }
@@ -42,12 +42,12 @@ class ScheduleElementTest extends \PHPUnit_Framework_TestCase
 
         $anyEvent = $this->getEvent();
         $anyEvent
-            ->method('compare')
+            ->method('equals')
             ->will($this->returnValue(false));
 
         $anyOtherEvent = $this->getEvent();
 
-        $scheduleElement = new ScheduleElement($anyEvent, $temporalExpressionStub);
+        $scheduleElement = new SchedulableEvent($anyEvent, $temporalExpressionStub);
 
         $isOccurring = $scheduleElement->isOccurring($anyOtherEvent, new DateTime());
 
@@ -61,14 +61,14 @@ class ScheduleElementTest extends \PHPUnit_Framework_TestCase
     {
         $anyEvent = $this->getEvent();
         $anyEvent
-            ->method('compare')
+            ->method('equals')
             ->will($this->returnValue(true));
 
         $anyDate  = new DateTime();
 
         $temporalExpression = new AlwaysOccurringTemporalExpression();
 
-        $scheduleElement = new ScheduleElement($anyEvent, $temporalExpression);
+        $scheduleElement = new SchedulableEvent($anyEvent, $temporalExpression);
 
         $isOccurring = $scheduleElement->isOccurring($anyEvent, $anyDate);
 
@@ -82,14 +82,14 @@ class ScheduleElementTest extends \PHPUnit_Framework_TestCase
     {
         $anyEvent = $this->getEvent();
         $anyEvent
-            ->method('compare')
+            ->method('equals')
             ->will($this->returnValue(true));
 
         $anyDate  = new DateTime();
 
         $temporalExpression = new NeverOccurringTemporalExpression();
 
-        $scheduleElement = new ScheduleElement($anyEvent, $temporalExpression);
+        $scheduleElement = new SchedulableEvent($anyEvent, $temporalExpression);
 
         $isOccurring = $scheduleElement->isOccurring($anyEvent, $anyDate);
 
@@ -103,6 +103,6 @@ class ScheduleElementTest extends \PHPUnit_Framework_TestCase
 
     private function getEvent()
     {
-        return $this->getMock(SchedulableEvent::class);
+        return $this->getMock(Event::class);
     }
 }

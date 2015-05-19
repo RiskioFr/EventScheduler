@@ -1,7 +1,7 @@
 <?php
-namespace Riskio\Schedule\TemporalExpression;
+namespace Riskio\EventScheduler\TemporalExpression;
 
-use DateTime;
+use DateTimeInterface;
 
 class Semester implements TemporalExpressionInterface
 {
@@ -32,10 +32,10 @@ class Semester implements TemporalExpressionInterface
     }
 
     /**
-     * @param  DateTime $date
+     * @param  DateTimeInterface $date
      * @return bool
      */
-    public function includes(DateTime $date)
+    public function includes(DateTimeInterface $date)
     {
         return ceil($date->format('n') / 6) == $this->semester;
     }

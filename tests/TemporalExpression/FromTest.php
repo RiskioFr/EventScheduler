@@ -1,8 +1,8 @@
 <?php
-namespace Riskio\ScheduleTest\TemporalExpression;
+namespace Riskio\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
-use Riskio\Schedule\TemporalExpression\From;
+use Riskio\EventScheduler\TemporalExpression\From;
 
 class FromTest extends \PHPUnit_Framework_TestCase
 {

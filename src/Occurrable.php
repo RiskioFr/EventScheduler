@@ -1,14 +1,14 @@
 <?php
-namespace Riskio\Schedule;
+namespace Riskio\EventScheduler;
 
-use DateTime;
+use DateTimeInterface;
 
 interface Occurrable
 {
     /**
-     * @param  SchedulableEvent $event
-     * @param  DateTime $date
+     * @param  Event $event
+     * @param  DateTimeInterface $date
      * @return bool
      */
-    public function isOccurring(SchedulableEvent $event, DateTime $date);
+    public function isOccurring(Event $event, DateTimeInterface $date);
 }

@@ -1,7 +1,7 @@
 <?php
-namespace Riskio\Schedule\TemporalExpression;
+namespace Riskio\EventScheduler\TemporalExpression;
 
-use DateTime;
+use DateTimeInterface;
 
 class Year implements TemporalExpressionInterface
 {
@@ -25,10 +25,10 @@ class Year implements TemporalExpressionInterface
     }
 
     /**
-     * @param  DateTime $date
+     * @param  DateTimeInterface $date
      * @return bool
      */
-    public function includes(DateTime $date)
+    public function includes(DateTimeInterface $date)
     {
         return $date->format('Y') == $this->year;
     }

@@ -1,9 +1,9 @@
 <?php
-namespace Riskio\ScheduleTest\TemporalExpression;
+namespace Riskio\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
-use Riskio\Schedule\TemporalExpression\Exception;
-use Riskio\Schedule\TemporalExpression\Year;
+use Riskio\EventScheduler\TemporalExpression\Exception;
+use Riskio\EventScheduler\TemporalExpression\Year;
 
 class YearTest extends \PHPUnit_Framework_TestCase
 {

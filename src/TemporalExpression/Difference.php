@@ -1,7 +1,7 @@
 <?php
-namespace Riskio\Schedule\TemporalExpression;
+namespace Riskio\EventScheduler\TemporalExpression;
 
-use DateTime;
+use DateTimeInterface;
 
 class Difference implements TemporalExpressionInterface
 {
@@ -28,10 +28,10 @@ class Difference implements TemporalExpressionInterface
     }
 
     /**
-     * @param  DateTime $date
+     * @param  DateTimeInterface $date
      * @return bool
      */
-    public function includes(DateTime $date)
+    public function includes(DateTimeInterface $date)
     {
         return $this->included->includes($date) && !$this->excluded->includes($date);
     }

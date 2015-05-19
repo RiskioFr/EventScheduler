@@ -1,7 +1,7 @@
 <?php
-namespace Riskio\Schedule;
+namespace Riskio\EventScheduler;
 
 interface Comparable
 {
-    public function compare(self $compare);
+    public function equals(self $compare);
 }
