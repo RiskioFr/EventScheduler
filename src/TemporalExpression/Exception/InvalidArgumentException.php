@@ -1,7 +1,7 @@
 <?php
-namespace Riskio\Schedule\TemporalExpression\Exception;
+namespace Riskio\EventScheduler\TemporalExpression\Exception;
 
-use Riskio\Schedule\Exception\InvalidArgumentException as BaseInvalidArgumentException;
+use Riskio\EventScheduler\Exception\InvalidArgumentException as BaseInvalidArgumentException;
 
 class InvalidArgumentException
     extends BaseInvalidArgumentException

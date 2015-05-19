@@ -1,5 +1,5 @@
 <?php
-namespace Riskio\Schedule\Exception;
+namespace Riskio\EventScheduler\Exception;
 
 interface ExceptionInterface
 {}

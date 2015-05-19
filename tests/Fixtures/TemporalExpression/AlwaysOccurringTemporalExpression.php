@@ -1,12 +1,12 @@
 <?php
-namespace Riskio\ScheduleTest\Fixtures\TemporalExpression;
+namespace Riskio\EventSchedulerTest\Fixtures\TemporalExpression;
 
-use DateTime;
-use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
+use DateTimeInterface;
+use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 
 class AlwaysOccurringTemporalExpression implements TemporalExpressionInterface
 {
-    public function includes(DateTime $date)
+    public function includes(DateTimeInterface $date)
     {
         return true;
     }

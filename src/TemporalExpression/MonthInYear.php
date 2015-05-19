@@ -1,7 +1,7 @@
 <?php
-namespace Riskio\Schedule\TemporalExpression;
+namespace Riskio\EventScheduler\TemporalExpression;
 
-use DateTime;
+use DateTimeInterface;
 
 class MonthInYear implements TemporalExpressionInterface
 {
@@ -33,7 +33,7 @@ class MonthInYear implements TemporalExpressionInterface
         ]);
         if (false === $filtered) {
             throw new Exception\InvalidArgumentException(
-                'Month must be an integer value be between 1 and 12'
+                'Month must be an integer value between 1 and 12'
             );
         }
 
@@ -41,10 +41,10 @@ class MonthInYear implements TemporalExpressionInterface
     }
 
     /**
-     * @param  DateTime $date
+     * @param  DateTimeInterface $date
      * @return bool
      */
-    public function includes(DateTime $date)
+    public function includes(DateTimeInterface $date)
     {
         return $date->format('n') == $this->monthIndex;
     }

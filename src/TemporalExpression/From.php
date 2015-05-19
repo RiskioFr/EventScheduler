@@ -1,28 +1,28 @@
 <?php
-namespace Riskio\Schedule\TemporalExpression;
+namespace Riskio\EventScheduler\TemporalExpression;
 
-use DateTime;
+use DateTimeInterface;
 
 class From implements TemporalExpressionInterface
 {
     /**
-     * @var DateTime
+     * @var DateTimeInterface
      */
     protected $date;
 
     /**
-     * @param DateTime $date
+     * @param DateTimeInterface $date
      */
-    public function __construct(DateTime $date)
+    public function __construct(DateTimeInterface $date)
     {
         $this->date = $date;
     }
 
     /**
-     * @param  DateTime $date
+     * @param  DateTimeInterface $date
      * @return bool
      */
-    public function includes(DateTime $date)
+    public function includes(DateTimeInterface $date)
     {
         return $date >= $this->date;
     }

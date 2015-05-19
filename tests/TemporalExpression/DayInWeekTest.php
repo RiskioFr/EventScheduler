@@ -1,8 +1,9 @@
 <?php
-namespace Riskio\ScheduleTest\TemporalExpression;
+namespace Riskio\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
-use Riskio\Schedule\TemporalExpression\DayInWeek;
+use Riskio\EventScheduler\TemporalExpression\Exception;
+use Riskio\EventScheduler\TemporalExpression\DayInWeek;
 
 class DayInWeekTest extends \PHPUnit_Framework_TestCase
 {
