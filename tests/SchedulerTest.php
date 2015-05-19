@@ -23,10 +23,10 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         $anyEvent = new Event();
         $anyTemporalExpression = $this->getTemporalExpression();
         $anySchedulableEvent   = new SchedulableEvent($anyEvent, $anyTemporalExpression);
-        $schedule = new Scheduler();
+        $scheduler = new Scheduler();
 
         $this->setExpectedException(NotScheduledEventException::class);
-        $schedule->unschedule($anySchedulableEvent);
+        $scheduler->unschedule($anySchedulableEvent);
     }
 
     /**
@@ -36,12 +36,12 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
     {
         $anyEvent = new Event();
         $anyTemporalExpression = $this->getTemporalExpression();
-        $schedule = new Scheduler();
-        $schedulableEvent = $schedule->schedule($anyEvent, $anyTemporalExpression);
+        $scheduler = new Scheduler();
+        $schedulableEvent = $scheduler->schedule($anyEvent, $anyTemporalExpression);
 
-        $schedule->unschedule($schedulableEvent);
+        $scheduler->unschedule($schedulableEvent);
 
-        $this->assertThat($schedule->isScheduled($anyEvent), $this->equalTo(false));
+        $this->assertThat($scheduler->isScheduled($anyEvent), $this->equalTo(false));
     }
 
     /**
@@ -50,9 +50,9 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
     public function isOccurring_WhenEventIsNotScheduled_ShouldReturnFalse()
     {
         $anyEvent = new Event();
-        $schedule = new Scheduler();
+        $scheduler = new Scheduler();
 
-        $isOccurring = $schedule->isOccurring($anyEvent, new DateTime());
+        $isOccurring = $scheduler->isOccurring($anyEvent, new DateTime());
 
         $this->assertThat($isOccurring, $this->equalTo(false));
     }
@@ -64,10 +64,10 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
     {
         $anyEvent = new Event();
         $anyTemporalExpression = new AlwaysOccurringTemporalExpression();
-        $schedule = new Scheduler();
-        $schedule->schedule($anyEvent, $anyTemporalExpression);
+        $scheduler = new Scheduler();
+        $scheduler->schedule($anyEvent, $anyTemporalExpression);
 
-        $isOccurring = $schedule->isOccurring($anyEvent, new DateTime());
+        $isOccurring = $scheduler->isOccurring($anyEvent, new DateTime());
 
         $this->assertThat($isOccurring, $this->equalTo(true));
     }
@@ -79,10 +79,10 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
     {
         $anyEvent = new Event();
         $anyTemporalExpression = new NeverOccurringTemporalExpression();
-        $schedule = new Scheduler();
-        $schedule->schedule($anyEvent, $anyTemporalExpression);
+        $scheduler = new Scheduler();
+        $scheduler->schedule($anyEvent, $anyTemporalExpression);
 
-        $isOccurring = $schedule->isOccurring($anyEvent, new DateTime());
+        $isOccurring = $scheduler->isOccurring($anyEvent, new DateTime());
 
         $this->assertThat($isOccurring, $this->equalTo(false));
     }
@@ -94,9 +94,9 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
     {
         $anyDate = new DateTime();
 
-        $schedule = new Scheduler();
-        $temporalExpressionStub = $this->getTemporalExpression();
-        $temporalExpressionStub
+        $scheduler = new Scheduler();
+        $exprStub = $this->getTemporalExpression();
+        $exprStub
             ->method('includes')
             ->will($this->returnValue(true));
 
@@ -105,12 +105,12 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
             $anyEvent = new Event();
             $anyTemporalExpression = $this->getTemporalExpression();
 
-            $schedule->schedule($anyEvent, $anyTemporalExpression);
+            $scheduler->schedule($anyEvent, $anyTemporalExpression);
 
             $events[] = $anyEvent;
         }
 
-        $scheduledEvents = $schedule->eventsForDate($anyDate);
+        $scheduledEvents = $scheduler->eventsForDate($anyDate);
 
         foreach ($scheduledEvents as $key => $scheduledEvent) {
             $this->assertSame($events[$key], $scheduledEvent);
@@ -132,12 +132,12 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
             new DateTimeImmutable('2015-03-15'),
         ];
 
-        $schedule = new Scheduler();
-        $temporalExpressionStub = $this->getTemporalExpressionIncludingDates($occurringDates);
+        $scheduler = new Scheduler();
+        $exprStub = $this->getTemporalExpressionIncludingDates($occurringDates);
 
-        $schedule->schedule($anyEvent, $temporalExpressionStub);
+        $scheduler->schedule($anyEvent, $exprStub);
 
-        $dates = $schedule->dates($anyEvent, $range);
+        $dates = $scheduler->dates($anyEvent, $range);
 
         foreach ($dates as $key => $date) {
             $this->assertInstanceOf(DateTimeImmutable::class, $date);
@@ -159,12 +159,12 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         ];
         $expectedDate   = new DateTimeImmutable('2015-10-11');
 
-        $schedule = new Scheduler();
-        $temporalExpressionStub = $this->getTemporalExpressionIncludingDates($occurringDates);
+        $scheduler = new Scheduler();
+        $exprStub = $this->getTemporalExpressionIncludingDates($occurringDates);
 
-        $schedule->schedule($anyEvent, $temporalExpressionStub);
+        $scheduler->schedule($anyEvent, $exprStub);
 
-        $date = $schedule->nextOccurrence($anyEvent, $startDate);
+        $date = $scheduler->nextOccurrence($anyEvent, $startDate);
 
         $this->assertInstanceOf(DateTimeImmutable::class, $date);
         $this->assertEquals($expectedDate, $date);
@@ -184,12 +184,12 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         ];
         $expectedDate   = new DateTimeImmutable('2014-10-15');
 
-        $schedule = new Scheduler();
-        $temporalExpressionStub = $this->getTemporalExpressionIncludingDates($occurringDates);
+        $scheduler = new Scheduler();
+        $exprStub = $this->getTemporalExpressionIncludingDates($occurringDates);
 
-        $schedule->schedule($anyEvent, $temporalExpressionStub);
+        $scheduler->schedule($anyEvent, $exprStub);
 
-        $date = $schedule->previousOccurrence($anyEvent, $startDate);
+        $date = $scheduler->previousOccurrence($anyEvent, $startDate);
 
         $this->assertInstanceOf(DateTimeImmutable::class, $date);
         $this->assertEquals($expectedDate, $date);
@@ -202,13 +202,13 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
 
     private function getTemporalExpressionIncludingDates($includedDates)
     {
-        $temporalExpressionStub = $this->getTemporalExpression();
-        $temporalExpressionStub
+        $exprStub = $this->getTemporalExpression();
+        $exprStub
             ->method('includes')
             ->will($this->returnCallback(function(DateTimeInterface $date) use ($includedDates) {
                 return in_array($date, $includedDates);
             }));
 
-        return $temporalExpressionStub;
+        return $exprStub;
     }
 }

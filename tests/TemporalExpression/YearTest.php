@@ -2,46 +2,43 @@
 namespace Riskio\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
-use Riskio\EventScheduler\TemporalExpression\Exception;
 use Riskio\EventScheduler\TemporalExpression\Year;
 
 class YearTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
+     * @expectedException \Riskio\EventScheduler\TemporalExpression\Exception\InvalidArgumentException
      */
     public function constructor_UsingInvalidTrimesterValue_ShouldThrowException()
     {
-        $this->setExpectedException(Exception\InvalidArgumentException::class);
-        $temporalExpression = new Year('invalid');
+        new Year('invalid');
     }
 
     /**
      * @test
      */
-    public function includesDate_WhenProvidedDateAtSameMonthDay_ShouldReturnTrue()
+    public function includes_WhenProvidedDateAtSameYear_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-10');
         $year = (int) $date->format('Y');
+        $expr = new Year($year);
 
-        $temporalExpression = new Year($year);
+        $isIncluded = $expr->includes($date);
 
-        $includes = $temporalExpression->includes($date);
-
-        $this->assertThat($includes, $this->equalTo(true));
+        $this->assertThat($isIncluded, $this->equalTo(true));
     }
 
     /**
      * @test
      */
-    public function includesDate_WhenProvidedDateAtDifferentMonthDay_ShouldReturnFalse()
+    public function includes_WhenProvidedDateAtDifferentYear_ShouldReturnFalse()
     {
         $date = new DateTime('2015-04-10');
+        $expr = new Year(2016);
 
-        $temporalExpression = new Year(2016);
+        $isIncluded = $expr->includes($date);
 
-        $includes = $temporalExpression->includes($date);
-
-        $this->assertThat($includes, $this->equalTo(false));
+        $this->assertThat($isIncluded, $this->equalTo(false));
     }
 }
