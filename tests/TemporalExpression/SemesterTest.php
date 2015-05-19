@@ -18,7 +18,7 @@ class SemesterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider getInvalidSemesterDataProvider
-     * @expectedException \Riskio\EventScheduler\TemporalExpression\Exception\InvalidArgumentException
+     * @expectedException \Riskio\EventScheduler\ValueObject\Exception\InvalidSemesterException
      */
     public function constructor_UsingInvalidSemesterValue_ShouldThrowAnException($semester)
     {

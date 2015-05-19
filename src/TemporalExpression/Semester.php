@@ -2,14 +2,12 @@
 namespace Riskio\EventScheduler\TemporalExpression;
 
 use DateTimeInterface;
+use Riskio\EventScheduler\ValueObject\Semester as SemesterValueObject;
 
 class Semester implements TemporalExpressionInterface
 {
-    const FIRST  = 1;
-    const SECOND = 2;
-
     /**
-     * @var int
+     * @var SemesterValueObject
      */
     protected $semester;
 
@@ -18,17 +16,7 @@ class Semester implements TemporalExpressionInterface
      */
     public function __construct($semester)
     {
-        $filtered = filter_var($semester, FILTER_VALIDATE_INT, [
-            'options' => ['min_range' => 1, 'max_range' => 2],
-        ]);
-        if (false === $filtered) {
-            throw new Exception\InvalidArgumentException(
-                'Semester must be an integer value among 1 or 2 according to'
-                . ' first and second semesters of the year'
-            );
-        }
-
-        $this->semester = $semester;
+        $this->semester = new SemesterValueObject($semester);
     }
 
     /**
@@ -37,6 +25,8 @@ class Semester implements TemporalExpressionInterface
      */
     public function includes(DateTimeInterface $date)
     {
-        return ceil($date->format('n') / 6) == $this->semester;
+        $semester = SemesterValueObject::fromNativeDateTime($date);
+
+        return $this->semester->sameValueAs($semester);
     }
 }
