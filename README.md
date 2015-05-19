@@ -8,4 +8,4 @@ The Riskio Event Scheduler library provides a way to manage recurring events usi
 Requirements
 ------------
 
-* PHP 5.5 or higher
+* PHP 5.6 or higher
