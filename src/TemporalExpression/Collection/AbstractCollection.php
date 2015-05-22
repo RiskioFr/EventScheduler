@@ -1,8 +1,8 @@
 <?php
-namespace Riskio\Schedule\TemporalExpression\Collection;
+namespace Riskio\EventScheduler\TemporalExpression\Collection;
 
-use DateTime;
-use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
+use DateTimeInterface;
+use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 
 abstract class AbstractCollection implements TemporalExpressionInterface
 {
@@ -22,8 +22,8 @@ abstract class AbstractCollection implements TemporalExpressionInterface
     }
 
     /**
-     * @param  DateTime $date
+     * @param  DateTimeInterface $date
      * @return bool
      */
-    abstract public function includes(DateTime $date);
+    abstract public function includes(DateTimeInterface $date);
 }

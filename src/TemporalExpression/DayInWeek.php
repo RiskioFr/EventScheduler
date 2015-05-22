@@ -1,47 +1,33 @@
 <?php
-namespace Riskio\Schedule\TemporalExpression;
+namespace Riskio\EventScheduler\TemporalExpression;
 
-use DateTime;
+use DateTimeInterface;
+use Riskio\EventScheduler\ValueObject\WeekDay as WeekDayValueObject;
 
 class DayInWeek implements TemporalExpressionInterface
 {
-    const MONDAY = 1;
-    const TUESDAY = 2;
-    const WEDNESDAY = 3;
-    const THURSDAY = 4;
-    const FRIDAY = 5;
-    const SATURDAY = 6;
-    const SUNDAY = 7;
+    /**
+     * @var WeekDayValueObject
+     */
+    protected $day;
 
     /**
-     * @var int
+     * @param string $day
      */
-    protected $dayIndex;
-
-    /**
-     * @param int $dayIndex
-     */
-    public function __construct($dayIndex)
+    public function __construct($day)
     {
-        $filtered = filter_var($dayIndex, FILTER_VALIDATE_INT, [
-            'options' => ['min_range' => 1, 'max_range' => 7],
-        ]);
-        if (!$filtered) {
-            throw new Exception\InvalidArgumentException(
-                'Day must be an integer value between 1 and 7'
-            );
-        }
-
-        $this->dayIndex = $dayIndex;
+        $this->day = WeekDayValueObject::fromNative($day);
     }
 
     /**
-     * @param  DateTime $date
+     * @param  DateTimeInterface $date
      * @return bool
      */
-    public function includes(DateTime $date)
+    public function includes(DateTimeInterface $date)
     {
-        return $date->format('N') == $this->dayIndex;
+        $day = WeekDayValueObject::fromNativeDateTime($date);
+
+        return $this->day->sameValueAs($day);
     }
 
     /**
@@ -49,7 +35,7 @@ class DayInWeek implements TemporalExpressionInterface
      */
     public static function monday()
     {
-        return new self(self::MONDAY);
+        return new self(WeekDayValueObject::MONDAY);
     }
 
     /**
@@ -57,7 +43,7 @@ class DayInWeek implements TemporalExpressionInterface
      */
     public static function tuesday()
     {
-        return new self(self::TUESDAY);
+        return new self(WeekDayValueObject::TUESDAY);
     }
 
     /**
@@ -65,7 +51,7 @@ class DayInWeek implements TemporalExpressionInterface
      */
     public static function wednesday()
     {
-        return new self(self::WEDNESDAY);
+        return new self(WeekDayValueObject::WEDNESDAY);
     }
 
     /**
@@ -73,7 +59,7 @@ class DayInWeek implements TemporalExpressionInterface
      */
     public static function thursday()
     {
-        return new self(self::THURSDAY);
+        return new self(WeekDayValueObject::THURSDAY);
     }
 
     /**
@@ -81,7 +67,7 @@ class DayInWeek implements TemporalExpressionInterface
      */
     public static function friday()
     {
-        return new self(self::FRIDAY);
+        return new self(WeekDayValueObject::FRIDAY);
     }
 
     /**
@@ -89,7 +75,7 @@ class DayInWeek implements TemporalExpressionInterface
      */
     public static function saturday()
     {
-        return new self(self::SATURDAY);
+        return new self(WeekDayValueObject::SATURDAY);
     }
 
     /**
@@ -97,6 +83,6 @@ class DayInWeek implements TemporalExpressionInterface
      */
     public static function sunday()
     {
-        return new self(self::SUNDAY);
+        return new self(WeekDayValueObject::SUNDAY);
     }
 }

@@ -1,52 +1,33 @@
 <?php
-namespace Riskio\Schedule\TemporalExpression;
+namespace Riskio\EventScheduler\TemporalExpression;
 
-use DateTime;
+use DateTimeInterface;
+use Riskio\EventScheduler\ValueObject\Month as MonthValueObject;
 
 class MonthInYear implements TemporalExpressionInterface
 {
-    const JANUARY = 1;
-    const FEBRUARY = 2;
-    const MARCH = 3;
-    const APRIL = 4;
-    const MAY = 5;
-    const JUNE = 6;
-    const JULY = 7;
-    const AUGUST = 8;
-    const SEPTEMBER = 9;
-    const OCTOBER = 10;
-    const NOVEMBER = 11;
-    const DECEMBER = 12;
+    /**
+     * @var MonthValueObject
+     */
+    protected $month;
 
     /**
-     * @var int
+     * @param string $month
      */
-    protected $monthIndex;
-
-    /**
-     * @param int $monthIndex
-     */
-    public function __construct($monthIndex)
+    public function __construct($month)
     {
-        $filtered = filter_var($monthIndex, FILTER_VALIDATE_INT, [
-            'options' => ['min_range' => 1, 'max_range' => 12],
-        ]);
-        if (!$filtered) {
-            throw new Exception\InvalidArgumentException(
-                'Month must be an integer value be between 1 and 12'
-            );
-        }
-
-        $this->monthIndex = $monthIndex;
+        $this->month = MonthValueObject::fromNative($month);
     }
 
     /**
-     * @param  DateTime $date
+     * @param  DateTimeInterface $date
      * @return bool
      */
-    public function includes(DateTime $date)
+    public function includes(DateTimeInterface $date)
     {
-        return $date->format('n') == $this->monthIndex;
+        $month = MonthValueObject::fromNativeDateTime($date);
+
+        return $this->month->sameValueAs($month);
     }
 
     /**
@@ -54,7 +35,7 @@ class MonthInYear implements TemporalExpressionInterface
      */
     public static function january()
     {
-        return new self(self::JANUARY);
+        return new self(MonthValueObject::JANUARY);
     }
 
     /**
@@ -62,7 +43,7 @@ class MonthInYear implements TemporalExpressionInterface
      */
     public static function february()
     {
-        return new self(self::FEBRUARY);
+        return new self(MonthValueObject::FEBRUARY);
     }
 
     /**
@@ -70,7 +51,7 @@ class MonthInYear implements TemporalExpressionInterface
      */
     public static function march()
     {
-        return new self(self::MARCH);
+        return new self(MonthValueObject::MARCH);
     }
 
     /**
@@ -78,7 +59,7 @@ class MonthInYear implements TemporalExpressionInterface
      */
     public static function april()
     {
-        return new self(self::APRIL);
+        return new self(MonthValueObject::APRIL);
     }
 
     /**
@@ -86,7 +67,7 @@ class MonthInYear implements TemporalExpressionInterface
      */
     public static function may()
     {
-        return new self(self::MAY);
+        return new self(MonthValueObject::MAY);
     }
 
     /**
@@ -94,7 +75,7 @@ class MonthInYear implements TemporalExpressionInterface
      */
     public static function june()
     {
-        return new self(self::JUNE);
+        return new self(MonthValueObject::JUNE);
     }
 
     /**
@@ -102,7 +83,7 @@ class MonthInYear implements TemporalExpressionInterface
      */
     public static function july()
     {
-        return new self(self::JULY);
+        return new self(MonthValueObject::JULY);
     }
 
     /**
@@ -110,7 +91,7 @@ class MonthInYear implements TemporalExpressionInterface
      */
     public static function august()
     {
-        return new self(self::AUGUST);
+        return new self(MonthValueObject::AUGUST);
     }
 
     /**
@@ -118,7 +99,7 @@ class MonthInYear implements TemporalExpressionInterface
      */
     public static function september()
     {
-        return new self(self::SEPTEMBER);
+        return new self(MonthValueObject::SEPTEMBER);
     }
 
     /**
@@ -126,7 +107,7 @@ class MonthInYear implements TemporalExpressionInterface
      */
     public static function october()
     {
-        return new self(self::OCTOBER);
+        return new self(MonthValueObject::OCTOBER);
     }
 
     /**
@@ -134,7 +115,7 @@ class MonthInYear implements TemporalExpressionInterface
      */
     public static function november()
     {
-        return new self(self::NOVEMBER);
+        return new self(MonthValueObject::NOVEMBER);
     }
 
     /**
@@ -142,6 +123,6 @@ class MonthInYear implements TemporalExpressionInterface
      */
     public static function december()
     {
-        return new self(self::DECEMBER);
+        return new self(MonthValueObject::DECEMBER);
     }
 }

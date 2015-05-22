@@ -1,9 +1,9 @@
 <?php
-namespace Riskio\ScheduleTest\TemporalExpression;
+namespace Riskio\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
-use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
-use Riskio\Schedule\TemporalExpression\Difference;
+use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
+use Riskio\EventScheduler\TemporalExpression\Difference;
 
 class DifferenceTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,7 +21,7 @@ class DifferenceTest extends \PHPUnit_Framework_TestCase
      * @test
      * @dataProvider getDataProvider
      */
-    public function includesDateAccordingToDataProviderValues($included, $excluded, $expected)
+    public function includes_UsingDatesFromDataProvider_ShouldMatchExpectedValue($included, $excluded, $expected)
     {
         $anyDate = new DateTime();
 
@@ -31,13 +31,13 @@ class DifferenceTest extends \PHPUnit_Framework_TestCase
         $excludedExpr = $this->prophesize(TemporalExpressionInterface::class);
         $excludedExpr->includes($anyDate)->willReturn($excluded);
 
-        $temporalExpression = new Difference(
+        $expr = new Difference(
             $includedExpr->reveal(),
             $excludedExpr->reveal()
         );
 
-        $includes = $temporalExpression->includes($anyDate);
+        $isIncluded = $expr->includes($anyDate);
 
-        $this->assertSame($expected, $includes);
+        $this->assertSame($expected, $isIncluded);
     }
 }

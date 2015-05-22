@@ -1,9 +1,8 @@
 <?php
-namespace Riskio\ScheduleTest\TemporalExpression;
+namespace Riskio\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
-use Riskio\Schedule\TemporalExpression\Exception;
-use Riskio\Schedule\TemporalExpression\Semester;
+use Riskio\EventScheduler\TemporalExpression\Semester;
 
 class SemesterTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,11 +18,11 @@ class SemesterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider getInvalidSemesterDataProvider
+     * @expectedException \Riskio\EventScheduler\ValueObject\Exception\InvalidSemesterException
      */
     public function constructor_UsingInvalidSemesterValue_ShouldThrowAnException($semester)
     {
-        $this->setExpectedException(Exception\InvalidArgumentException::class);
-        $temporalExpression = new Semester($semester);
+        new Semester($semester);
     }
 
     public function getSuccessfulDataProvider()
@@ -42,7 +41,7 @@ class SemesterTest extends \PHPUnit_Framework_TestCase
      * @test
      * @dataProvider getSuccessfulDataProvider
      */
-    public function includesDate_WhenProvidedDateAtSameSemester_ShouldReturnTrue(DateTime $date, $semester)
+    public function includes_WhenProvidedDateAtSameSemester_ShouldReturnTrue(DateTime $date, $semester)
     {
         $this->includesDate($date, $semester, true);
     }
@@ -63,16 +62,16 @@ class SemesterTest extends \PHPUnit_Framework_TestCase
      * @test
      * @dataProvider getUnsuccessfulDataProvider
      */
-    public function includesDate_WhenProvidedDateAtDifferentSemester_ShouldReturnFalse(DateTime $date, $semester)
+    public function includes_WhenProvidedDateAtDifferentSemester_ShouldReturnFalse(DateTime $date, $semester)
     {
         $this->includesDate($date, $semester, false);
     }
 
     private function includesDate(DateTime $date, $semester, $expected)
     {
-        $temporalExpression = new Semester($semester);
+        $expr = new Semester($semester);
 
-        $output = $temporalExpression->includes($date);
+        $output = $expr->includes($date);
 
         $this->assertSame($expected, $output);
     }

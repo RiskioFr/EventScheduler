@@ -1,15 +1,15 @@
 <?php
-namespace Riskio\Schedule\TemporalExpression\Collection;
+namespace Riskio\EventScheduler\TemporalExpression\Collection;
 
-use DateTime;
+use DateTimeInterface;
 
 class Union extends AbstractCollection
 {
     /**
-     * @param  DateTime $date
+     * @param  DateTimeInterface $date
      * @return bool
      */
-    public function includes(DateTime $date)
+    public function includes(DateTimeInterface $date)
     {
         foreach ($this->elements as $element) {
             if ($element->includes($date)) {

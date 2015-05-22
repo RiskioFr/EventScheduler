@@ -1,56 +1,44 @@
 <?php
-namespace Riskio\ScheduleTest\TemporalExpression;
+namespace Riskio\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
-use Riskio\Schedule\TemporalExpression\Exception;
-use Riskio\Schedule\TemporalExpression\DayInWeek;
+use Riskio\EventScheduler\TemporalExpression\DayInWeek;
+use Riskio\EventScheduler\ValueObject\WeekDay;
 
 class DayInWeekTest extends \PHPUnit_Framework_TestCase
 {
-    public function getInvalidDayDataProvider()
-    {
-        return [
-            ['invalid'],
-            [0],
-            [8],
-        ];
-    }
-
     /**
      * @test
-     * @dataProvider getInvalidDayDataProvider
+     * @expectedException \Riskio\EventScheduler\ValueObject\Exception\InvalidWeekDayException
      */
-    public function constructor_UsingInvalidDayValue_ShouldThrowAnException($day)
+    public function constructor_UsingInvalidWeekDayValue_ShouldThrowAnException()
     {
-        $this->setExpectedException(Exception\InvalidArgumentException::class);
-        $temporalExpression = new DayInWeek($day);
+        new DayInWeek('invalid');
     }
 
     /**
      * @test
      */
-    public function includesDate_WhenProvidedDateAtSameMonthDay_ShouldReturnTrue()
+    public function includes_WhenProvidedDateAtSameWeekDay_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-12');
+        $expr = new DayInWeek($date->format('l'));
 
-        $temporalExpression = new DayInWeek($date->format('N'));
+        $isIncluded = $expr->includes($date);
 
-        $includes = $temporalExpression->includes($date);
-
-        $this->assertThat($includes, $this->equalTo(true));
+        $this->assertThat($isIncluded, $this->equalTo(true));
     }
 
     /**
      * @test
      */
-    public function includesDate_WhenProvidedDateAtDifferentMonthDay_ShouldReturnFalse()
+    public function includes_WhenProvidedDateAtDifferentWeekDay_ShouldReturnFalse()
     {
         $date = new DateTime('2015-04-12');
+        $expr = new DayInWeek(WeekDay::FRIDAY);
 
-        $temporalExpression = new DayInWeek(5);
+        $isIncluded = $expr->includes($date);
 
-        $includes = $temporalExpression->includes($date);
-
-        $this->assertThat($includes, $this->equalTo(false));
+        $this->assertThat($isIncluded, $this->equalTo(false));
     }
 }

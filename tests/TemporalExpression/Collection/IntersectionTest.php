@@ -1,9 +1,9 @@
 <?php
-namespace Riskio\ScheduleTest\TemporalExpression\Collection;
+namespace Riskio\EventSchedulerTest\TemporalExpression\Collection;
 
 use DateTime;
-use Riskio\Schedule\TemporalExpression\TemporalExpressionInterface;
-use Riskio\Schedule\TemporalExpression\Collection\Intersection;
+use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
+use Riskio\EventScheduler\TemporalExpression\Collection\Intersection;
 
 class IntersectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,22 +21,22 @@ class IntersectionTest extends \PHPUnit_Framework_TestCase
      * @test
      * @dataProvider getDataProvider
      */
-    public function includesDateAccordingToDataProviderValues($first, $second, $expected)
+    public function includes_UsingDatesFromDataProvider_ShouldMatchExpectedValue($first, $second, $expected)
     {
         $anyDate = new DateTime();
 
-        $temporalExpression = new Intersection();
+        $expr = new Intersection();
 
         $firstExpr = $this->prophesize(TemporalExpressionInterface::class);
         $firstExpr->includes($anyDate)->willReturn($first);
-        $temporalExpression->addElement($firstExpr->reveal());
+        $expr->addElement($firstExpr->reveal());
 
         $secondExpr = $this->prophesize(TemporalExpressionInterface::class);
         $secondExpr->includes($anyDate)->willReturn($second);
-        $temporalExpression->addElement($secondExpr->reveal());
+        $expr->addElement($secondExpr->reveal());
 
-        $includes = $temporalExpression->includes($anyDate);
+        $isIncluded = $expr->includes($anyDate);
 
-        $this->assertSame($expected, $includes);
+        $this->assertSame($expected, $isIncluded);
     }
 }
