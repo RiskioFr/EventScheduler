@@ -18,7 +18,7 @@ class TrimesterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider getInvalidTrimesterDataProvider
-     * @expectedException \Riskio\EventScheduler\TemporalExpression\Exception\InvalidArgumentException
+     * @expectedException \Riskio\EventScheduler\ValueObject\Exception\InvalidTrimesterException
      */
     public function constructor_UsingInvalidTrimesterValue_ShouldThrowAnException($trimester)
     {

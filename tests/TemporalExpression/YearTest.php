@@ -8,7 +8,7 @@ class YearTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
-     * @expectedException \Riskio\EventScheduler\TemporalExpression\Exception\InvalidArgumentException
+     * @expectedException \Riskio\EventScheduler\ValueObject\Exception\InvalidYearException
      */
     public function constructor_UsingInvalidTrimesterValue_ShouldThrowException()
     {

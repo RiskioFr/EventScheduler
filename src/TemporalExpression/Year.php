@@ -2,11 +2,12 @@
 namespace Riskio\EventScheduler\TemporalExpression;
 
 use DateTimeInterface;
+use Riskio\EventScheduler\ValueObject\Year as YearValueObject;
 
 class Year implements TemporalExpressionInterface
 {
     /**
-     * @var int
+     * @var YearValueObject
      */
     protected $year;
 
@@ -15,13 +16,7 @@ class Year implements TemporalExpressionInterface
      */
     public function __construct($year)
     {
-        if (!is_numeric($year)) {
-            throw new Exception\InvalidArgumentException(
-                'Year must be numeric value'
-            );
-        }
-
-        $this->year = $year;
+        $this->year = new YearValueObject($year);
     }
 
     /**
@@ -30,6 +25,8 @@ class Year implements TemporalExpressionInterface
      */
     public function includes(DateTimeInterface $date)
     {
-        return $date->format('Y') == $this->year;
+        $year = YearValueObject::fromNativeDateTime($date);
+
+        return $this->year->sameValueAs($year);
     }
 }

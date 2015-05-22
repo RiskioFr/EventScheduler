@@ -2,16 +2,12 @@
 namespace Riskio\EventScheduler\TemporalExpression;
 
 use DateTimeInterface;
+use Riskio\EventScheduler\ValueObject\Trimester as TrimesterValueObject;
 
 class Trimester implements TemporalExpressionInterface
 {
-    const FIRST  = 1;
-    const SECOND = 2;
-    const THIRD  = 3;
-    const FOURTH = 4;
-
     /**
-     * @var int
+     * @var TrimesterValueObject
      */
     protected $trimester;
 
@@ -20,17 +16,7 @@ class Trimester implements TemporalExpressionInterface
      */
     public function __construct($trimester)
     {
-        $filtered = filter_var($trimester, FILTER_VALIDATE_INT, [
-            'options' => ['min_range' => 1, 'max_range' => 4],
-        ]);
-        if (false === $filtered) {
-            throw new Exception\InvalidArgumentException(
-                'Trimester must be an integer value among 1, 2, 3 or 4 according to'
-                . ' first, second, third and fourth trimesters of the year'
-            );
-        }
-
-        $this->trimester = $trimester;
+        $this->trimester = new TrimesterValueObject($trimester);
     }
 
     /**
@@ -39,6 +25,8 @@ class Trimester implements TemporalExpressionInterface
      */
     public function includes(DateTimeInterface $date)
     {
-        return ceil($date->format('n') / 3) == $this->trimester;
+        $trimester = TrimesterValueObject::fromNativeDateTime($date);
+
+        return $this->trimester->sameValueAs($trimester);
     }
 }

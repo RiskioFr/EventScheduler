@@ -2,29 +2,21 @@
 namespace Riskio\EventScheduler\TemporalExpression;
 
 use DateTimeInterface;
+use Riskio\EventScheduler\ValueObject\Week as WeekValueObject;
 
 class WeekInYear implements TemporalExpressionInterface
 {
     /**
-     * @var int
+     * @var WeekValueObject
      */
-    protected $weekNumber;
+    protected $week;
 
     /**
-     * @param int $weekNumber
+     * @param int $week
      */
-    public function __construct($weekNumber)
+    public function __construct($week)
     {
-        $filtered = filter_var($weekNumber, FILTER_VALIDATE_INT, [
-            'options' => ['min_range' => 1, 'max_range' => 53],
-        ]);
-        if (false === $filtered) {
-            throw new Exception\InvalidArgumentException(
-                'Week must be an integer value between 1 and 53'
-            );
-        }
-
-        $this->weekNumber = $weekNumber;
+        $this->week = new WeekValueObject($week);
     }
 
     /**
@@ -33,6 +25,8 @@ class WeekInYear implements TemporalExpressionInterface
      */
     public function includes(DateTimeInterface $date)
     {
-        return $date->format('W') == $this->weekNumber;
+        $week = WeekValueObject::fromNativeDateTime($date);
+
+        return $this->week->sameValueAs($week);
     }
 }

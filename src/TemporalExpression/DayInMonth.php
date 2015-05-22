@@ -2,29 +2,21 @@
 namespace Riskio\EventScheduler\TemporalExpression;
 
 use DateTimeInterface;
+use Riskio\EventScheduler\ValueObject\MonthDay as MonthDayValueObject;
 
 class DayInMonth implements TemporalExpressionInterface
 {
     /**
-     * @var int
+     * @var MonthDayValueObject
      */
-    protected $dayIndex;
+    protected $day;
 
     /**
-     * @param int $dayIndex
+     * @param int $day
      */
-    public function __construct($dayIndex)
+    public function __construct($day)
     {
-        $filtered = filter_var($dayIndex, FILTER_VALIDATE_INT, [
-            'options' => ['min_range' => 1, 'max_range' => 31],
-        ]);
-        if (false === $filtered) {
-            throw new Exception\InvalidArgumentException(
-                'Day must be an integer value between 1 and 31'
-            );
-        }
-
-        $this->dayIndex = $dayIndex;
+        $this->day = new MonthDayValueObject($day);
     }
 
     /**
@@ -33,6 +25,8 @@ class DayInMonth implements TemporalExpressionInterface
      */
     public function includes(DateTimeInterface $date)
     {
-        return $date->format('j') == $this->dayIndex;
+        $day = MonthDayValueObject::fromNativeDateTime($date);
+
+        return $this->day->sameValueAs($day);
     }
 }

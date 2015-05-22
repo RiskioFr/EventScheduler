@@ -18,7 +18,7 @@ class WeekInYearTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider getInvalidDayDataProvider
-     * @expectedException \Riskio\EventScheduler\TemporalExpression\Exception\InvalidArgumentException
+     * @expectedException \Riskio\EventScheduler\ValueObject\Exception\InvalidWeekException
      */
     public function constructor_UsingInvalidWeekValue_ShouldThrowAnException($day)
     {
