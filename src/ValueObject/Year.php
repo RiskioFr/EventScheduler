@@ -16,7 +16,8 @@ class Year extends BaseYear
         try {
             parent::__construct($year);
         } catch (InvalidNativeArgumentException $e) {
-            throw new InvalidYearException('Year must be an integer');
+            $message = 'Year must be an integer';
+            throw new InvalidYearException($message, 0, $e->getPrevious());
         }
     }
 

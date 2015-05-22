@@ -18,9 +18,9 @@ class Month extends BaseMonth
             return parent::fromNative($value);
         } catch (InvalidArgumentException $e) {
             throw new InvalidMonthException(sprintf(
-                'Month "%s" does not exists',
+                'Month "%s" does not exist',
                 $value
-            ));
+            ), 0, $e->getPrevious());
         }
     }
 }

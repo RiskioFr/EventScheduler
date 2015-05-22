@@ -16,7 +16,8 @@ class MonthDay extends BaseMonthDay
         try {
             parent::__construct($year);
         } catch (InvalidArgumentException $e) {
-            throw new InvalidMonthDayException('Month day must be an integer between 1 and 31');
+            $message = 'Month day must be an integer between 1 and 31';
+            throw new InvalidMonthDayException($message, 0, $e->getPrevious());
         }
     }
 

@@ -18,9 +18,9 @@ class WeekDay extends BaseWeekDay
             return parent::fromNative($value);
         } catch (InvalidArgumentException $e) {
             throw new InvalidWeekDayException(sprintf(
-                'Week day "%s" does not exists',
+                'Week day "%s" does not exist',
                 $value
-            ));
+            ), 0, $e->getPrevious());
         }
     }
 }
