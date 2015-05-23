@@ -12,11 +12,11 @@ class DayInWeek implements TemporalExpressionInterface
     protected $day;
 
     /**
-     * @param string $day
+     * @param string|int $day
      */
     public function __construct($day)
     {
-        $this->day = WeekDayValueObject::fromNative($day);
+        $this->day = WeekDayValueObject::fromNativeOrNumericValue($day);
     }
 
     /**

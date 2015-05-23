@@ -23,4 +23,19 @@ class Month extends BaseMonth
             ), 0, $e->getPrevious());
         }
     }
+
+    /**
+     * @param  string $value
+     * @return self
+     */
+    public static function fromNativeOrNumericValue()
+    {
+        $value = func_get_arg(0);
+
+        if (is_numeric($value)) {
+            return static::getByOrdinal($value - 1);
+        } else {
+            return static::fromNative($value);
+        }
+    }
 }

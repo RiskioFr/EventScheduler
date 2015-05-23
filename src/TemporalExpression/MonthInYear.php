@@ -12,11 +12,11 @@ class MonthInYear implements TemporalExpressionInterface
     protected $month;
 
     /**
-     * @param string $month
+     * @param string|int $month
      */
     public function __construct($month)
     {
-        $this->month = MonthValueObject::fromNative($month);
+        $this->month = MonthValueObject::fromNativeOrNumericValue($month);
     }
 
     /**

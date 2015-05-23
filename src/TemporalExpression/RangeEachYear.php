@@ -28,15 +28,15 @@ class RangeEachYear implements TemporalExpressionInterface
     protected $endDay;
 
     /**
-     * @param int $startMonth
-     * @param int $endMonth
+     * @param string|int $startMonth
+     * @param string|int $endMonth
      * @param int|null $startDay
      * @param int|null $endDay
      */
     public function __construct($startMonth, $endMonth, $startDay = null, $endDay = null)
     {
-        $this->startMonth = Month::fromNative($startMonth);
-        $this->endMonth   = Month::fromNative($endMonth);
+        $this->startMonth = Month::fromNativeOrNumericValue($startMonth);
+        $this->endMonth   = Month::fromNativeOrNumericValue($endMonth);
 
         if (null !== $startDay) {
             $this->startDay = MonthDay::fromNative($startDay);
