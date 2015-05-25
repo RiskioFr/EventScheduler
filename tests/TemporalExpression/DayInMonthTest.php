@@ -1,9 +1,8 @@
 <?php
-namespace Riskio\ScheduleTest\TemporalExpression;
+namespace Riskio\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
-use Riskio\Schedule\TemporalExpression\Exception;
-use Riskio\Schedule\TemporalExpression\DayInMonth;
+use Riskio\EventScheduler\TemporalExpression\DayInMonth;
 
 class DayInMonthTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,33 +16,38 @@ class DayInMonthTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
      * @dataProvider getInvalidDayDataProvider
+     * @expectedException \Riskio\EventScheduler\ValueObject\Exception\InvalidMonthDayException
      */
-    public function testUsingInvalidDayValueShouldThrowException($day)
+    public function constructor_WhenUsingInvalidDayValue_ShouldThrowAnException($day)
     {
-        $this->setExpectedException(Exception\InvalidArgumentException::class);
-        $temporalExpression = new DayInMonth($day);
+        new DayInMonth($day);
     }
 
-    public function testIncludesDateWhenProvidedDateAtSameMonthDayShouldReturnTrue()
+    /**
+     * @test
+     */
+    public function includes_WhenProvidedDateAtSameMonthDay_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-12');
+        $expr = new DayInMonth($date->format('j'));
 
-        $temporalExpression = new DayInMonth($date->format('j'));
+        $isIncluded = $expr->includes($date);
 
-        $output = $temporalExpression->includes($date);
-
-        $this->assertTrue($output);
+        $this->assertThat($isIncluded, $this->equalTo(true));
     }
 
-    public function testIncludesDateWhenProvidedDateAtDifferentMonthDayShouldReturnFalse()
+    /**
+     * @test
+     */
+    public function includes_WhenProvidedDateAtDifferentMonthDay_ShouldReturnFalse()
     {
         $date = new DateTime('2015-04-12');
+        $expr = new DayInMonth(14);
 
-        $temporalExpression = new DayInMonth(14);
+        $isIncluded = $expr->includes($date);
 
-        $output = $temporalExpression->includes($date);
-
-        $this->assertFalse($output);
+        $this->assertThat($isIncluded, $this->equalTo(false));
     }
 }

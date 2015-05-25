@@ -1,8 +1,8 @@
 <?php
-namespace Riskio\ScheduleTest;
+namespace Riskio\EventSchedulerTest;
 
-use DateTime;
-use Riskio\Schedule\DateRange;
+use DateTimeImmutable;
+use Riskio\EventScheduler\DateRange;
 
 class DateRangeTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,32 +11,38 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->expectedDates = [
-            new DateTime('2015-03-01'),
-            new DateTime('2015-03-02'),
-            new DateTime('2015-03-03'),
-            new DateTime('2015-03-04'),
-            new DateTime('2015-03-05'),
+            new DateTimeImmutable('2015-03-01'),
+            new DateTimeImmutable('2015-03-02'),
+            new DateTimeImmutable('2015-03-03'),
+            new DateTimeImmutable('2015-03-04'),
+            new DateTimeImmutable('2015-03-05'),
         ];
     }
 
-    public function testIterateOverRangeShouldMatchExpectedDates()
+    /**
+     * @test
+     */
+    public function dateRange_CanIterateForward()
     {
-        $startDate = new DateTime('2015-03-01');
-        $endDate   = new DateTime('2015-03-05');
+        $startDate = new DateTimeImmutable('2015-03-01');
+        $endDate   = new DateTimeImmutable('2015-03-05');
 
-        $range = new DateRange($startDate, $endDate);
+        $range     = new DateRange($startDate, $endDate);
 
         foreach ($range->getIterator() as $key => $date) {
             $this->assertEquals($this->expectedDates[$key], $date);
         }
     }
 
-    public function testIterateUpsideOverRangeShouldMatchExpectedDates()
+    /**
+     * @test
+     */
+    public function dateRange_CanIterateBackward()
     {
-        $startDate = new DateTime('2015-03-01');
-        $endDate   = new DateTime('2015-03-05');
+        $startDate = new DateTimeImmutable('2015-03-01');
+        $endDate   = new DateTimeImmutable('2015-03-05');
 
-        $range = new DateRange($startDate, $endDate);
+        $range     = new DateRange($startDate, $endDate);
 
         $expectedDates = array_reverse($this->expectedDates);
         foreach ($range->getReverseIterator() as $key => $date) {

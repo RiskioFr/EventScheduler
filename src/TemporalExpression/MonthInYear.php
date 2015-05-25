@@ -1,38 +1,128 @@
 <?php
-namespace Riskio\Schedule\TemporalExpression;
+namespace Riskio\EventScheduler\TemporalExpression;
 
-use DateTime;
+use DateTimeInterface;
+use Riskio\EventScheduler\ValueObject\Month as MonthValueObject;
 
 class MonthInYear implements TemporalExpressionInterface
 {
     /**
-     * @var int
+     * @var MonthValueObject
      */
-    protected $monthIndex;
+    protected $month;
 
     /**
-     * @param int $monthIndex
+     * @param string|int $month
      */
-    public function __construct($monthIndex)
+    public function __construct($month)
     {
-        $filtered = filter_var($monthIndex, FILTER_VALIDATE_INT, [
-            'options' => ['min_range' => 1, 'max_range' => 12],
-        ]);
-        if (!$filtered) {
-            throw new Exception\InvalidArgumentException(
-                'Month must be an integer value be between 1 and 12'
-            );
-        }
-
-        $this->monthIndex = $monthIndex;
+        $this->month = MonthValueObject::fromNativeOrNumericValue($month);
     }
 
     /**
-     * @param  DateTime $date
+     * @param  DateTimeInterface $date
      * @return bool
      */
-    public function includes(DateTime $date)
+    public function includes(DateTimeInterface $date)
     {
-        return $date->format('n') == $this->monthIndex;
+        $month = MonthValueObject::fromNativeDateTime($date);
+
+        return $this->month->sameValueAs($month);
+    }
+
+    /**
+     * @return self
+     */
+    public static function january()
+    {
+        return new self(MonthValueObject::JANUARY);
+    }
+
+    /**
+     * @return self
+     */
+    public static function february()
+    {
+        return new self(MonthValueObject::FEBRUARY);
+    }
+
+    /**
+     * @return self
+     */
+    public static function march()
+    {
+        return new self(MonthValueObject::MARCH);
+    }
+
+    /**
+     * @return self
+     */
+    public static function april()
+    {
+        return new self(MonthValueObject::APRIL);
+    }
+
+    /**
+     * @return self
+     */
+    public static function may()
+    {
+        return new self(MonthValueObject::MAY);
+    }
+
+    /**
+     * @return self
+     */
+    public static function june()
+    {
+        return new self(MonthValueObject::JUNE);
+    }
+
+    /**
+     * @return self
+     */
+    public static function july()
+    {
+        return new self(MonthValueObject::JULY);
+    }
+
+    /**
+     * @return self
+     */
+    public static function august()
+    {
+        return new self(MonthValueObject::AUGUST);
+    }
+
+    /**
+     * @return self
+     */
+    public static function september()
+    {
+        return new self(MonthValueObject::SEPTEMBER);
+    }
+
+    /**
+     * @return self
+     */
+    public static function october()
+    {
+        return new self(MonthValueObject::OCTOBER);
+    }
+
+    /**
+     * @return self
+     */
+    public static function november()
+    {
+        return new self(MonthValueObject::NOVEMBER);
+    }
+
+    /**
+     * @return self
+     */
+    public static function december()
+    {
+        return new self(MonthValueObject::DECEMBER);
     }
 }

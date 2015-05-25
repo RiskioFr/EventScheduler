@@ -1,9 +1,8 @@
 <?php
-namespace Riskio\ScheduleTest\TemporalExpression;
+namespace Riskio\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
-use Riskio\Schedule\TemporalExpression\Exception;
-use Riskio\Schedule\TemporalExpression\Trimester;
+use Riskio\EventScheduler\TemporalExpression\Trimester;
 
 class TrimesterTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,12 +16,13 @@ class TrimesterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
      * @dataProvider getInvalidTrimesterDataProvider
+     * @expectedException \Riskio\EventScheduler\ValueObject\Exception\InvalidTrimesterException
      */
-    public function testUsingInvalidTrimesterValueShouldThrowException($trimester)
+    public function constructor_UsingInvalidTrimesterValue_ShouldThrowAnException($trimester)
     {
-        $this->setExpectedException(Exception\InvalidArgumentException::class);
-        $temporalExpression = new Trimester($trimester);
+        new Trimester($trimester);
     }
 
     public function getSuccessfulDataProvider()
@@ -40,9 +40,10 @@ class TrimesterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
      * @dataProvider getSuccessfulDataProvider
      */
-    public function testIncludesDateWhenProvidedDateAtSameTrimesterShouldReturnTrue(DateTime $date, $trimester)
+    public function includes_WhenProvidedDateAtSameTrimester_ShouldReturnTrue(DateTime $date, $trimester)
     {
         $this->includesDate($date, $trimester, true);
     }
@@ -62,18 +63,19 @@ class TrimesterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
      * @dataProvider getUnsuccessfulDataProvider
      */
-    public function testIncludesDateWhenProvidedDateAtDifferentTrimesterShouldReturnFalse(DateTime $date, $trimester)
+    public function includes_WhenProvidedDateAtDifferentTrimester_ShouldReturnFalse(DateTime $date, $trimester)
     {
         $this->includesDate($date, $trimester, false);
     }
 
     private function includesDate(DateTime $date, $trimester, $expected)
     {
-        $temporalExpression = new Trimester($trimester);
+        $expr = new Trimester($trimester);
 
-        $output = $temporalExpression->includes($date);
+        $output = $expr->includes($date);
 
         $this->assertSame($expected, $output);
     }

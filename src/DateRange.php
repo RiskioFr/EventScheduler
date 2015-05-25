@@ -1,19 +1,21 @@
 <?php
-namespace Riskio\Schedule;
+namespace Riskio\EventScheduler;
 
 use DateInterval;
 use DateTime;
+use DateTimeImmutable;
+use DateTimeInterface;
 use Generator;
 
 class DateRange
 {
     /**
-     * @var DateTime
+     * @var DateTimeImmutable
      */
     protected $startDate;
 
     /**
-     * @var DateTime
+     * @var DateTimeImmutable
      */
     protected $endDate;
 
@@ -23,22 +25,33 @@ class DateRange
     protected $interval;
 
     /**
-     * @param DateTime $startDate
-     * @param DateTime $endDate
+     * @param DateTimeInterface $startDate
+     * @param DateTimeInterface $endDate
      * @param DateInterval|null $interval
      */
-    public function __construct(DateTime $startDate, DateTime $endDate, DateInterval $interval = null)
+    public function __construct(DateTimeInterface $startDate, DateTimeInterface $endDate, DateInterval $interval = null)
     {
-        $this->setStartDate($startDate);
-        $this->setEndDate($endDate);
+        $this->startDate = $this->makeImmutable($startDate);
+        $this->endDate   = $this->makeImmutable($endDate);
 
-        if ($interval) {
-            $this->setInterval($interval);
+        if (null !== $interval) {
+            $this->interval = $interval;
+        } else {
+            $this->interval = new DateInterval('P1D');
         }
     }
 
+    private function makeImmutable(DateTimeInterface $date)
+    {
+        if ($date instanceof DateTime) {
+            $date = DateTimeImmutable::createFromMutable($date);
+        }
+
+        return $date;
+    }
+
     /**
-     * @return DateTime
+     * @return DateTimeImmutable
      */
     public function getStartDate()
     {
@@ -46,15 +59,7 @@ class DateRange
     }
 
     /**
-     * @param DateTime $date
-     */
-    public function setStartDate(DateTime $date)
-    {
-        $this->startDate = $date;
-    }
-
-    /**
-     * @return DateTime
+     * @return DateTimeImmutable
      */
     public function getEndDate()
     {
@@ -62,31 +67,11 @@ class DateRange
     }
 
     /**
-     * @param DateTime $date
-     */
-    public function setEndDate(DateTime $date)
-    {
-        $this->endDate = $date;
-    }
-
-    /**
      * @return DateInterval
      */
     public function getInterval()
     {
-        if (!$this->interval) {
-            $this->interval = new DateInterval('P1D');
-        }
-
         return $this->interval;
-    }
-
-    /**
-     * @param DateInterval $interval
-     */
-    public function setInterval(DateInterval $interval)
-    {
-        $this->interval = $interval;
     }
 
     /**
@@ -94,15 +79,13 @@ class DateRange
      */
     public function getIterator()
     {
-        $date     = clone $this->startDate;
-        $interval = $this->getInterval();
-
-        do {
+        for (
+            $date = $this->startDate;
+            $date <= $this->endDate;
+            $date = $date->add($this->interval)
+        ) {
             yield $date;
-
-            $date = clone $date;
-            $date->add($interval);
-        } while ($date <= $this->endDate);
+        }
     }
 
     /**
@@ -110,14 +93,12 @@ class DateRange
      */
     public function getReverseIterator()
     {
-        $date     = clone $this->endDate;
-        $interval = $this->getInterval();
-
-        do {
+        for (
+            $date = $this->endDate;
+            $date >= $this->startDate;
+            $date = $date->sub($this->interval)
+        ) {
             yield $date;
-
-            $date = clone $date;
-            $date->sub($interval);
-        } while ($date >= $this->startDate);
+        }
     }
 }

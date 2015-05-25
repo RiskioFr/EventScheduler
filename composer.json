@@ -1,7 +1,7 @@
 {
-    "name": "riskio/schedule",
-    "description": "Manage events including recurring ones",
-    "homepage": "https://github.com/RiskioFr/Schedule",
+    "name": "riskio/event-scheduler",
+    "description": "Manage recurring events",
+    "homepage": "https://github.com/RiskioFr/EventScheduler",
     "repositories": [
         {
             "type": "composer",
@@ -9,19 +9,20 @@
         }
     ],
     "require": {
-        "php": ">=5.5"
+        "php": ">=5.6",
+        "nicolopignatelli/valueobjects": "~3.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.5"
     },
     "autoload": {
         "psr-4": {
-            "Riskio\\Schedule\\": "src/"
+            "Riskio\\EventScheduler\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Riskio\\ScheduleTest\\": "tests/"
+            "Riskio\\EventSchedulerTest\\": "tests/"
         }
     }
 }
