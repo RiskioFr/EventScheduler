@@ -17,33 +17,26 @@ The documentation will help you to understand how to use and extend Schedule.
 
 ### Introduction
 
-The schedule represented by ```Riskio\Schedule\Schedule``` class allows you to know if any event occurs at a given date.
+The schedule represented by ```Riskio\EventScheduler\Scheduler``` class allows you to know if any event occurs at a given date.
 
 ### Usage
 
-To start, you must instantiate ```Riskio\Schedule\Schedule``` and provide it some schedule elements
-using constructor or `Riskio\Schedule\Schedule::setElements` method. A schedule element is an `Riskio\Schedule\ScheduleElement` instance with two properties:
+To start, you must instantiate ```Riskio\EventScheduler\Scheduler``` and schedule some events
+using `Riskio\EventScheduler\Scheduler::schedule` method.
 
-- an event name: the name of the event that will occur (ex: medical appointment, sports lessons, etc)
-- a temporal expression: an object that has the ability to define whether an event occur or not at a given time
-
-This example add a schedule element to the schedule with a given event and `DayInMonth` temporal expression. So, the event will occur
-at 15th day of each coming months.
+This example schedule an event with `DayInMonth` temporal expression. So, the event will occur at 15th day of each coming months.
 
 ```php
-use Riskio\Schedule\Schedule;
-use Riskio\Schedule\ScheduleElement;
-use Riskio\Schedule\TemporalExpression;
+use Riskio\EventScheduler\Scheduler;
+use Riskio\EventScheduler\TemporalExpression;
 
-$schedule = new Schedule();
-$schedule->setElements([
-    new ScheduleElement('event_name', new TemporalExpression\DayInMonth(15)),
-]);
+$scheduler = new Scheduler();
+$scheduler->schedule('event_name', new TemporalExpression\DayInMonth(15));
 ```
 
 ### Temporal Expressions
 
-A temporal expression implements `Riskio\Schedule\TemporalExpression\TemporalExpressionInterface` that provides useful `isOccurring` method to
+A temporal expression implements `Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface` that provides useful `isOccurring` method to
 check if an event occur or not.
 
 ```php
@@ -58,69 +51,71 @@ By default, there are some temporal expressions that you can use to define event
 
 ##### DayInWeek
 
-- class: Riskio\Schedule\TemporalExpression\DayInWeek
+- class: Riskio\EventScheduler\TemporalExpression\DayInWeek
 - parameters: day (1-7)
 
 ###### Examples
 
 ```php
-use Riskio\Schedule\TemporalExpression\DayInWeek;
+use Riskio\EventScheduler\TemporalExpression\DayInWeek;
+use Riskio\EventScheduler\ValueObject\WeekDay;
 
-$expression = new DayInWeek(DayInWeek::MONDAY);
+$expression = new DayInWeek(WeekDay::MONDAY);
 
 $expression = DayInWeek::monday();
 ```
 
 ##### DayInMonth
 
-- class: Riskio\Schedule\TemporalExpression\DayInMonth
+- class: Riskio\EventScheduler\TemporalExpression\DayInMonth
 - parameters: day (1-31)
 
 ###### Example
 
 ```php
-use Riskio\Schedule\TemporalExpression\DayInMonth;
+use Riskio\EventScheduler\TemporalExpression\DayInMonth;
 
 $expression = new DayInMonth(15);
 ```
 
 ##### MonthInYear
 
-- class: Riskio\Schedule\TemporalExpression\MonthInYear
+- class: Riskio\EventScheduler\TemporalExpression\MonthInYear
 - parameters: month (1-12)
 
 ###### Examples
 
 ```php
-use Riskio\Schedule\TemporalExpression\MonthInYear;
+use Riskio\EventScheduler\TemporalExpression\MonthInYear;
+use Riskio\EventScheduler\ValueObject\Month;
 
-$expression = new MonthInYear(MonthInYear::JANUARY);
+$expression = new MonthInYear(Month::JANUARY);
 
 $expression = MonthInYear::january();
 ```
 
 ##### Semester
 
-- class: Riskio\Schedule\TemporalExpression\Semester
+- class: Riskio\EventScheduler\TemporalExpression\Semester
 - parameters: semester (1-2)
 
 ###### Example
 
 ```php
-use Riskio\Schedule\TemporalExpression\Semester;
+use Riskio\EventScheduler\TemporalExpression\Semester;
 
 $expression = new Semester(1);
 ```
 
 ##### Trimester
 
-- class: Riskio\Schedule\TemporalExpression\Trimester
+- class: Riskio\EventScheduler\TemporalExpression\Trimester
 - parameters: trimester (1-4)
 
 ###### Example
 
 ```php
-use Riskio\Schedule\TemporalExpression\Trimester;
+use Riskio\EventScheduler\TemporalExpression\Trimester;
 
 $expression = new Trimester(1);
 ```
@@ -138,9 +133,9 @@ An event is occuring at a given date if it lies within all temporal expressions.
 
 ```php
 use DateTime;
-use Riskio\Schedule\TemporalExpression\Collection\Intersection;
-use Riskio\Schedule\TemporalExpression\DayInMonth;
-use Riskio\Schedule\TemporalExpression\MonthInYear;
+use Riskio\EventScheduler\TemporalExpression\Collection\Intersection;
+use Riskio\EventScheduler\TemporalExpression\DayInMonth;
+use Riskio\EventScheduler\TemporalExpression\MonthInYear;
 
 $intersection = new Intersection();
 $intersection->addElement(new DayInMonth(15));
@@ -159,9 +154,9 @@ An event is occuring at a given date if it lies within at least one temporal exp
 
 ```php
 use DateTime;
-use Riskio\Schedule\TemporalExpression\Collection\Union;
-use Riskio\Schedule\TemporalExpression\DayInMonth;
-use Riskio\Schedule\TemporalExpression\MonthInYear;
+use Riskio\EventScheduler\TemporalExpression\Collection\Union;
+use Riskio\EventScheduler\TemporalExpression\DayInMonth;
+use Riskio\EventScheduler\TemporalExpression\MonthInYear;
 
 $union = new Union();
 $intersection->addElement(new DayInMonth(15));
@@ -180,9 +175,9 @@ An event is occuring at a given date if it lies within first temporal expression
 
 ```php
 use DateTime;
-use Riskio\Schedule\TemporalExpression\Difference;
-use Riskio\Schedule\TemporalExpression\DayInMonth;
-use Riskio\Schedule\TemporalExpression\MonthInYear;
+use Riskio\EventScheduler\TemporalExpression\Difference;
+use Riskio\EventScheduler\TemporalExpression\DayInMonth;
+use Riskio\EventScheduler\TemporalExpression\MonthInYear;
 
 $difference = new Difference(MonthInYear::january(), new DayInMonth(15));
 
@@ -193,7 +188,7 @@ $isOccuring = $intersection->isOccuring('event', new DateTime('2015-02-15')); //
 
 #### Custom Temporal Expressions
 
-You can create temporal expressions that match your special needs by implementing `Riskio\Schedule\TemporalExpression\TemporalExpressionInterface`.
+You can create temporal expressions that match your special needs by implementing `Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface`.
 
 ### Cookbook
 
