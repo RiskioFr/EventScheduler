@@ -41,7 +41,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
 
         $scheduler->unschedule($schedulableEvent);
 
-        $this->assertThat($scheduler->isScheduled($anyEvent), $this->equalTo(false));
+        $this->assertThat($scheduler->isScheduled($anyEvent), $this->isFalse());
     }
 
     /**
@@ -54,7 +54,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
 
         $isOccurring = $scheduler->isOccurring($anyEvent, new DateTime());
 
-        $this->assertThat($isOccurring, $this->equalTo(false));
+        $this->assertThat($isOccurring, $this->isFalse());
     }
 
     /**
@@ -69,7 +69,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
 
         $isOccurring = $scheduler->isOccurring($anyEvent, new DateTime());
 
-        $this->assertThat($isOccurring, $this->equalTo(true));
+        $this->assertThat($isOccurring, $this->isTrue());
     }
 
     /**
@@ -84,7 +84,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
 
         $isOccurring = $scheduler->isOccurring($anyEvent, new DateTime());
 
-        $this->assertThat($isOccurring, $this->equalTo(false));
+        $this->assertThat($isOccurring, $this->isFalse());
     }
 
     /**

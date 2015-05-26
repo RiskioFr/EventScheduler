@@ -16,7 +16,7 @@ class UntilTest extends \PHPUnit_Framework_TestCase
 
         $isIncluded = $expr->includes(new DateTime('2015-04-11'));
 
-        $this->assertThat($isIncluded, $this->equalTo(true));
+        $this->assertThat($isIncluded, $this->isTrue());
     }
 
     /**
@@ -29,6 +29,6 @@ class UntilTest extends \PHPUnit_Framework_TestCase
 
         $isIncluded = $expr->includes(new DateTime('2015-04-13'));
 
-        $this->assertThat($isIncluded, $this->equalTo(false));
+        $this->assertThat($isIncluded, $this->isFalse());
     }
 }

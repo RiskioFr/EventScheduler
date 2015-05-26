@@ -26,7 +26,7 @@ class YearTest extends \PHPUnit_Framework_TestCase
 
         $isIncluded = $expr->includes($date);
 
-        $this->assertThat($isIncluded, $this->equalTo(true));
+        $this->assertThat($isIncluded, $this->isTrue());
     }
 
     /**
@@ -39,6 +39,6 @@ class YearTest extends \PHPUnit_Framework_TestCase
 
         $isIncluded = $expr->includes($date);
 
-        $this->assertThat($isIncluded, $this->equalTo(false));
+        $this->assertThat($isIncluded, $this->isFalse());
     }
 }

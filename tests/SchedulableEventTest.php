@@ -51,7 +51,7 @@ class SchedulableEventTest extends \PHPUnit_Framework_TestCase
 
         $isOccurring = $schedulableEvent->isOccurring($anyOtherEvent, new DateTime());
 
-        $this->assertThat($isOccurring, $this->equalTo(false));
+        $this->assertThat($isOccurring, $this->isFalse());
     }
 
     /**
@@ -72,7 +72,7 @@ class SchedulableEventTest extends \PHPUnit_Framework_TestCase
 
         $isOccurring = $schedulableEvent->isOccurring($anyEvent, $anyDate);
 
-        $this->assertThat($isOccurring, $this->equalTo(true));
+        $this->assertThat($isOccurring, $this->isTrue());
     }
 
     /**
@@ -93,7 +93,7 @@ class SchedulableEventTest extends \PHPUnit_Framework_TestCase
 
         $isOccurring = $schedulableEvent->isOccurring($anyEvent, $anyDate);
 
-        $this->assertThat($isOccurring, $this->equalTo(false));
+        $this->assertThat($isOccurring, $this->isFalse());
     }
 
     private function getTemporalExpression()
