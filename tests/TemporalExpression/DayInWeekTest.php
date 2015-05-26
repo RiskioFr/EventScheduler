@@ -22,7 +22,7 @@ class DayInWeekTest extends \PHPUnit_Framework_TestCase
     public function includes_WhenProvidedDateAtSameWeekDay_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-12');
-        $expr = new DayInWeek($date->format('l'));
+        $expr = new DayInWeek(WeekDay::SUNDAY);
 
         $isIncluded = $expr->includes($date);
 

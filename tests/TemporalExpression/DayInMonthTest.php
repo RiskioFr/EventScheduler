@@ -31,7 +31,7 @@ class DayInMonthTest extends \PHPUnit_Framework_TestCase
     public function includes_WhenProvidedDateAtSameMonthDay_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-12');
-        $expr = new DayInMonth($date->format('j'));
+        $expr = new DayInMonth(12);
 
         $isIncluded = $expr->includes($date);
 

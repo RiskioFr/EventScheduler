@@ -21,8 +21,7 @@ class YearTest extends \PHPUnit_Framework_TestCase
     public function includes_WhenProvidedDateAtSameYear_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-10');
-        $year = (int) $date->format('Y');
-        $expr = new Year($year);
+        $expr = new Year(2015);
 
         $isIncluded = $expr->includes($date);
 

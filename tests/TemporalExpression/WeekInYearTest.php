@@ -31,7 +31,7 @@ class WeekInYearTest extends \PHPUnit_Framework_TestCase
     public function includes_GivenDateWithMatchingWeekNumber_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-12');
-        $expr = new WeekInYear($date->format('W'));
+        $expr = new WeekInYear(15);
 
         $isIncluded = $expr->includes($date);
 

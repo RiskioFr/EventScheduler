@@ -21,9 +21,8 @@ class MonthInYearTest extends \PHPUnit_Framework_TestCase
      */
     public function includes_WhenProvidedDateAtSameMonth_ShouldReturnTrue()
     {
-        $date  = new DateTime('2015-04-10');
-        $month = $date->format('F');
-        $expr = new MonthInYear($month);
+        $date = new DateTime('2015-04-10');
+        $expr = new MonthInYear(Month::APRIL);
 
         $isIncluded = $expr->includes($date);
 
