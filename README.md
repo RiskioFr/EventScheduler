@@ -31,7 +31,13 @@ use Riskio\EventScheduler\Scheduler;
 use Riskio\EventScheduler\TemporalExpression;
 
 $scheduler = new Scheduler();
-$scheduler->schedule('event_name', new TemporalExpression\DayInMonth(15));
+$scheduledEvent = $scheduler->schedule('event_name', new TemporalExpression\DayInMonth(15));
+```
+
+If you want to unschedule this event, you can provide the returned instance of `Riskio\EventScheduler\SchedulableEvent` to the `Riskio\EventScheduler\Scheduler::unschedule` method.
+
+```php
+$scheduler->schedule($scheduledEvent);
 ```
 
 ### Temporal Expressions
@@ -78,6 +84,20 @@ use Riskio\EventScheduler\TemporalExpression\DayInMonth;
 $expression = new DayInMonth(15);
 ```
 
+##### WeekInYear
+
+- class: Riskio\EventScheduler\TemporalExpression\WeekInYear
+- parameters: month (1-12)
+
+###### Example
+
+```php
+use Riskio\EventScheduler\TemporalExpression\WeekInYear;
+use Riskio\EventScheduler\ValueObject\Month;
+
+$expression = new WeekInYear(15);
+```
+
 ##### MonthInYear
 
 - class: Riskio\EventScheduler\TemporalExpression\MonthInYear
@@ -118,6 +138,70 @@ $expression = new Semester(1);
 use Riskio\EventScheduler\TemporalExpression\Trimester;
 
 $expression = new Trimester(1);
+```
+
+##### Year
+
+- class: Riskio\EventScheduler\TemporalExpression\Year
+- parameters: year
+
+###### Example
+
+```php
+use Riskio\EventScheduler\TemporalExpression\Year;
+
+$expression = new Year(2015);
+```
+
+##### From
+
+- class: Riskio\EventScheduler\TemporalExpression\From
+- parameters: `DateTimeInterface` instance
+
+###### Example
+
+```php
+use DateTime;
+use Riskio\EventScheduler\TemporalExpression\From;
+
+$date = new DateTime();
+$expression = new From($date);
+```
+
+##### Until
+
+- class: Riskio\EventScheduler\TemporalExpression\Until
+- parameters: `DateTimeInterface` instance
+
+###### Example
+
+```php
+use DateTime;
+use Riskio\EventScheduler\TemporalExpression\Until;
+
+$date = new DateTime();
+$expression = new Until($date);
+```
+
+##### RangeEachYear
+
+- class: Riskio\EventScheduler\TemporalExpression\RangeEachYear
+- parameters:
+  - start month (1-12)
+  - end month (1-12)
+  - start day (1-31)
+  - end day (1-31)
+
+###### Examples
+
+```php
+use Riskio\EventScheduler\TemporalExpression\RangeEachYear;
+
+// From January to March inclusive
+$expression = new RangeEachYear(1, 3);
+
+// From January 10 to March 20
+$expression = new RangeEachYear(1, 3, 10, 20);
 ```
 
 #### Composite Temporal Expressions
