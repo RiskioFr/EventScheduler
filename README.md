@@ -259,8 +259,8 @@ An event is occuring at a given date if it lies within first temporal expression
 
 ```php
 use DateTime;
-use Riskio\EventScheduler\TemporalExpression\Difference;
 use Riskio\EventScheduler\TemporalExpression\DayInMonth;
+use Riskio\EventScheduler\TemporalExpression\Difference;
 use Riskio\EventScheduler\TemporalExpression\MonthInYear;
 
 $difference = new Difference(MonthInYear::january(), new DayInMonth(15));
@@ -278,4 +278,22 @@ You can create temporal expressions that match your special needs by implementin
 
 After detailing the different temporal expressions available, consider a concrete case with complex temporal expression that could be used in real life.
 
-TODO
+In the example below, we include every Saturday and Sunday except on July and August.
+
+```php
+use DateTime;
+use Riskio\EventScheduler\TemporalExpression\Collection\Union;
+use Riskio\EventScheduler\TemporalExpression\DayInWeek;
+use Riskio\EventScheduler\TemporalExpression\Difference;
+use Riskio\EventScheduler\TemporalExpression\MonthInYear;
+
+$includedWeekDays = new Union();
+$union->addElement(DayInWeek::saturday());
+$union->addElement(DayInWeek::sunday());
+
+$excludedMonths = new Union();
+$union->addElement(MonthInYear::july());
+$union->addElement(MonthInYear::august());
+
+$difference = new Difference($includedWeekDays, $excludedMonths);
+```
