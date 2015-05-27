@@ -56,6 +56,18 @@ $isOccuring = $temporalExpression->isOccuring('event', $date);
 
 By default, there are some temporal expressions that you can use to define event recurrence.
 
+##### EachDay
+
+- class: Riskio\EventScheduler\TemporalExpression\EachDay
+
+###### Example
+
+```php
+use Riskio\EventScheduler\TemporalExpression\EachDay;
+
+$expression = new EachDay();
+```
+
 ##### DayInWeek
 
 - class: Riskio\EventScheduler\TemporalExpression\DayInWeek
