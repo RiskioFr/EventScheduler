@@ -225,9 +225,9 @@ $intersection = new Intersection();
 $intersection->addElement(new DayInMonth(15));
 $intersection->addElement(MonthInYear::january());
 
-$isOccuring = $intersection->isOccuring('event', new DateTime('2015-01-15')); // returns true
-$isOccuring = $intersection->isOccuring('event', new DateTime('2015-01-16')); // returns false
-$isOccuring = $intersection->isOccuring('event', new DateTime('2015-02-15')); // returns false
+$intersection->isOccuring('event', new DateTime('2015-01-15')); // returns true
+$intersection->isOccuring('event', new DateTime('2015-01-16')); // returns false
+$intersection->isOccuring('event', new DateTime('2015-02-15')); // returns false
 ```
 
 ##### Union
@@ -246,9 +246,9 @@ $union = new Union();
 $intersection->addElement(new DayInMonth(15));
 $intersection->addElement(MonthInYear::january());
 
-$isOccuring = $intersection->isOccuring('event', new DateTime('2015-01-15')); // returns true
-$isOccuring = $intersection->isOccuring('event', new DateTime('2015-01-16')); // returns false
-$isOccuring = $intersection->isOccuring('event', new DateTime('2015-02-15')); // returns true
+$intersection->isOccuring('event', new DateTime('2015-01-15')); // returns true
+$intersection->isOccuring('event', new DateTime('2015-01-16')); // returns false
+$intersection->isOccuring('event', new DateTime('2015-02-15')); // returns true
 ```
 
 ##### Difference
@@ -265,9 +265,9 @@ use Riskio\EventScheduler\TemporalExpression\MonthInYear;
 
 $difference = new Difference(MonthInYear::january(), new DayInMonth(15));
 
-$isOccuring = $intersection->isOccuring('event', new DateTime('2015-01-15')); // returns false
-$isOccuring = $intersection->isOccuring('event', new DateTime('2015-01-16')); // returns true
-$isOccuring = $intersection->isOccuring('event', new DateTime('2015-02-15')); // returns false
+$intersection->isOccuring('event', new DateTime('2015-01-15')); // returns false
+$intersection->isOccuring('event', new DateTime('2015-01-16')); // returns true
+$intersection->isOccuring('event', new DateTime('2015-02-15')); // returns false
 ```
 
 #### Custom Temporal Expressions
