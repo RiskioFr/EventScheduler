@@ -307,5 +307,5 @@ $excludedMonths = new Union();
 $union->addElement(MonthInYear::july());
 $union->addElement(MonthInYear::august());
 
-$difference = new Difference($includedWeekDays, $excludedMonths);
+$expression = new Difference($includedWeekDays, $excludedMonths);
 ```
