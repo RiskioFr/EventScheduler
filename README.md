@@ -43,7 +43,7 @@ $scheduler->schedule($scheduledEvent);
 ### Temporal Expressions
 
 A temporal expression implements `Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface` that provides useful `isOccurring` method to
-check if an event occur or not.
+check if an event occur or not at a given date represented by an instance of `DateTimeInterface`.
 
 ```php
 $temporalExpression = new TemporalExpression();
@@ -281,7 +281,6 @@ After detailing the different temporal expressions available, consider a concret
 In the example below, we include every Saturday and Sunday except on July and August.
 
 ```php
-use DateTime;
 use Riskio\EventScheduler\TemporalExpression\Collection\Union;
 use Riskio\EventScheduler\TemporalExpression\DayInWeek;
 use Riskio\EventScheduler\TemporalExpression\Difference;
