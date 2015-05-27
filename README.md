@@ -9,6 +9,7 @@ Requirements
 ------------
 
 * PHP 5.6 or higher
+* [Nicolò Pignatelli's value objects 3.0 or higher](https://github.com/nicolopignatelli/valueobjects)
 
 Documentation
 -------------
