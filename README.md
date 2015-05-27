@@ -153,6 +153,18 @@ use Riskio\EventScheduler\TemporalExpression\Year;
 $expression = new Year(2015);
 ```
 
+##### LeapYear
+
+- class: Riskio\EventScheduler\TemporalExpression\LeapYear
+
+###### Example
+
+```php
+use Riskio\EventScheduler\TemporalExpression\LeapYear;
+
+$expression = new LeapYear();
+```
+
 ##### From
 
 - class: Riskio\EventScheduler\TemporalExpression\From
