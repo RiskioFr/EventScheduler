@@ -10,7 +10,7 @@ class YearTest extends \PHPUnit_Framework_TestCase
      * @test
      * @expectedException \Riskio\EventScheduler\ValueObject\Exception\InvalidYearException
      */
-    public function constructor_UsingInvalidTrimesterValue_ShouldThrowException()
+    public function constructor_GivenInvalidTrimesterValue_ShouldThrowException()
     {
         new Year('invalid');
     }
@@ -18,7 +18,7 @@ class YearTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function includes_WhenProvidedDateAtSameYear_ShouldReturnTrue()
+    public function includes_GivenDateAtSameYear_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-10');
         $expr = new Year(2015);
@@ -31,7 +31,7 @@ class YearTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function includes_WhenProvidedDateAtDifferentYear_ShouldReturnFalse()
+    public function includes_GivenDateAtDifferentYear_ShouldReturnFalse()
     {
         $date = new DateTime('2015-04-10');
         $expr = new Year(2016);

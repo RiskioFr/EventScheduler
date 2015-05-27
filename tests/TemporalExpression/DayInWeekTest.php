@@ -11,7 +11,7 @@ class DayInWeekTest extends \PHPUnit_Framework_TestCase
      * @test
      * @expectedException \Riskio\EventScheduler\ValueObject\Exception\InvalidWeekDayException
      */
-    public function constructor_UsingInvalidWeekDayValue_ShouldThrowAnException()
+    public function constructor_GivenInvalidWeekDay_ShouldThrowAnException()
     {
         new DayInWeek('invalid');
     }
@@ -19,7 +19,7 @@ class DayInWeekTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function includes_WhenProvidedDateAtSameWeekDay_ShouldReturnTrue()
+    public function includes_GivenDateAtSameWeekDay_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-12');
         $expr = new DayInWeek(WeekDay::SUNDAY);
@@ -32,7 +32,7 @@ class DayInWeekTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function includes_WhenProvidedDateAtDifferentWeekDay_ShouldReturnFalse()
+    public function includes_GivenDateAtDifferentWeekDay_ShouldReturnFalse()
     {
         $date = new DateTime('2015-04-12');
         $expr = new DayInWeek(WeekDay::FRIDAY);

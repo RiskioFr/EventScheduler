@@ -20,7 +20,7 @@ class TrimesterTest extends \PHPUnit_Framework_TestCase
      * @dataProvider getInvalidTrimesterDataProvider
      * @expectedException \Riskio\EventScheduler\ValueObject\Exception\InvalidTrimesterException
      */
-    public function constructor_UsingInvalidTrimesterValue_ShouldThrowAnException($trimester)
+    public function constructor_GivenInvalidTrimesterValue_ShouldThrowAnException($trimester)
     {
         new Trimester($trimester);
     }
@@ -43,7 +43,7 @@ class TrimesterTest extends \PHPUnit_Framework_TestCase
      * @test
      * @dataProvider getSuccessfulDataProvider
      */
-    public function includes_WhenProvidedDateAtSameTrimester_ShouldReturnTrue(DateTime $date, $trimester)
+    public function includes_GivenDateAtSameTrimester_ShouldReturnTrue(DateTime $date, $trimester)
     {
         $this->includesDate($date, $trimester, true);
     }
@@ -66,7 +66,7 @@ class TrimesterTest extends \PHPUnit_Framework_TestCase
      * @test
      * @dataProvider getUnsuccessfulDataProvider
      */
-    public function includes_WhenProvidedDateAtDifferentTrimester_ShouldReturnFalse(DateTime $date, $trimester)
+    public function includes_GivenDateAtDifferentTrimester_ShouldReturnFalse(DateTime $date, $trimester)
     {
         $this->includesDate($date, $trimester, false);
     }

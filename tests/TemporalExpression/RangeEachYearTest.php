@@ -23,7 +23,7 @@ class RangeEachYearTest extends \PHPUnit_Framework_TestCase
      * @test
      * @dataProvider getDataProvider
      */
-    public function includes_UsingDatesFromDataProvider_ShouldMatchExpectedValue(
+    public function includes_GivenDatesFromDataProvider_ShouldMatchExpectedValue(
         $startMonth, $endMonth, $startDay, $endDay, $date, $expected
     ) {
         $expr = new RangeEachYear($startMonth, $endMonth, $startDay, $endDay);

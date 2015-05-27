@@ -11,7 +11,7 @@ class MonthInYearTest extends \PHPUnit_Framework_TestCase
      * @test
      * @expectedException \Riskio\EventScheduler\ValueObject\Exception\InvalidMonthException
      */
-    public function constructor_UsingInvalidMonthValue_ShouldThrowAnException()
+    public function constructor_GivenInvalidMonthValue_ShouldThrowAnException()
     {
         new MonthInYear('invalid');
     }
@@ -19,7 +19,7 @@ class MonthInYearTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function includes_WhenProvidedDateAtSameMonth_ShouldReturnTrue()
+    public function includes_GivenDateAtSameMonth_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-10');
         $expr = new MonthInYear(Month::APRIL);
@@ -32,7 +32,7 @@ class MonthInYearTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function includes_WhenProvidedDateAtDifferentMonth_ShouldReturnFalse()
+    public function includes_GivenDateAtDifferentMonth_ShouldReturnFalse()
     {
         $date = new DateTime('2015-04-10');
         $expr = new MonthInYear(Month::NOVEMBER);

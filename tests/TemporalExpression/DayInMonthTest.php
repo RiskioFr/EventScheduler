@@ -20,7 +20,7 @@ class DayInMonthTest extends \PHPUnit_Framework_TestCase
      * @dataProvider getInvalidDayDataProvider
      * @expectedException \Riskio\EventScheduler\ValueObject\Exception\InvalidMonthDayException
      */
-    public function constructor_WhenUsingInvalidDayValue_ShouldThrowAnException($day)
+    public function constructor_GivenInvalidDay_ShouldThrowAnException($day)
     {
         new DayInMonth($day);
     }
@@ -28,7 +28,7 @@ class DayInMonthTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function includes_WhenProvidedDateAtSameMonthDay_ShouldReturnTrue()
+    public function includes_GivenDateAtSameMonthDay_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-12');
         $expr = new DayInMonth(12);
@@ -41,7 +41,7 @@ class DayInMonthTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function includes_WhenProvidedDateAtDifferentMonthDay_ShouldReturnFalse()
+    public function includes_GivenDateAtDifferentMonthDay_ShouldReturnFalse()
     {
         $date = new DateTime('2015-04-12');
         $expr = new DayInMonth(14);

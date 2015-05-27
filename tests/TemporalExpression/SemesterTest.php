@@ -20,7 +20,7 @@ class SemesterTest extends \PHPUnit_Framework_TestCase
      * @dataProvider getInvalidSemesterDataProvider
      * @expectedException \Riskio\EventScheduler\ValueObject\Exception\InvalidSemesterException
      */
-    public function constructor_UsingInvalidSemesterValue_ShouldThrowAnException($semester)
+    public function constructor_GivenInvalidSemesterValue_ShouldThrowAnException($semester)
     {
         new Semester($semester);
     }
@@ -41,7 +41,7 @@ class SemesterTest extends \PHPUnit_Framework_TestCase
      * @test
      * @dataProvider getSuccessfulDataProvider
      */
-    public function includes_WhenProvidedDateAtSameSemester_ShouldReturnTrue(DateTime $date, $semester)
+    public function includes_GivenDateAtSameSemester_ShouldReturnTrue(DateTime $date, $semester)
     {
         $this->includesDate($date, $semester, true);
     }
@@ -62,7 +62,7 @@ class SemesterTest extends \PHPUnit_Framework_TestCase
      * @test
      * @dataProvider getUnsuccessfulDataProvider
      */
-    public function includes_WhenProvidedDateAtDifferentSemester_ShouldReturnFalse(DateTime $date, $semester)
+    public function includes_GivenDateAtDifferentSemester_ShouldReturnFalse(DateTime $date, $semester)
     {
         $this->includesDate($date, $semester, false);
     }

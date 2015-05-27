@@ -20,7 +20,7 @@ class WeekInYearTest extends \PHPUnit_Framework_TestCase
      * @dataProvider getInvalidDayDataProvider
      * @expectedException \Riskio\EventScheduler\ValueObject\Exception\InvalidWeekException
      */
-    public function constructor_UsingInvalidWeekValue_ShouldThrowAnException($day)
+    public function constructor_GivenInvalidWeek_ShouldThrowAnException($day)
     {
         new WeekInYear($day);
     }
@@ -28,7 +28,7 @@ class WeekInYearTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function includes_GivenDateWithMatchingWeekNumber_ShouldReturnTrue()
+    public function includes_GivenDateWithMatchingWeek_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-12');
         $expr = new WeekInYear(15);

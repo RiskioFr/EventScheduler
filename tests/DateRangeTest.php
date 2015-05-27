@@ -22,7 +22,7 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function dateRange_CanIterateForward()
+    public function dateRange_ShouldIterateForward()
     {
         $startDate = new DateTimeImmutable('2015-03-01');
         $endDate   = new DateTimeImmutable('2015-03-05');
@@ -37,7 +37,7 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function dateRange_CanIterateBackward()
+    public function dateRange_ShouldIterateBackward()
     {
         $startDate = new DateTimeImmutable('2015-03-01');
         $endDate   = new DateTimeImmutable('2015-03-05');
