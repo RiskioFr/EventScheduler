@@ -68,7 +68,7 @@ class Scheduler implements SchedulerInterface
     public function eventsForDate(DateTimeInterface $date) : Traversable
     {
         foreach ($this->scheduledEvents as $scheduledEvent) {
-            $event = $scheduledEvent->getEvent();
+            $event = $scheduledEvent->event();
             if ($this->isOccurring($event, $date)) {
                 yield $event;
             }
@@ -77,11 +77,11 @@ class Scheduler implements SchedulerInterface
 
     public function dates(Event $event, DateRange $range) : Traversable
     {
-        $end = $range->getEndDate();
+        $end = $range->endDate();
 
         try {
             for (
-                $start = $range->getStartDate();
+                $start = $range->startDate();
                 $date  = $this->nextOccurrence($event, $start, $end);
                 $start = $date->add($this->interval)
             ) {
@@ -106,30 +106,30 @@ class Scheduler implements SchedulerInterface
         );
     }
 
-    public function getDateRange() : DateRange
+    public function dateRange() : DateRange
     {
         if (!$this->dateRange) {
-            $this->setDateRange(DateRange::create(new DateTimeImmutable()));
+            $this->changeDateRange(DateRange::create(new DateTimeImmutable()));
         }
 
         return $this->dateRange;
     }
 
-    public function setDateRange(DateRange $range)
+    public function changeDateRange(DateRange $range)
     {
         $this->dateRange = $range;
     }
 
     private function createDateRangeIterator(DateTimeInterface $start, DateTimeInterface $end = null)
     {
-        $end = $end ?: $this->getDateRange()->getEndDate();
+        $end = $end ?: $this->dateRange()->endDate();
 
         return new DateRangeIterator(new DateRange($start, $end), $this->interval);
     }
 
     private function createDateRangeReverseIterator(DateTimeInterface $end, DateTimeInterface $start = null)
     {
-        $start = $start ?: $this->getDateRange()->getStartDate();
+        $start = $start ?: $this->dateRange()->startDate();
 
         return new DateRangeReverseIterator(new DateRange($start, $end), $this->interval);
     }

@@ -45,7 +45,7 @@ abstract class AbstractDateRangeIterator implements Iterator
 
     public function valid() : bool
     {
-        return $this->current >= $this->dateRange->getStartDate()
-            && $this->current <= $this->dateRange->getEndDate();
+        return $this->current >= $this->dateRange->startDate()
+            && $this->current <= $this->dateRange->endDate();
     }
 }

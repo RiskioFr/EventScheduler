@@ -31,12 +31,12 @@ class DateRange
             : $date;
     }
 
-    public function getStartDate() : DateTimeImmutable
+    public function startDate() : DateTimeImmutable
     {
         return $this->startDate;
     }
 
-    public function getEndDate() : DateTimeImmutable
+    public function endDate() : DateTimeImmutable
     {
         return $this->endDate;
     }

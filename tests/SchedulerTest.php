@@ -136,7 +136,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         ];
 
         $scheduler = new Scheduler();
-        $scheduler->setDateRange(DateRange::create($startDate));
+        $scheduler->changeDateRange(DateRange::create($startDate));
 
         $exprStub = $this->getTemporalExpressionIncludingDates($occurringDates);
 
@@ -171,7 +171,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
             new DateTimeImmutable('2014-03-01'),
             new DateTimeImmutable('2016-03-01')
         );
-        $scheduler->setDateRange($dateRange);
+        $scheduler->changeDateRange($dateRange);
 
         $exprStub = $this->getTemporalExpressionIncludingDates($occurringDates);
 
@@ -199,7 +199,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
             new DateTimeImmutable('2014-03-01'),
             new DateTimeImmutable('2016-03-01')
         );
-        $scheduler->setDateRange($dateRange);
+        $scheduler->changeDateRange($dateRange);
 
         $exprStub = $this->getTemporalExpressionIncludingDates($occurringDates);
 
@@ -229,7 +229,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
             new DateTimeImmutable('2014-03-01'),
             new DateTimeImmutable('2016-03-01')
         );
-        $scheduler->setDateRange($dateRange);
+        $scheduler->changeDateRange($dateRange);
 
         $exprStub = $this->getTemporalExpressionIncludingDates($occurringDates);
 

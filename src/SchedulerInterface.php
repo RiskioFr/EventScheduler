@@ -25,7 +25,7 @@ interface SchedulerInterface extends Occurrable
 
     public function previousOccurrence(Event $event, DateTimeInterface $end, DateTimeInterface $start = null) : DateTimeImmutable;
 
-    public function getDateRange() : DateRange;
+    public function dateRange() : DateRange;
 
-    public function setDateRange(DateRange $range);
+    public function changeDateRange(DateRange $range);
 }

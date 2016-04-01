@@ -22,12 +22,12 @@ class SchedulableEvent implements Occurrable
         $this->temporalExpression = $temporalExpression;
     }
 
-    public function getEvent() : Event
+    public function event() : Event
     {
         return $this->event;
     }
 
-    public function getTemporalExpression() : TemporalExpressionInterface
+    public function temporalExpression() : TemporalExpressionInterface
     {
         return $this->temporalExpression;
     }

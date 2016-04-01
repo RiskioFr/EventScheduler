@@ -45,7 +45,7 @@ class SchedulableEventCollection implements Countable, Iterator
         $filteredEvents = array_filter(
             iterator_to_array($this->events),
             function($scheduledEvent) use ($event) {
-                return $event->equals($scheduledEvent->getEvent());
+                return $event->equals($scheduledEvent->event());
             }
         );
 

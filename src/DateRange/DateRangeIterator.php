@@ -8,7 +8,7 @@ class DateRangeIterator extends AbstractDateRangeIterator
     public function __construct(DateRange $dateRange, DateInterval $interval = null)
     {
         parent::__construct($dateRange, $interval);
-        $this->current = $dateRange->getStartDate();
+        $this->current = $dateRange->startDate();
     }
 
     public function next()
@@ -20,6 +20,6 @@ class DateRangeIterator extends AbstractDateRangeIterator
     public function rewind()
     {
         $this->key = 0;
-        $this->current = $this->dateRange->getStartDate();
+        $this->current = $this->dateRange->startDate();
     }
 }
