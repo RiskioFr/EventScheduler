@@ -26,11 +26,9 @@ class DateRange
 
     private function makeImmutable(DateTimeInterface $date) : DateTimeImmutable
     {
-        if ($date instanceof DateTime) {
-            $date = DateTimeImmutable::createFromMutable($date);
-        }
-
-        return $date;
+        return ($date instanceof DateTime)
+            ? DateTimeImmutable::createFromMutable($date)
+            : $date;
     }
 
     public function getStartDate() : DateTimeImmutable
