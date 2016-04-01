@@ -1,6 +1,7 @@
 <?php
 namespace Riskio\EventSchedulerTest;
 
+use DateInterval;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -133,6 +134,10 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         ];
 
         $scheduler = new Scheduler();
+
+        $dateRange = DateRange::create($startDate);
+        $scheduler->setDateRange($dateRange);
+
         $exprStub = $this->getTemporalExpressionIncludingDates($occurringDates);
 
         $scheduler->schedule($anyEvent, $exprStub);
@@ -160,6 +165,10 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         $expectedDate   = new DateTimeImmutable('2015-10-11');
 
         $scheduler = new Scheduler();
+
+        $dateRange = DateRange::create($startDate);
+        $scheduler->setDateRange($dateRange);
+
         $exprStub = $this->getTemporalExpressionIncludingDates($occurringDates);
 
         $scheduler->schedule($anyEvent, $exprStub);
@@ -185,6 +194,10 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         $expectedDate   = new DateTimeImmutable('2014-10-15');
 
         $scheduler = new Scheduler();
+
+        $dateRange = DateRange::create($startDate);
+        $scheduler->setDateRange($dateRange);
+
         $exprStub = $this->getTemporalExpressionIncludingDates($occurringDates);
 
         $scheduler->schedule($anyEvent, $exprStub);

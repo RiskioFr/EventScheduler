@@ -60,14 +60,12 @@ class Scheduler implements SchedulerInterface
 
     private function getScheduledEvents(Event $event)
     {
-        $scheduledEvents = [];
-        foreach ($this->scheduledEvents as $scheduledEvent) {
-            if ($event->equals($scheduledEvent->getEvent())) {
-                $scheduledEvents[] = $scheduledEvent;
+        return array_filter(
+            iterator_to_array($this->scheduledEvents),
+            function($scheduledEvent) use ($event) {
+                return $event->equals($scheduledEvent->getEvent());
             }
-        }
-
-        return $scheduledEvents;
+        );
     }
 
     /**
@@ -151,7 +149,7 @@ class Scheduler implements SchedulerInterface
     public function getDateRange()
     {
         if (!$this->dateRange) {
-            $this->setDateRange($this->createDefaultDateRange());
+            $this->setDateRange(DateRange::create(new DateTimeImmutable()));
         }
 
         return $this->dateRange;
@@ -163,14 +161,5 @@ class Scheduler implements SchedulerInterface
     public function setDateRange(DateRange $range)
     {
         $this->dateRange = $range;
-    }
-
-    private function createDefaultDateRange()
-    {
-        $interval = new DateInterval('P1Y');
-        $start    = (new DateTimeImmutable())->sub($interval);
-        $end      = (new DateTimeImmutable())->add($interval);
-
-        return new DateRange($start, $end);
     }
 }

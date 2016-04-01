@@ -29,8 +29,11 @@ class DateRange
      * @param DateTimeInterface $endDate
      * @param DateInterval|null $interval
      */
-    public function __construct(DateTimeInterface $startDate, DateTimeInterface $endDate, DateInterval $interval = null)
-    {
+    public function __construct(
+        DateTimeInterface $startDate,
+        DateTimeInterface $endDate,
+        DateInterval $interval = null
+    ) {
         $this->startDate = $this->makeImmutable($startDate);
         $this->endDate   = $this->makeImmutable($endDate);
 
@@ -100,5 +103,19 @@ class DateRange
         ) {
             yield $date;
         }
+    }
+
+    /**
+     * @param  DateTimeImmutable $date
+     * @param  DateInterval|null $interval
+     * @return self
+     */
+    public static function create(DateTimeImmutable $date, DateInterval $interval = null)
+    {
+        $interval = $interval ?: new DateInterval('P1Y');
+        $start    = $date->sub($interval);
+        $end      = $date->add($interval);
+
+        return new self($start, $end);
     }
 }
