@@ -26,7 +26,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         $anySchedulableEvent   = new SchedulableEvent($anyEvent, $anyTemporalExpression);
         $scheduler = new Scheduler();
 
-        $this->setExpectedException(NotScheduledEventException::class);
+        $this->expectException(NotScheduledEventException::class);
         $scheduler->unschedule($anySchedulableEvent);
     }
 
