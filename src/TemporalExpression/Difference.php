@@ -15,10 +15,6 @@ class Difference implements TemporalExpressionInterface
      */
     protected $excluded;
 
-    /**
-     * @param TemporalExpressionInterface $included
-     * @param TemporalExpressionInterface $excluded
-     */
     public function __construct(
         TemporalExpressionInterface $included,
         TemporalExpressionInterface $excluded
@@ -27,11 +23,7 @@ class Difference implements TemporalExpressionInterface
         $this->excluded = $excluded;
     }
 
-    /**
-     * @param  DateTimeInterface $date
-     * @return bool
-     */
-    public function includes(DateTimeInterface $date)
+    public function includes(DateTimeInterface $date) : bool
     {
         return $this->included->includes($date) && !$this->excluded->includes($date);
     }

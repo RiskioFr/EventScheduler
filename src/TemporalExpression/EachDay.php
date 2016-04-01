@@ -5,11 +5,7 @@ use DateTimeInterface;
 
 class EachDay implements TemporalExpressionInterface
 {
-    /**
-     * @param  DateTimeInterface $date
-     * @return bool
-     */
-    public function includes(DateTimeInterface $date)
+    public function includes(DateTimeInterface $date) : bool
     {
         return true;
     }

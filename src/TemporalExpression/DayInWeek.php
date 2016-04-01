@@ -19,69 +19,44 @@ class DayInWeek implements TemporalExpressionInterface
         $this->day = WeekDayValueObject::fromNativeOrNumericValue($day);
     }
 
-    /**
-     * @param  DateTimeInterface $date
-     * @return bool
-     */
-    public function includes(DateTimeInterface $date)
+    public function includes(DateTimeInterface $date) : bool
     {
         $day = WeekDayValueObject::fromNativeDateTime($date);
 
         return $this->day->sameValueAs($day);
     }
 
-    /**
-     * @return self
-     */
-    public static function monday()
+    public static function monday() : self
     {
         return new self(WeekDayValueObject::MONDAY);
     }
 
-    /**
-     * @return self
-     */
-    public static function tuesday()
+    public static function tuesday() : self
     {
         return new self(WeekDayValueObject::TUESDAY);
     }
 
-    /**
-     * @return self
-     */
-    public static function wednesday()
+    public static function wednesday() : self
     {
         return new self(WeekDayValueObject::WEDNESDAY);
     }
 
-    /**
-     * @return self
-     */
-    public static function thursday()
+    public static function thursday() : self
     {
         return new self(WeekDayValueObject::THURSDAY);
     }
 
-    /**
-     * @return self
-     */
-    public static function friday()
+    public static function friday() : self
     {
         return new self(WeekDayValueObject::FRIDAY);
     }
 
-    /**
-     * @return self
-     */
-    public static function saturday()
+    public static function saturday() : self
     {
         return new self(WeekDayValueObject::SATURDAY);
     }
 
-    /**
-     * @return self
-     */
-    public static function sunday()
+    public static function sunday() : self
     {
         return new self(WeekDayValueObject::SUNDAY);
     }

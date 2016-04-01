@@ -7,10 +7,7 @@ use ValueObjects\DateTime\WeekDay as BaseWeekDay;
 
 class WeekDay extends BaseWeekDay
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromNative()
+    public static function fromNative() : self
     {
         $value = func_get_arg(0);
 
@@ -24,11 +21,7 @@ class WeekDay extends BaseWeekDay
         }
     }
 
-    /**
-     * @param  string $value
-     * @return self
-     */
-    public static function fromNativeOrNumericValue()
+    public static function fromNativeOrNumericValue() : self
     {
         $value = func_get_arg(0);
 

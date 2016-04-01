@@ -16,36 +16,23 @@ class SchedulableEvent implements Occurrable
      */
     protected $temporalExpression;
 
-    /**
-     * @param Event $event
-     * @param TemporalExpressionInterface $temporalExpression
-     */
     public function __construct(Event $event, TemporalExpressionInterface $temporalExpression)
     {
         $this->event = $event;
         $this->temporalExpression = $temporalExpression;
     }
 
-    /**
-     * @return Event
-     */
-    public function getEvent()
+    public function getEvent() : Event
     {
         return $this->event;
     }
 
-    /**
-     * @return TemporalExpressionInterface
-     */
-    public function getTemporalExpression()
+    public function getTemporalExpression() : TemporalExpressionInterface
     {
         return $this->temporalExpression;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isOccurring(Event $event, DateTimeInterface $date)
+    public function isOccurring(Event $event, DateTimeInterface $date) : bool
     {
         return $this->event->equals($event) && $this->temporalExpression->includes($date);
     }

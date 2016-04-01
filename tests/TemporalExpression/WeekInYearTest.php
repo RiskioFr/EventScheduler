@@ -6,10 +6,18 @@ use Riskio\EventScheduler\TemporalExpression\WeekInYear;
 
 class WeekInYearTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @test
+     * @expectedException \TypeError
+     */
+    public function constructor_GivenInvalidWeekInYearType_ShouldThrowTypeErrorException()
+    {
+        new WeekInYear('invalid');
+    }
+
     public function getInvalidDayDataProvider()
     {
         return [
-            ['invalid'],
             [0],
             [55],
         ];

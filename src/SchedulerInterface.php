@@ -1,65 +1,30 @@
 <?php
 namespace Riskio\EventScheduler;
 
+use DateTimeImmutable;
 use DateTimeInterface;
 use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
+use Traversable;
 
 interface SchedulerInterface extends Occurrable
 {
-    /**
-     * @param  Event $event
-     * @param  TemporalExpressionInterface $temporalExpression
-     * @return SchedulableEvent
-     */
-    public function schedule(Event $event, TemporalExpressionInterface $temporalExpression);
+    public function schedule(Event $event, TemporalExpressionInterface $temporalExpression) : SchedulableEvent;
 
-    /**
-     * @param SchedulableEvent $schedulableEvent
-     */
     public function unschedule(SchedulableEvent $schedulableEvent);
 
-    /**
-     * @param  Event $event
-     * @return bool
-     */
-    public function isScheduled(Event $event);
+    public function isScheduled(Event $event) : bool;
 
-    /**
-     * @param  DateTimeInterface $date
-     * @return Traversable
-     */
-    public function eventsForDate(DateTimeInterface $date);
+    public function isOccurring(Event $event, DateTimeInterface $date) : bool;
 
-    /**
-     * @param  Event $event
-     * @param  DateRange $range
-     * @return Traversable
-     */
-    public function dates(Event $event, DateRange $range);
+    public function eventsForDate(DateTimeInterface $date) : Traversable;
 
-    /**
-     * @param  Event $event
-     * @param  DateTimeInterface $start
-     * @param  DateTimeInterface|null $end
-     * @return ScheduleElementInterface
-     */
-    public function nextOccurrence(Event $event, DateTimeInterface $start, DateTimeInterface $end = null);
+    public function dates(Event $event, DateRange $range) : Traversable;
 
-    /**
-     * @param  Event $event
-     * @param  DateTimeInterface $end
-     * @param  DateTimeInterface|null $start
-     * @return ScheduleElementInterface
-     */
-    public function previousOccurrence(Event $event, DateTimeInterface $end, DateTimeInterface $start = null);
+    public function nextOccurrence(Event $event, DateTimeInterface $start, DateTimeInterface $end = null) : DateTimeImmutable;
 
-    /**
-     * @return DateRange
-     */
-    public function getDateRange();
+    public function previousOccurrence(Event $event, DateTimeInterface $end, DateTimeInterface $start = null) : DateTimeImmutable;
 
-    /**
-     * @param DateRange $range
-     */
+    public function getDateRange() : DateRange;
+
     public function setDateRange(DateRange $range);
 }

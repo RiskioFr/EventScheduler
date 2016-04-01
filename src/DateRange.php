@@ -24,11 +24,6 @@ class DateRange
      */
     protected $interval;
 
-    /**
-     * @param DateTimeInterface $startDate
-     * @param DateTimeInterface $endDate
-     * @param DateInterval|null $interval
-     */
     public function __construct(
         DateTimeInterface $startDate,
         DateTimeInterface $endDate,
@@ -44,7 +39,7 @@ class DateRange
         }
     }
 
-    private function makeImmutable(DateTimeInterface $date)
+    private function makeImmutable(DateTimeInterface $date) : DateTimeImmutable
     {
         if ($date instanceof DateTime) {
             $date = DateTimeImmutable::createFromMutable($date);
@@ -53,34 +48,22 @@ class DateRange
         return $date;
     }
 
-    /**
-     * @return DateTimeImmutable
-     */
-    public function getStartDate()
+    public function getStartDate() : DateTimeImmutable
     {
         return $this->startDate;
     }
 
-    /**
-     * @return DateTimeImmutable
-     */
-    public function getEndDate()
+    public function getEndDate() : DateTimeImmutable
     {
         return $this->endDate;
     }
 
-    /**
-     * @return DateInterval
-     */
-    public function getInterval()
+    public function getInterval() : DateInterval
     {
         return $this->interval;
     }
 
-    /**
-     * @return Generator
-     */
-    public function getIterator()
+    public function getIterator() : Generator
     {
         for (
             $date = $this->startDate;
@@ -91,10 +74,7 @@ class DateRange
         }
     }
 
-    /**
-     * @return Generator
-     */
-    public function getReverseIterator()
+    public function getReverseIterator() : Generator
     {
         for (
             $date = $this->endDate;
@@ -105,12 +85,7 @@ class DateRange
         }
     }
 
-    /**
-     * @param  DateTimeImmutable $date
-     * @param  DateInterval|null $interval
-     * @return self
-     */
-    public static function create(DateTimeImmutable $date, DateInterval $interval = null)
+    public static function create(DateTimeImmutable $date, DateInterval $interval = null) : self
     {
         $interval = $interval ?: new DateInterval('P1Y');
         $start    = $date->sub($interval);

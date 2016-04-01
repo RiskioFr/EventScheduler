@@ -8,10 +8,7 @@ use ValueObjects\DateTime\MonthDay as BaseMonthDay;
 
 class MonthDay extends BaseMonthDay
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct($year)
+    public function __construct(int $year)
     {
         try {
             parent::__construct($year);
@@ -21,11 +18,7 @@ class MonthDay extends BaseMonthDay
         }
     }
 
-    /**
-     * @param  DateTime $date
-     * @return self
-     */
-    public static function fromNativeDateTime(DateTime $date)
+    public static function fromNativeDateTime(DateTime $date) : self
     {
         return static::fromNative($date->format('j'));
     }

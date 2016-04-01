@@ -10,10 +10,7 @@ class Week extends Natural
     const MIN_WEEK = 1;
     const MAX_WEEK = 53;
 
-    /**
-     * @param int $value
-     */
-    public function __construct($value)
+    public function __construct(int $value)
     {
         $options = [
             'options' => [
@@ -31,21 +28,14 @@ class Week extends Natural
         parent::__construct($value);
     }
 
-    /**
-     * @return self
-     */
-    public static function now()
+    public static function now() : self
     {
         $now = new DateTime('now');
 
         return self::fromNativeDateTime($now);
     }
 
-    /**
-     * @param  DateTime $date
-     * @return self
-     */
-    public static function fromNativeDateTime(DateTime $date)
+    public static function fromNativeDateTime(DateTime $date) : self
     {
         $week = \intval($date->format('W'));
 

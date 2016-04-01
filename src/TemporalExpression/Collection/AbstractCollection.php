@@ -11,19 +11,11 @@ abstract class AbstractCollection implements TemporalExpressionInterface
      */
     protected $elements;
 
-    /**
-     * @param  TemporalExpressionInterface $temporalExpression
-     * @return self
-     */
-    public function addElement(TemporalExpressionInterface $temporalExpression)
+    public function addElement(TemporalExpressionInterface $temporalExpression) : self
     {
         $this->elements[] = $temporalExpression;
         return $this;
     }
 
-    /**
-     * @param  DateTimeInterface $date
-     * @return bool
-     */
-    abstract public function includes(DateTimeInterface $date);
+    abstract public function includes(DateTimeInterface $date) : bool;
 }

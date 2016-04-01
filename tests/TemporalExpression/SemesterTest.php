@@ -6,10 +6,18 @@ use Riskio\EventScheduler\TemporalExpression\Semester;
 
 class SemesterTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @test
+     * @expectedException \TypeError
+     */
+    public function constructor_GivenInvalidSemesterType_ShouldThrowTypeErrorException()
+    {
+        new Semester('invalid');
+    }
+
     public function getInvalidSemesterDataProvider()
     {
         return [
-            ['invalid'],
             [-1],
             [3],
         ];

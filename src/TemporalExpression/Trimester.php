@@ -11,19 +11,12 @@ class Trimester implements TemporalExpressionInterface
      */
     protected $trimester;
 
-    /**
-     * @param int $trimester
-     */
-    public function __construct($trimester)
+    public function __construct(int $trimester)
     {
         $this->trimester = new TrimesterValueObject($trimester);
     }
 
-    /**
-     * @param  DateTimeInterface $date
-     * @return bool
-     */
-    public function includes(DateTimeInterface $date)
+    public function includes(DateTimeInterface $date) : bool
     {
         $trimester = TrimesterValueObject::fromNativeDateTime($date);
 

@@ -5,9 +5,5 @@ use DateTimeInterface;
 
 interface TemporalExpressionInterface
 {
-    /**
-     * @param  DateTimeInterface $date
-     * @return bool
-     */
-    public function includes(DateTimeInterface $date);
+    public function includes(DateTimeInterface $date) : bool;
 }

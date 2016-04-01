@@ -11,19 +11,12 @@ class WeekInYear implements TemporalExpressionInterface
      */
     protected $week;
 
-    /**
-     * @param int $week
-     */
-    public function __construct($week)
+    public function __construct(int $week)
     {
         $this->week = new WeekValueObject($week);
     }
 
-    /**
-     * @param  DateTimeInterface $date
-     * @return bool
-     */
-    public function includes(DateTimeInterface $date)
+    public function includes(DateTimeInterface $date) : bool
     {
         $week = WeekValueObject::fromNativeDateTime($date);
 

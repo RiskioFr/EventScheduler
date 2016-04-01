@@ -8,9 +8,9 @@ class YearTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
-     * @expectedException \Riskio\EventScheduler\ValueObject\Exception\InvalidYearException
+     * @expectedException \TypeError
      */
-    public function constructor_GivenInvalidTrimesterValue_ShouldThrowException()
+    public function constructor_GivenInvalidYearType_ShouldThrowTypeErrorException()
     {
         new Year('invalid');
     }

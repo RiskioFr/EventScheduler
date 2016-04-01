@@ -3,7 +3,7 @@ namespace Riskio\EventScheduler\Exception;
 
 use Exception;
 
-class NotScheduledEventException
+class NotFoundEventOccurenceException
     extends \RuntimeException
     implements ExceptionInterface
 {
@@ -13,6 +13,6 @@ class NotScheduledEventException
      */
     public static function create(Exception $previous = null)
     {
-        return new self('Event is not scheduled', 0, $previous);
+        return new self('Event occurence not found', 0, $previous);
     }
 }

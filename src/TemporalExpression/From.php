@@ -10,19 +10,12 @@ class From implements TemporalExpressionInterface
      */
     protected $date;
 
-    /**
-     * @param DateTimeInterface $date
-     */
     public function __construct(DateTimeInterface $date)
     {
         $this->date = $date;
     }
 
-    /**
-     * @param  DateTimeInterface $date
-     * @return bool
-     */
-    public function includes(DateTimeInterface $date)
+    public function includes(DateTimeInterface $date) : bool
     {
         return $date >= $this->date;
     }

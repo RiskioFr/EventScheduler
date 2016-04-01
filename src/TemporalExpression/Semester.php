@@ -11,19 +11,12 @@ class Semester implements TemporalExpressionInterface
      */
     protected $semester;
 
-    /**
-     * @param int $semester
-     */
-    public function __construct($semester)
+    public function __construct(int $semester)
     {
         $this->semester = new SemesterValueObject($semester);
     }
 
-    /**
-     * @param  DateTimeInterface $date
-     * @return bool
-     */
-    public function includes(DateTimeInterface $date)
+    public function includes(DateTimeInterface $date) : bool
     {
         $semester = SemesterValueObject::fromNativeDateTime($date);
 

@@ -6,7 +6,7 @@ use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 
 class AlwaysOccurringTemporalExpression implements TemporalExpressionInterface
 {
-    public function includes(DateTimeInterface $date)
+    public function includes(DateTimeInterface $date) : bool
     {
         return true;
     }

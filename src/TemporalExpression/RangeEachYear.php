@@ -46,18 +46,14 @@ class RangeEachYear implements TemporalExpressionInterface
         }
     }
 
-    /**
-     * @param  DateTime $date
-     * @return bool
-     */
-    public function includes(DateTimeInterface $date)
+    public function includes(DateTimeInterface $date) : bool
     {
         return $this->monthsInclude($date)
             || $this->startMonthIncludes($date)
             || $this->endMonthIncludes($date);
     }
 
-    private function monthsInclude(DateTimeInterface $date)
+    private function monthsInclude(DateTimeInterface $date) : bool
     {
         $month        = Month::fromNativeDateTime($date);
         $ordinalMonth = $month->getOrdinal();
@@ -72,7 +68,7 @@ class RangeEachYear implements TemporalExpressionInterface
         }
     }
 
-    private function startMonthIncludes(DateTimeInterface $date)
+    private function startMonthIncludes(DateTimeInterface $date) : bool
     {
         $month = Month::fromNativeDateTime($date);
 
@@ -89,7 +85,7 @@ class RangeEachYear implements TemporalExpressionInterface
         return $day->toNative() >= $this->startDay->toNative();
     }
 
-    private function endMonthIncludes(DateTimeInterface $date)
+    private function endMonthIncludes(DateTimeInterface $date) : bool
     {
         $month = Month::fromNativeDateTime($date);
 

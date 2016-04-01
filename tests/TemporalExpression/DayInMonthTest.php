@@ -6,10 +6,18 @@ use Riskio\EventScheduler\TemporalExpression\DayInMonth;
 
 class DayInMonthTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @test
+     * @expectedException \TypeError
+     */
+    public function constructor_GivenInvalidDayInMonthType_ShouldThrowTypeErrorException()
+    {
+        new DayInMonth('invalid');
+    }
+
     public function getInvalidDayDataProvider()
     {
         return [
-            ['invalid'],
             [0],
             [32],
         ];

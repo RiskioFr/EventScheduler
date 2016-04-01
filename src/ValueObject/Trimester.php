@@ -12,10 +12,7 @@ class Trimester extends Natural
     const THIRD  = 3;
     const FOURTH = 4;
 
-    /**
-     * @param int $value
-     */
-    public function __construct($value)
+    public function __construct(int $value)
     {
         $options = [
             'options' => [
@@ -36,21 +33,14 @@ class Trimester extends Natural
         parent::__construct($value);
     }
 
-    /**
-     * @return self
-     */
-    public static function now()
+    public static function now() : self
     {
         $now = new DateTime('now');
 
         return self::fromNativeDateTime($now);
     }
 
-    /**
-     * @param  DateTime $date
-     * @return self
-     */
-    public static function fromNativeDateTime(DateTime $date)
+    public static function fromNativeDateTime(DateTime $date) : self
     {
         $semester = ceil($date->format('n') / 3);
 

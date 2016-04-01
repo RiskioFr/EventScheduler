@@ -6,10 +6,18 @@ use Riskio\EventScheduler\TemporalExpression\Trimester;
 
 class TrimesterTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @test
+     * @expectedException \TypeError
+     */
+    public function constructor_GivenInvalidTrimesterType_ShouldThrowTypeErrorException()
+    {
+        new Trimester('invalid');
+    }
+
     public function getInvalidTrimesterDataProvider()
     {
         return [
-            ['invalid'],
             [-1],
             [5],
         ];

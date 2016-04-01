@@ -19,109 +19,69 @@ class MonthInYear implements TemporalExpressionInterface
         $this->month = MonthValueObject::fromNativeOrNumericValue($month);
     }
 
-    /**
-     * @param  DateTimeInterface $date
-     * @return bool
-     */
-    public function includes(DateTimeInterface $date)
+    public function includes(DateTimeInterface $date) : bool
     {
         $month = MonthValueObject::fromNativeDateTime($date);
 
         return $this->month->sameValueAs($month);
     }
 
-    /**
-     * @return self
-     */
-    public static function january()
+    public static function january() : self
     {
         return new self(MonthValueObject::JANUARY);
     }
 
-    /**
-     * @return self
-     */
-    public static function february()
+    public static function february() : self
     {
         return new self(MonthValueObject::FEBRUARY);
     }
 
-    /**
-     * @return self
-     */
-    public static function march()
+    public static function march() : self
     {
         return new self(MonthValueObject::MARCH);
     }
 
-    /**
-     * @return self
-     */
-    public static function april()
+    public static function april() : self
     {
         return new self(MonthValueObject::APRIL);
     }
 
-    /**
-     * @return self
-     */
-    public static function may()
+    public static function may() : self
     {
         return new self(MonthValueObject::MAY);
     }
 
-    /**
-     * @return self
-     */
-    public static function june()
+    public static function june() : self
     {
         return new self(MonthValueObject::JUNE);
     }
 
-    /**
-     * @return self
-     */
-    public static function july()
+    public static function july() : self
     {
         return new self(MonthValueObject::JULY);
     }
 
-    /**
-     * @return self
-     */
-    public static function august()
+    public static function august() : self
     {
         return new self(MonthValueObject::AUGUST);
     }
 
-    /**
-     * @return self
-     */
-    public static function september()
+    public static function september() : self
     {
         return new self(MonthValueObject::SEPTEMBER);
     }
 
-    /**
-     * @return self
-     */
-    public static function october()
+    public static function october() : self
     {
         return new self(MonthValueObject::OCTOBER);
     }
 
-    /**
-     * @return self
-     */
-    public static function november()
+    public static function november() : self
     {
         return new self(MonthValueObject::NOVEMBER);
     }
 
-    /**
-     * @return self
-     */
-    public static function december()
+    public static function december() : self
     {
         return new self(MonthValueObject::DECEMBER);
     }

@@ -11,19 +11,12 @@ class Year implements TemporalExpressionInterface
      */
     protected $year;
 
-    /**
-     * @param int $year
-     */
-    public function __construct($year)
+    public function __construct(int $year)
     {
         $this->year = new YearValueObject($year);
     }
 
-    /**
-     * @param  DateTimeInterface $date
-     * @return bool
-     */
-    public function includes(DateTimeInterface $date)
+    public function includes(DateTimeInterface $date) : bool
     {
         $year = YearValueObject::fromNativeDateTime($date);
 

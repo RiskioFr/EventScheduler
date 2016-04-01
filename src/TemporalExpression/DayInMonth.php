@@ -11,19 +11,12 @@ class DayInMonth implements TemporalExpressionInterface
      */
     protected $day;
 
-    /**
-     * @param int $day
-     */
-    public function __construct($day)
+    public function __construct(int $day)
     {
         $this->day = new MonthDayValueObject($day);
     }
 
-    /**
-     * @param  DateTimeInterface $date
-     * @return bool
-     */
-    public function includes(DateTimeInterface $date)
+    public function includes(DateTimeInterface $date) : bool
     {
         $day = MonthDayValueObject::fromNativeDateTime($date);
 

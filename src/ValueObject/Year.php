@@ -8,10 +8,7 @@ use ValueObjects\Exception\InvalidNativeArgumentException;
 
 class Year extends BaseYear
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct($year)
+    public function __construct(int $year)
     {
         try {
             parent::__construct($year);
@@ -21,11 +18,7 @@ class Year extends BaseYear
         }
     }
 
-    /**
-     * @param  DateTime $date
-     * @return self
-     */
-    public static function fromNativeDateTime(DateTime $date)
+    public static function fromNativeDateTime(DateTime $date) : self
     {
         return static::fromNative($date->format('Y'));
     }
