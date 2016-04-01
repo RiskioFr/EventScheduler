@@ -15,8 +15,6 @@ interface SchedulerInterface extends Occurrable
 
     public function isScheduled(Event $event) : bool;
 
-    public function isOccurring(Event $event, DateTimeInterface $date) : bool;
-
     public function eventsForDate(DateTimeInterface $date) : Traversable;
 
     public function dates(Event $event, DateRange $range) : Traversable;
