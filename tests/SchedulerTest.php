@@ -4,7 +4,7 @@ namespace Riskio\EventSchedulerTest;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
-use Riskio\EventScheduler\DateRange;
+use Riskio\EventScheduler\DateRange\DateRange;
 use Riskio\EventScheduler\Exception\NotFoundEventOccurenceException;
 use Riskio\EventScheduler\Exception\NotScheduledEventException;
 use Riskio\EventScheduler\SchedulableEvent;
@@ -136,9 +136,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         ];
 
         $scheduler = new Scheduler();
-
-        $dateRange = DateRange::create($startDate);
-        $scheduler->setDateRange($dateRange);
+        $scheduler->setDateRange(DateRange::create($startDate));
 
         $exprStub = $this->getTemporalExpressionIncludingDates($occurringDates);
 
@@ -169,7 +167,10 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
 
         $scheduler = new Scheduler();
 
-        $dateRange = DateRange::create($startDate);
+        $dateRange = new DateRange(
+            new DateTimeImmutable('2014-03-01'),
+            new DateTimeImmutable('2016-03-01')
+        );
         $scheduler->setDateRange($dateRange);
 
         $exprStub = $this->getTemporalExpressionIncludingDates($occurringDates);
@@ -193,6 +194,13 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         $occurringDates = [];
 
         $scheduler = new Scheduler();
+
+        $dateRange = new DateRange(
+            new DateTimeImmutable('2014-03-01'),
+            new DateTimeImmutable('2016-03-01')
+        );
+        $scheduler->setDateRange($dateRange);
+
         $exprStub = $this->getTemporalExpressionIncludingDates($occurringDates);
 
         $scheduler->schedule($anyEvent, $exprStub);
@@ -217,7 +225,10 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
 
         $scheduler = new Scheduler();
 
-        $dateRange = DateRange::create($startDate);
+        $dateRange = new DateRange(
+            new DateTimeImmutable('2014-03-01'),
+            new DateTimeImmutable('2016-03-01')
+        );
         $scheduler->setDateRange($dateRange);
 
         $exprStub = $this->getTemporalExpressionIncludingDates($occurringDates);

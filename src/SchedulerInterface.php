@@ -3,6 +3,7 @@ namespace Riskio\EventScheduler;
 
 use DateTimeImmutable;
 use DateTimeInterface;
+use Riskio\EventScheduler\DateRange\DateRange;
 use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 use Traversable;
 
