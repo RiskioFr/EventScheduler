@@ -8,13 +8,12 @@ use Riskio\EventScheduler\DateRange\DateRange;
 use Riskio\EventScheduler\DateRange\DateRangeIterator;
 use Riskio\EventScheduler\DateRange\DateRangeReverseIterator;
 use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
-use SplObjectStorage;
 use Traversable;
 
 class Scheduler implements SchedulerInterface
 {
     /**
-     * @var SplObjectStorage
+     * @var SchedulableEventCollection
      */
     protected $scheduledEvents;
 
@@ -31,31 +30,27 @@ class Scheduler implements SchedulerInterface
     public function __construct(DateInterval $interval = null)
     {
         $this->interval = $interval ?: new DateInterval('P1D');
-        $this->scheduledEvents = new SplObjectStorage();
+        $this->scheduledEvents = new SchedulableEventCollection();
     }
 
     public function schedule(Event $event, TemporalExpressionInterface $temporalExpression) : SchedulableEvent
     {
         $schedulableEvent = new SchedulableEvent($event, $temporalExpression);
-        $this->scheduledEvents->attach($schedulableEvent);
+        $this->scheduledEvents->add($schedulableEvent);
 
         return $schedulableEvent;
     }
 
     public function unschedule(SchedulableEvent $schedulableEvent)
     {
-        if (!$this->scheduledEvents->contains($schedulableEvent)) {
-            throw Exception\NotScheduledEventException::create();
-        }
-
-        $this->scheduledEvents->detach($schedulableEvent);
+        $this->scheduledEvents->remove($schedulableEvent);
     }
 
     public function isScheduled(Event $event) : bool
     {
         $scheduledEvents = $this->getScheduledEvents($event);
 
-        return !empty($scheduledEvents);
+        return count($scheduledEvents) > 0;
     }
 
     public function isOccurring(Event $event, DateTimeInterface $date) : bool
@@ -125,14 +120,9 @@ class Scheduler implements SchedulerInterface
         $this->dateRange = $range;
     }
 
-    private function getScheduledEvents(Event $event) : array
+    private function getScheduledEvents(Event $event) : SchedulableEventCollection
     {
-        return array_filter(
-            iterator_to_array($this->scheduledEvents),
-            function($scheduledEvent) use ($event) {
-                return $event->equals($scheduledEvent->getEvent());
-            }
-        );
+        return $this->scheduledEvents->filterByEvent($event);
     }
 
     private function createDateRangeIterator(DateTimeInterface $start, DateTimeInterface $end = null)
