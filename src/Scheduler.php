@@ -48,16 +48,16 @@ class Scheduler implements SchedulerInterface
 
     public function isScheduled(Event $event) : bool
     {
-        $scheduledEvents = $this->getScheduledEvents($event);
+        $scheduledEvents = $this->scheduledEvents->filterByEvent($event);
 
         return count($scheduledEvents) > 0;
     }
 
     public function isOccurring(Event $event, DateTimeInterface $date) : bool
     {
-        $scheduleEvents = $this->getScheduledEvents($event);
-        foreach ($scheduleEvents as $scheduleEvent) {
-            if ($scheduleEvent->isOccurring($event, $date)) {
+        $scheduledEvents = $this->scheduledEvents->filterByEvent($event);
+        foreach ($scheduledEvents as $scheduledEvent) {
+            if ($scheduledEvent->isOccurring($event, $date)) {
                 return true;
             }
         }
@@ -118,11 +118,6 @@ class Scheduler implements SchedulerInterface
     public function setDateRange(DateRange $range)
     {
         $this->dateRange = $range;
-    }
-
-    private function getScheduledEvents(Event $event) : SchedulableEventCollection
-    {
-        return $this->scheduledEvents->filterByEvent($event);
     }
 
     private function createDateRangeIterator(DateTimeInterface $start, DateTimeInterface $end = null)
