@@ -90,17 +90,19 @@ class Scheduler implements SchedulerInterface
 
     public function dates(Event $event, DateRange $range) : Traversable
     {
-        $end = $range->endDate();
+        $start = $range->startDate();
+        $end   = $range->endDate();
 
-        try {
-            for (
-                $start = $range->startDate();
-                ($date = $this->nextOccurrence($event, $start)) && $date < $end;
-                $start = $date->add($this->interval)
-            ) {
-                yield $date;
+        do {
+            try {
+                $foundDate = $this->nextOccurrence($event, $start);
+            } catch (Exception\NotFoundEventOccurenceException $e) {
+                break;
             }
-        } catch (Exception\NotFoundEventOccurenceException $e) {}
+
+            yield $foundDate;
+            $start = $foundDate->add($this->interval);
+        } while ($foundDate && $foundDate < $end);
     }
 
     public function nextOccurrence(
