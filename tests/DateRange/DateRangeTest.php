@@ -130,4 +130,46 @@ class DateRangeTest extends \PHPUnit_Framework_TestCase
         $this->expectException(InvalidDateFromDateRangeException::class);
         $dateRange->extractFromEndDate(new DateTimeImmutable('2015-03-05'));
     }
+
+    /**
+     * @test
+     */
+    public function isBetweenRange_GivenDateBetweenStartDateAndEndDate_ShouldReturnTrue()
+    {
+        $dateRange = new DateRange(
+            new DateTimeImmutable('2015-03-02'),
+            new DateTimeImmutable('2015-03-04')
+        );
+        $date = new DateTimeImmutable('2015-03-03');
+
+        $this->assertTrue($dateRange->isBetweenRange($date));
+    }
+
+    /**
+     * @test
+     */
+    public function isBetweenRange_GivenDateMoreRecentThanStartDate_ShouldReturnFalse()
+    {
+        $dateRange = new DateRange(
+            new DateTimeImmutable('2015-03-02'),
+            new DateTimeImmutable('2015-03-04')
+        );
+        $date = new DateTimeImmutable('2015-03-01');
+
+        $this->assertFalse($dateRange->isBetweenRange($date));
+    }
+
+    /**
+     * @test
+     */
+    public function isBetweenRange_GivenDateOlderThanEndDate_ShouldReturnFalse()
+    {
+        $dateRange = new DateRange(
+            new DateTimeImmutable('2015-03-02'),
+            new DateTimeImmutable('2015-03-04')
+        );
+        $date = new DateTimeImmutable('2015-03-05');
+
+        $this->assertFalse($dateRange->isBetweenRange($date));
+    }
 }

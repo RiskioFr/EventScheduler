@@ -143,20 +143,22 @@ class Scheduler implements SchedulerInterface
         DateTimeInterface $start,
         DateTimeInterface $end = null
     ) : DateRangeIterator {
-        return new DateRangeIterator(
-            $this->dateRange->extract($start, $end),
-            $this->interval
-        );
+        $dateRange = ($end instanceof DateTimeInterface)
+            ? $this->dateRange->extract($start, $end)
+            : $this->dateRange->extractFromStartDate($start);
+
+        return new DateRangeIterator($dateRange, $this->interval);
     }
 
     private function createDateRangeReverseIterator(
         DateTimeInterface $end,
         DateTimeInterface $start = null
     ) : DateRangeReverseIterator {
-        return new DateRangeReverseIterator(
-            $this->dateRange->extract($start, $end),
-            $this->interval
-        );
+        $dateRange = ($start instanceof DateTimeInterface)
+            ? $this->dateRange->extract($start, $end)
+            : $this->dateRange->extractFromEndDate($end);
+
+        return new DateRangeReverseIterator($dateRange, $this->interval);
     }
 
     private function findNextOccurrenceInIterator(Event $event, Traversable $dates) : DateTimeImmutable

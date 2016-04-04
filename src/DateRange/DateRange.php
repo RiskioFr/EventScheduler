@@ -59,10 +59,7 @@ class DateRange
         DateTimeInterface $start,
         DateTimeInterface $end
     ) : self {
-        if ($start < $this->startDate || $start > $this->endDate) {
-            throw Exception\InvalidDateFromDateRangeException::create($this);
-        }
-        if ($end < $this->startDate || $end > $this->endDate) {
+        if (!$this->isBetweenRange($start) || !$this->isBetweenRange($end)) {
             throw Exception\InvalidDateFromDateRangeException::create($this);
         }
 
@@ -77,5 +74,10 @@ class DateRange
     public function extractFromEndDate(DateTimeInterface $end) : self
     {
         return $this->extract($this->startDate, $end);
+    }
+
+    public function isBetweenRange(DateTimeInterface $date) : bool
+    {
+        return $date >= $this->startDate && $date <= $this->endDate;
     }
 }
