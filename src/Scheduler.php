@@ -7,6 +7,7 @@ use DateTimeInterface;
 use Riskio\EventScheduler\DateRange\DateRange;
 use Riskio\EventScheduler\DateRange\DateRangeIterator;
 use Riskio\EventScheduler\DateRange\DateRangeReverseIterator;
+use Riskio\EventScheduler\DateRange\DefaultDateRangeFactory;
 use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 use Traversable;
 
@@ -39,7 +40,7 @@ class Scheduler implements SchedulerInterface
         DateRange $dateRange = null
     ) : SchedulerInterface {
         $interval  = $interval ?: new DateInterval('P1D');
-        $dateRange = $dateRange ?: DateRange::create(new DateTimeImmutable());
+        $dateRange = $dateRange ?: DefaultDateRangeFactory::create(new DateTimeImmutable());
 
         return new self($interval, $dateRange);
     }

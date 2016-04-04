@@ -5,6 +5,7 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Riskio\EventScheduler\DateRange\DateRange;
+use Riskio\EventScheduler\DateRange\DefaultDateRangeFactory;
 use Riskio\EventScheduler\Exception\NotFoundEventOccurenceException;
 use Riskio\EventScheduler\Exception\NotScheduledEventException;
 use Riskio\EventScheduler\SchedulableEvent;
@@ -135,7 +136,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
             new DateTimeImmutable('2015-03-15'),
         ];
 
-        $scheduler = Scheduler::create(null, DateRange::create($startDate));
+        $scheduler = Scheduler::create(null, DefaultDateRangeFactory::create($startDate));
 
         $exprStub = $this->getTemporalExpressionIncludingDates($occurringDates);
 

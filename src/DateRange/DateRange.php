@@ -1,7 +1,6 @@
 <?php
 namespace Riskio\EventScheduler\DateRange;
 
-use DateInterval;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -27,15 +26,6 @@ class DateRange
 
         $this->startDate = $this->makeImmutable($startDate);
         $this->endDate   = $this->makeImmutable($endDate);
-    }
-
-    public static function create(DateTimeImmutable $date, DateInterval $interval = null) : self
-    {
-        $interval = $interval ?: new DateInterval('P1Y');
-        $start    = $date->sub($interval);
-        $end      = $date->add($interval);
-
-        return new self($start, $end);
     }
 
     private function makeImmutable(DateTimeInterface $date) : DateTimeImmutable
