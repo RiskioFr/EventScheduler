@@ -7,11 +7,7 @@ class NotScheduledEventException
     extends \RuntimeException
     implements ExceptionInterface
 {
-    /**
-     * @param  Exception|null $previous
-     * @return self
-     */
-    public static function create(Exception $previous = null)
+    public static function create(Exception $previous = null) : self
     {
         return new self('Event is not scheduled', 0, $previous);
     }

@@ -135,8 +135,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
             new DateTimeImmutable('2015-03-15'),
         ];
 
-        $scheduler = Scheduler::create();
-        $scheduler->changeDateRange(DateRange::create($startDate));
+        $scheduler = Scheduler::create(null, DateRange::create($startDate));
 
         $exprStub = $this->getTemporalExpressionIncludingDates($occurringDates);
 
@@ -165,13 +164,11 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         ];
         $expectedDate   = new DateTimeImmutable('2015-10-11');
 
-        $scheduler = Scheduler::create();
-
         $dateRange = new DateRange(
             new DateTimeImmutable('2014-03-01'),
             new DateTimeImmutable('2016-03-01')
         );
-        $scheduler->changeDateRange($dateRange);
+        $scheduler = Scheduler::create(null, $dateRange);
 
         $exprStub = $this->getTemporalExpressionIncludingDates($occurringDates);
 
@@ -193,17 +190,33 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         $startDate      = new DateTimeImmutable('2015-03-01');
         $occurringDates = [];
 
-        $scheduler = Scheduler::create();
-
         $dateRange = new DateRange(
             new DateTimeImmutable('2014-03-01'),
             new DateTimeImmutable('2016-03-01')
         );
-        $scheduler->changeDateRange($dateRange);
+        $scheduler = Scheduler::create(null, $dateRange);
 
         $exprStub = $this->getTemporalExpressionIncludingDates($occurringDates);
 
         $scheduler->schedule($anyEvent, $exprStub);
+
+        $this->expectException(NotFoundEventOccurenceException::class);
+        $scheduler->nextOccurrence($anyEvent, $startDate);
+    }
+
+    /**
+     * @test
+     */
+    public function retrieveNextEventOccurrence_WhenThereAreNoNextOccurence_ShouldThrowException()
+    {
+        $anyEvent  = new Event();
+        $startDate = new DateTimeImmutable('2015-03-01');
+        $dateRange = new DateRange(
+            new DateTimeImmutable('2014-03-01'),
+            new DateTimeImmutable('2016-03-01')
+        );
+
+        $scheduler = Scheduler::create(null, $dateRange);
 
         $this->expectException(NotFoundEventOccurenceException::class);
         $scheduler->nextOccurrence($anyEvent, $startDate);
@@ -223,13 +236,11 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         ];
         $expectedDate   = new DateTimeImmutable('2014-10-15');
 
-        $scheduler = Scheduler::create();
-
         $dateRange = new DateRange(
             new DateTimeImmutable('2014-03-01'),
             new DateTimeImmutable('2016-03-01')
         );
-        $scheduler->changeDateRange($dateRange);
+        $scheduler = Scheduler::create(null, $dateRange);
 
         $exprStub = $this->getTemporalExpressionIncludingDates($occurringDates);
 
@@ -246,15 +257,14 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
      */
     public function retrievePreviousEventOccurrence_WhenThereAreNoPreviousOccurence_ShouldThrowException()
     {
-        $anyEvent = new Event();
+        $anyEvent  = new Event();
+        $startDate = new DateTimeImmutable('2015-03-01');
 
-        $startDate      = new DateTimeImmutable('2015-03-01');
-        $occurringDates = [];
-
-        $scheduler = Scheduler::create();
-        $exprStub = $this->getTemporalExpressionIncludingDates($occurringDates);
-
-        $scheduler->schedule($anyEvent, $exprStub);
+        $dateRange = new DateRange(
+            new DateTimeImmutable('2014-02-01'),
+            new DateTimeImmutable('2016-04-01')
+        );
+        $scheduler = Scheduler::create(null, $dateRange);
 
         $this->expectException(NotFoundEventOccurenceException::class);
         $scheduler->previousOccurrence($anyEvent, $startDate);

@@ -95,7 +95,7 @@ class Scheduler implements SchedulerInterface
         try {
             for (
                 $start = $range->startDate();
-                $date  = $this->nextOccurrence($event, $start, $end);
+                ($date = $this->nextOccurrence($event, $start)) && $date < $end;
                 $start = $date->add($this->interval)
             ) {
                 yield $date;
@@ -108,6 +108,8 @@ class Scheduler implements SchedulerInterface
         DateTimeInterface $start,
         DateTimeInterface $end = null
     ) : DateTimeImmutable {
+        $end = $end ?: $this->dateRange()->endDate();
+
         return $this->findNextOccurrenceInIterator(
             $event,
             $this->createDateRangeIterator($start, $end)
@@ -119,6 +121,8 @@ class Scheduler implements SchedulerInterface
         DateTimeInterface $end,
         DateTimeInterface $start = null
     ) : DateTimeImmutable {
+        $start = $start ?: $this->dateRange()->startDate();
+
         return $this->findNextOccurrenceInIterator(
             $event,
             $this->createDateRangeReverseIterator($end, $start)
@@ -138,27 +142,21 @@ class Scheduler implements SchedulerInterface
     private function createDateRangeIterator(
         DateTimeInterface $start,
         DateTimeInterface $end = null
-    ) {
-        $endDateLimit = $this->dateRange()->endDate();
-
-        if (!$end || $end > $endDateLimit) {
-            $end = $endDateLimit;
-        }
-
-        return new DateRangeIterator(new DateRange($start, $end), $this->interval);
+    ) : DateRangeIterator {
+        return new DateRangeIterator(
+            $this->dateRange->extract($start, $end),
+            $this->interval
+        );
     }
 
     private function createDateRangeReverseIterator(
         DateTimeInterface $end,
         DateTimeInterface $start = null
-    ) {
-        $startDateLimit = $this->dateRange()->startDate();
-
-        if (!$start || $start < $startDateLimit) {
-            $start = $startDateLimit;
-        }
-
-        return new DateRangeReverseIterator(new DateRange($start, $end), $this->interval);
+    ) : DateRangeReverseIterator {
+        return new DateRangeReverseIterator(
+            $this->dateRange->extract($start, $end),
+            $this->interval
+        );
     }
 
     private function findNextOccurrenceInIterator(Event $event, Traversable $dates) : DateTimeImmutable
