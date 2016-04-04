@@ -25,7 +25,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         $anyEvent = new Event();
         $anyTemporalExpression = $this->getTemporalExpression();
         $anySchedulableEvent   = new SchedulableEvent($anyEvent, $anyTemporalExpression);
-        $scheduler = new Scheduler();
+        $scheduler = Scheduler::create();
 
         $this->expectException(NotScheduledEventException::class);
         $scheduler->unschedule($anySchedulableEvent);
@@ -38,7 +38,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
     {
         $anyEvent = new Event();
         $anyTemporalExpression = $this->getTemporalExpression();
-        $scheduler = new Scheduler();
+        $scheduler = Scheduler::create();
         $schedulableEvent = $scheduler->schedule($anyEvent, $anyTemporalExpression);
 
         $scheduler->unschedule($schedulableEvent);
@@ -52,7 +52,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
     public function isOccurring_WhenEventIsNotScheduled_ShouldReturnFalse()
     {
         $anyEvent = new Event();
-        $scheduler = new Scheduler();
+        $scheduler = Scheduler::create();
 
         $isOccurring = $scheduler->isOccurring($anyEvent, new DateTime());
 
@@ -66,7 +66,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
     {
         $anyEvent = new Event();
         $anyTemporalExpression = new AlwaysOccurringTemporalExpression();
-        $scheduler = new Scheduler();
+        $scheduler = Scheduler::create();
         $scheduler->schedule($anyEvent, $anyTemporalExpression);
 
         $isOccurring = $scheduler->isOccurring($anyEvent, new DateTime());
@@ -81,7 +81,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
     {
         $anyEvent = new Event();
         $anyTemporalExpression = new NeverOccurringTemporalExpression();
-        $scheduler = new Scheduler();
+        $scheduler = Scheduler::create();
         $scheduler->schedule($anyEvent, $anyTemporalExpression);
 
         $isOccurring = $scheduler->isOccurring($anyEvent, new DateTime());
@@ -96,7 +96,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
     {
         $anyDate = new DateTime();
 
-        $scheduler = new Scheduler();
+        $scheduler = Scheduler::create();
         $exprStub = $this->getTemporalExpression();
         $exprStub
             ->method('includes')
@@ -135,7 +135,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
             new DateTimeImmutable('2015-03-15'),
         ];
 
-        $scheduler = new Scheduler();
+        $scheduler = Scheduler::create();
         $scheduler->changeDateRange(DateRange::create($startDate));
 
         $exprStub = $this->getTemporalExpressionIncludingDates($occurringDates);
@@ -165,7 +165,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         ];
         $expectedDate   = new DateTimeImmutable('2015-10-11');
 
-        $scheduler = new Scheduler();
+        $scheduler = Scheduler::create();
 
         $dateRange = new DateRange(
             new DateTimeImmutable('2014-03-01'),
@@ -193,7 +193,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         $startDate      = new DateTimeImmutable('2015-03-01');
         $occurringDates = [];
 
-        $scheduler = new Scheduler();
+        $scheduler = Scheduler::create();
 
         $dateRange = new DateRange(
             new DateTimeImmutable('2014-03-01'),
@@ -223,7 +223,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         ];
         $expectedDate   = new DateTimeImmutable('2014-10-15');
 
-        $scheduler = new Scheduler();
+        $scheduler = Scheduler::create();
 
         $dateRange = new DateRange(
             new DateTimeImmutable('2014-03-01'),
@@ -251,7 +251,7 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
         $startDate      = new DateTimeImmutable('2015-03-01');
         $occurringDates = [];
 
-        $scheduler = new Scheduler();
+        $scheduler = Scheduler::create();
         $exprStub = $this->getTemporalExpressionIncludingDates($occurringDates);
 
         $scheduler->schedule($anyEvent, $exprStub);

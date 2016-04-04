@@ -27,14 +27,27 @@ class Scheduler implements SchedulerInterface
      */
     protected $interval;
 
-    public function __construct(DateInterval $interval = null)
+    public function __construct(DateInterval $interval, DateRange $dateRange)
     {
-        $this->interval = $interval ?: new DateInterval('P1D');
+        $this->interval  = $interval;
+        $this->dateRange = $dateRange;
         $this->scheduledEvents = new SchedulableEventCollection();
     }
 
-    public function schedule(Event $event, TemporalExpressionInterface $temporalExpression) : SchedulableEvent
-    {
+    public static function create(
+        DateInterval $interval = null,
+        DateRange $dateRange = null
+    ) : SchedulerInterface {
+        $interval  = $interval ?: new DateInterval('P1D');
+        $dateRange = $dateRange ?: DateRange::create(new DateTimeImmutable());
+
+        return new self($interval, $dateRange);
+    }
+
+    public function schedule(
+        Event $event,
+        TemporalExpressionInterface $temporalExpression
+    ) : SchedulableEvent {
         $schedulableEvent = new SchedulableEvent($event, $temporalExpression);
         $this->scheduledEvents->add($schedulableEvent);
 
@@ -90,16 +103,22 @@ class Scheduler implements SchedulerInterface
         } catch (Exception\NotFoundEventOccurenceException $e) {}
     }
 
-    public function nextOccurrence(Event $event, DateTimeInterface $start, DateTimeInterface $end = null) : DateTimeImmutable
-    {
+    public function nextOccurrence(
+        Event $event,
+        DateTimeInterface $start,
+        DateTimeInterface $end = null
+    ) : DateTimeImmutable {
         return $this->findNextOccurrenceInIterator(
             $event,
             $this->createDateRangeIterator($start, $end)
         );
     }
 
-    public function previousOccurrence(Event $event, DateTimeInterface $end, DateTimeInterface $start = null) : DateTimeImmutable
-    {
+    public function previousOccurrence(
+        Event $event,
+        DateTimeInterface $end,
+        DateTimeInterface $start = null
+    ) : DateTimeImmutable {
         return $this->findNextOccurrenceInIterator(
             $event,
             $this->createDateRangeReverseIterator($end, $start)
@@ -108,10 +127,6 @@ class Scheduler implements SchedulerInterface
 
     public function dateRange() : DateRange
     {
-        if (!$this->dateRange) {
-            $this->changeDateRange(DateRange::create(new DateTimeImmutable()));
-        }
-
         return $this->dateRange;
     }
 
@@ -120,16 +135,28 @@ class Scheduler implements SchedulerInterface
         $this->dateRange = $range;
     }
 
-    private function createDateRangeIterator(DateTimeInterface $start, DateTimeInterface $end = null)
-    {
-        $end = $end ?: $this->dateRange()->endDate();
+    private function createDateRangeIterator(
+        DateTimeInterface $start,
+        DateTimeInterface $end = null
+    ) {
+        $endDateLimit = $this->dateRange()->endDate();
+
+        if (!$end || $end > $endDateLimit) {
+            $end = $endDateLimit;
+        }
 
         return new DateRangeIterator(new DateRange($start, $end), $this->interval);
     }
 
-    private function createDateRangeReverseIterator(DateTimeInterface $end, DateTimeInterface $start = null)
-    {
-        $start = $start ?: $this->dateRange()->startDate();
+    private function createDateRangeReverseIterator(
+        DateTimeInterface $end,
+        DateTimeInterface $start = null
+    ) {
+        $startDateLimit = $this->dateRange()->startDate();
+
+        if (!$start || $start < $startDateLimit) {
+            $start = $startDateLimit;
+        }
 
         return new DateRangeReverseIterator(new DateRange($start, $end), $this->interval);
     }
